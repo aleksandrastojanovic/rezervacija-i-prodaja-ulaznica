@@ -4,7 +4,9 @@
     Author     : iq skola
 --%>
 
+<%@page import="klase.Blagajnik"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% Blagajnik blagajnik = (Blagajnik)request.getAttribute("korisnik_id"); %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -36,7 +38,10 @@
     </header>
         <h1>Kreiranje novog dogadjaja</h1>
         <div>
-            <form>
+            <form action="sacuvajDogadjaj" method="post">
+                
+                <label>Mesto odrzavanja: </label>
+                <%= blagajnik.getNaziv_lokacije() %><br>
                 
                 <label for="naziv">Naziv:</label>
                 <input type='text' id='naziv' placeholder="Unesite naziv" required><br>
@@ -65,34 +70,7 @@
                 
                 <!--Preko js bi trebalo da napravim da bude required cena i limit ako je cekirano -->
                 
-                <input type='checkbox' id='parter1' name='kategorija[]' value='Parter 1'>
-                <label for='parter1'>Parter 1</label>
-                <label for cena_parter1>| Cena - Parter 1</label>
-                <input type='number' id="cena_parter1" name='cena_parter1'>
-                <label for="limit_parter1">| Limit:</label>
-                <input type="number" id="limit_parter1" name="limit_parter1">
-                <br>
-                <input type='checkbox' id='parter2' name='kategorija[]' value='Parter 2'>
-                <label for='parter1'>Parter 2</label>
-                <label for='cena_parter2'>| Cena - Parter 2</label>
-                <input type='number' id="cena_parter2" name='cena_parter2'>
-                <label for="limit_parter2">| Limit:</label>
-                <input type="number" id="limit_parter2" name="limit_parter2"><br>
-                
-                <input type='checkbox' id='fan_pit' name='kategorija[]' value='Fan pit'>
-                <label for='fan_pit'>Fan pit</label>
-                <label for='fan_pit_cena'>| Cena - Fan pit</label>
-                <input type='number' id="fan_pit_cena" name='fan_pit_cena'>
-                <label for="limit_fan_pit">| Limit:</label>
-                <input type="number" id="limit_fan_pit" name="limit_fan_pit"><br>
-                
-                <input type='checkbox' id='galerija' name='kategorija[]' value='Galerija'>
-                <label for='galerija'>Galerija</label>
-                <label for='galerija_cena'>| Cena - Galerija</label>
-                <input type='number' id="galerija_cena" name='galerija_cena'>
-                <label for="limit_galerija">| Limit:</label>
-                <input type="number" id="limit_galerija" name="limit_galeirja"><br>
-                
+
                 <!-- Ne znam da li ovde sme multiple input, 
                 posto treba da ostanu uvezane informacije koje unosi, 
                 nisam sigurna kako se posle pristupa-->

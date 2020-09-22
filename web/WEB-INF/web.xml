@@ -60,6 +60,26 @@
         <servlet-name>PrijavljenAdministratorServlet</servlet-name>
         <servlet-class>obrada.PrijavljenAdministratorServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MojeUlazniceServlet</servlet-name>
+        <servlet-class>obrada.MojeUlazniceServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SacuvajDogadjajServlet</servlet-name>
+        <servlet-class>obrada.SacuvajDogadjajServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>KategorijeUlaznicaServlet</servlet-name>
+        <servlet-class>obrada.KategorijeUlaznicaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>IzmenaStruktureServlet</servlet-name>
+        <servlet-class>obrada.IzmenaStruktureServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SacuvajKategorijuServlet</servlet-name>
+        <servlet-class>obrada.SacuvajKategorijuServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegistracijaServlet</servlet-name>
         <url-pattern>/registracija</url-pattern>
@@ -119,6 +139,26 @@
     <servlet-mapping>
         <servlet-name>PrijavljenAdministratorServlet</servlet-name>
         <url-pattern>/prijavljenAdministrator</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MojeUlazniceServlet</servlet-name>
+        <url-pattern>/mojeUlaznice</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SacuvajDogadjajServlet</servlet-name>
+        <url-pattern>/sacuvajDogadjaj</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>KategorijeUlaznicaServlet</servlet-name>
+        <url-pattern>/kategorijeUlaznica</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>IzmenaStruktureServlet</servlet-name>
+        <url-pattern>/izmenaStrukture</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SacuvajKategorijuServlet</servlet-name>
+        <url-pattern>/sacuvajKategoriju</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

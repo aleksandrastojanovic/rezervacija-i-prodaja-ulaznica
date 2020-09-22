@@ -6,6 +6,7 @@
 package obrada;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,16 +14,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import klase.Blagajnik;
-import klase.BlagajnikBaza;
 import klase.Dogadjaj;
 import klase.DogadjajBaza;
+import klase.RegistrovaniKorisnik;
+import klase.RegistrovaniKorisnikBaza;
+import klase.Rezervacija;
+import klase.RezervacijaBaza;
 
 /**
  *
  * @author iq skola
  */
-public class PrijavljenBlagajnikServlet extends HttpServlet {
+public class MojeUlazniceServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,22 +41,23 @@ public class PrijavljenBlagajnikServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sesija = request.getSession();
         if (sesija.getAttribute("korisnik_id") != null){
-            RequestDispatcher rd = request.getRequestDispatcher("blagajnik_pocetna.jsp");
-            BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
-            Blagajnik blagajnik = (Blagajnik)blagajnikBaza.find((Integer)sesija.getAttribute("korisnik_id"));
-            request.setAttribute("korisnik", blagajnik);
+            RequestDispatcher rd = request.getRequestDispatcher("moje_ulaznice.jsp");
             
-            DogadjajBaza dogadjajBaza = new DogadjajBaza();
-            ArrayList<Dogadjaj> sviDogadjaji = dogadjajBaza.all();
-            ArrayList<Dogadjaj> dogadjaji = new ArrayList<>();
-            for (Dogadjaj dogadjaj: sviDogadjaji){
-                if(dogadjaj.getNaziv_lokacije().equals(blagajnik.getNaziv_lokacije())){
-                    dogadjaji.add(dogadjaj);
+            RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
+            ArrayList<Rezervacija> sveRezervacije = rezervacijaBaza.all();
+            ArrayList<Rezervacija> rezervacije = new ArrayList<>();
+            for(Rezervacija rezervacija: sveRezervacije){
+                if(rezervacija.getKorisnik_id() == (int)sesija.getAttribute("korisnik_id")){
+                    rezervacije.add(rezervacija);
                 }
             }
-            request.setAttribute("dogadjaji", dogadjaji);
-            
+            request.setAttribute("rezervacije", rezervacije);
             rd.forward(request, response);
+            
+            /*DogadjajBaza dogadjajBaza = new DogadjajBaza();
+            ArrayList<Dogadjaj> dogadjaji = dogadjajBaza.all();
+            request.setAttribute("dogadjaji", dogadjaji);
+            rd.forward(request, response);*/
         }
         else {
             response.sendRedirect("prijava.jsp");

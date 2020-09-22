@@ -32,17 +32,11 @@ public class PrijavaServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        /* Prolazi redom kroz registrovane korisnike, blagajnike i admine, 
-        i u zavisnosti od tipa korisnika prosledjuje na odgovarajucu pocetnu stranicu.*/
+        /* Prolazi redom kroz korisnike, 
+        i u zavisnosti od tipa korisnika prosledjuje na odgovarajuci prijavljenServlet.*/
 
         KorisnikBaza korisnikBaza = new KorisnikBaza();
-
-//        RegistrovaniKorisnikBaza registrovaniKorisnikBaza = new RegistrovaniKorisnikBaza();
-//        BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
-//        AdministratorBaza administratorBaza = new AdministratorBaza();
         ArrayList<Korisnik> korisnici = korisnikBaza.all();
-//        ArrayList<Blagajnik> blagajnici = blagajnikBaza.all();
-//        ArrayList<Administrator> administratori = administratorBaza.all();
 
         for (Korisnik korisnik : korisnici) {
             if (korisnik.getKorisnicko_ime().equals(request.getParameter("username"))
@@ -60,30 +54,8 @@ public class PrijavaServlet extends HttpServlet {
                         response.sendRedirect("prijavljenAdministrator");
                         return;
                 }
-            }
+            } 
         }
-
-//        for (Blagajnik blagajnik : blagajnici) {
-//            Blagajnik b = blagajnik;
-//            if (b.getKorisnicko_ime().equals(request.getParameter("username"))
-//                    && b.getLozinka().equals(request.getParameter("password"))) {
-//                HttpSession sesija = request.getSession();
-//                sesija.setAttribute("korisnik_id", b.getId());
-//                response.sendRedirect("blagajnik_pocetna.jsp");
-//                return;
-//            }
-//        }
-//
-//        for (Administrator administrator : administratori) {
-//            Administrator a = administrator;
-//            if (a.getKorisnicko_ime().equals(request.getParameter("username"))
-//                    && a.getLozinka().equals(request.getParameter("password"))) {
-//                HttpSession sesija = request.getSession();
-//                sesija.setAttribute("korisnik_id", a.getId());
-//                response.sendRedirect("admin_pocetna.jsp");
-//                return;
-//            }
-//        }
         response.sendRedirect("prijava.jsp");
     }
 

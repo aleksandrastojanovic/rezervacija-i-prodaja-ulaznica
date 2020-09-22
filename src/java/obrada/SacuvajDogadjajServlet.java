@@ -6,9 +6,9 @@
 package obrada;
 
 import java.io.IOException;
-import javax.servlet.RequestDispatcher;
+import java.io.PrintWriter;
+import java.sql.Timestamp;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,13 +17,14 @@ import klase.Blagajnik;
 import klase.BlagajnikBaza;
 import klase.Dogadjaj;
 import klase.DogadjajBaza;
+import klase.StrukturaUlaznica;
+import klase.StrukturaUlaznicaBaza;
 
 /**
  *
  * @author iq skola
  */
-@WebServlet(name = "IzmenaDogadjajaServlet", urlPatterns = {"/izmenaDogadjaja"})
-public class IzmenaDogadjajaServlet extends HttpServlet {
+public class SacuvajDogadjajServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,43 +38,66 @@ public class IzmenaDogadjajaServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        /*
-        -Ocitava podatke iz blagajnik_update
-        -Sacuva izmenu dogadjaja u bazi*/
         HttpSession sesija = request.getSession();
-        RequestDispatcher rd = request.getRequestDispatcher("blagajnik_update.jsp");
         BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
-        Blagajnik blagajnik = blagajnikBaza.find((int)sesija.getAttribute("korisnik_id"));
-        if(blagajnik.getId() == -1){
+        Blagajnik blagajnik = blagajnikBaza.find((int) sesija.getAttribute("korisnik_id"));
+        if (blagajnik.getId() == -1) {
             response.sendRedirect("index.jsp");
             return;
         }
         
-        DogadjajBaza dogadjajBaza = new DogadjajBaza();        
-        Dogadjaj dogadjaj = dogadjajBaza.find(Integer.parseInt(request.getParameter("dogadjaj_id")));
-        
-        /*dogadjaj.setNaziv(request.getParameter("naziv"));
+        DogadjajBaza dogadjajBaza = new DogadjajBaza();
+        Dogadjaj dogadjaj = new Dogadjaj();
+        if(Integer.parseInt(request.getParameter("dogadjaj_id")) > 0){
+        dogadjaj = dogadjajBaza.find(Integer.parseInt(request.getParameter("dogadjaj_id")));
+        dogadjaj.setId(Integer.parseInt(request.getParameter("dogadjaj_id")));}
+        else {
+            
+        }
+        dogadjaj.setNaziv(request.getParameter("naziv"));
         dogadjaj.setNaziv_lokacije(blagajnik.getNaziv_lokacije());
         dogadjaj.setDatum_i_vreme(Timestamp.valueOf(request.getParameter("vreme_odrzavanja")).toLocalDateTime());
         dogadjaj.setDetalji(request.getParameter("detalji"));
-        dogadjajBaza.save(dogadjaj);*/
+        /*
+        Nisam sigurna kako funkcionise, da li ovako prima putanju ili ne, mada 
+        se ne buni, znaci String je.*/
+        // Za sad ignorisi fotke to cemo kasnije
+        dogadjaj.setGlavna_slika_putanja(request.getParameter("slika_glavna"));
+        dogadjaj.setVideo_putanja(request.getParameter("video"));
+
         
-        /*StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
-        ArrayList<StrukturaUlaznica> sveStrukture = strukturaUlaznicaBaza.all();
-        ArrayList<StrukturaUlaznica> strukture = new ArrayList<>();
-        for (StrukturaUlaznica struktura : sveStrukture){
-            if (struktura.getId_dogadjaja() == dogadjaj.getId()){
-                strukture.add(struktura);
-            }
+        dogadjaj = dogadjajBaza.save(dogadjaj);
+        if (dogadjaj.getId() > 0) {
+            //uspesno kreiran dogadjaj
+        } else {
+            //poruka da nije kreiran, za sad vraca na blagajnik_novi_dogadjaj.jsp
+            response.sendRedirect("blagajnik_novi_dogadjaj.jsp");
+            return;
+        }
+
+        StrukturaUlaznica strukturaUlaznica = new StrukturaUlaznica();
+        StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
+
+        strukturaUlaznica.setId_dogadjaja(dogadjaj.getId());
+        strukturaUlaznica.setKategorija(request.getParameter("nova_kategorija"));
+        strukturaUlaznica.setCena(Double.parseDouble(request.getParameter("nova_kategorija_cena")));
+        strukturaUlaznica.setBroj_dostupnih_ulaznica(Integer.parseInt(request.getParameter("limit_nova_kategorija")));
+
+        strukturaUlaznica = strukturaUlaznicaBaza.save(strukturaUlaznica);
+        if (strukturaUlaznica.getId() > 0) {
+            //uspesno dodata struktura
+        } else {
+            //poruka da nije uspesno
+        }
+
+        /*DogadjajBaza dogadjajBaza = new DogadjajBaza();
+        dogadjaj = dogadjajBaza.save(dogadjaj);
+        if(dogadjaj.getId() > 0){
+            //uspesno kreiran dogadjaj
+        } else {
+            //poruka da nije kreiran, za sad vraca na blagajnik_novi_dogadjaj.jsp
+            response.sendRedirect("blagajnik_novi_dogadjaj.jsp");
         }*/
-        request.setAttribute("korisnik_id", sesija.getAttribute("korisnik_id"));
-        //request.setAttribute("strukture", strukture);
-        request.setAttribute("dogadjaj",dogadjaj);
-        rd.forward(request, response);
-        
-        
-        
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

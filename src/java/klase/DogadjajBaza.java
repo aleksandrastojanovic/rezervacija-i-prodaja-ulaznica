@@ -44,7 +44,7 @@ public class DogadjajBaza implements Baza<Dogadjaj> {
 
         String query = "UPDATE dogadjaji SET naziv = ?, naziv_lokacije = ?, datum_i_vreme = ?,"
                 + " detalji = ?, glavna_slika_putanja = ?, video_putanja = ?"
-                + " WHERE id = ?";
+                + " WHERE dogadjaj_id = ?";
         ArrayList<Object> vrednosti = new ArrayList();
         vrednosti.add(dogadjaj.getNaziv());
         vrednosti.add(dogadjaj.getNaziv_lokacije());
@@ -66,7 +66,7 @@ public class DogadjajBaza implements Baza<Dogadjaj> {
         Dogadjaj dogadjaj = new Dogadjaj();
         try {
 
-            String query = "SELECT * FROM `dogadjaji` WHERE dogadjaji.id = " + id;
+            String query = "SELECT * FROM `dogadjaji` WHERE dogadjaj_id = " + id;
             Database db = Database.getInstance();
             ResultSet rs = db.select(query);
 

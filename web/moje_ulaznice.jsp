@@ -4,7 +4,13 @@
     Author     : iq skola
 --%>
 
+<%@page import="klase.Dogadjaj"%>
+<%@page import="klase.DogadjajBaza"%>
+<%@page import="klase.Rezervacija"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% ArrayList<Rezervacija> rezervacije = (ArrayList<Rezervacija>)request.getAttribute("rezervacije");
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -34,6 +40,30 @@
         </ul>
         </nav>
     </header>
+        <div>
+            <table>
+                <thead>
+                <th>Id rezervacije</th>
+                <th>Naziv dogadjaja</th>
+                <th>Broj ulaznica</th>
+                <th>Vreme</th>
+                </thead>
+                <%
+                for(Rezervacija rezervacija: rezervacije){%>
+                <tr>
+                    <td><%= ((Rezervacija)rezervacija).getId()%></td>
+                    <td><% DogadjajBaza db = new DogadjajBaza();
+                        Dogadjaj d = db.find(rezervacija.getDogadjaj_id());%>
+                    <%= d.getNaziv() %></td>
+                    <td><%= ((Rezervacija)rezervacija).getBroj_ulaznica()%></td>
+                    <td><%= ((Rezervacija)rezervacija).getVreme()%></td>
+                </tr>
+                 <%   
+                }
+                %>
+                
+            </table>
+        </div>
         <div></div>
         
         <footer>

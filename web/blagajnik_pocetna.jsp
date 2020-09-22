@@ -39,30 +39,10 @@
         </nav>
     </header>
         <!-- 
-        - Forma za pravljenje novog blagajnika za lokaciju prijavljenog blagajnika,
-            naziv lokacije, adresa, i grad se automatski popunjavaju
+        
         - Pregled dogadjaja za lokaciju blagajnika
         -->
-        <div>
-            <!-- forma za novog blagajnika -->
-            <form action='' method=''>
-               <label for="ime">Ime:</label>
-                <input type="text" name="ime" placeholder='Unesite ime' required><br>
-                
-                <label for="prezime">Prezime:</label>
-                <input type="text" name="prezime" placeholder='Unesite prezime' required><br>
-                
-                <label for="username">Korisnicko ime:</label>
-                <input type="text" name="username" placeholder='Unesite korisnicko ime' minlength='5' required><br>
-                
-                <label for="password">Lozinka:</label>
-                <input type="password" name="password" placeholder="Unesite lozinku" minlength='5' required><br>
-                
-                <label for="password_check">Potvrda lozinke:</label>
-                <input type="password" name="password_check" placeholder='Unesite potvrdu lozinke' minlength='5' required><br>
-            </form>
-        </div>
-        
+               
         <div>
             <table>
                 <thead>
@@ -70,6 +50,7 @@
                 <th>Naziv lokacije</th>
                 <th>Datum i vreme</th>
                 <th>Detalji</th>
+                <th></th>
                 </thead>
                 <%
                 for(Dogadjaj dogadjaj: dogadjaji){%>
@@ -78,10 +59,18 @@
                    <td><%= ((Dogadjaj)dogadjaj).getNaziv_lokacije() %></td>
                     <td><%= ((Dogadjaj)dogadjaj).getDatum_i_vreme()%></td>
                     <td><%= ((Dogadjaj)dogadjaj).getDetalji()%></td>
+                   
+                    <td><a href="izmenaDogadjaja?dogadjaj_id=<%=String.valueOf(dogadjaj.getId())%>">
+                            <input type="button" name="izmeni" value="Izmeni dogadjaj"></a></td>
+                    <td><a href="kategorijeUlaznica?dogadjaj_id=<%=String.valueOf(dogadjaj.getId())%>">
+                            <input type="button" name="kategorije" value="Kategorije ulaznica"></a></td>
+                    
                 </tr>
                  <%   
                 }
                 %>
+            </table>
+        </div>
         <footer>
         <!-- Povratak na vrh -->
         

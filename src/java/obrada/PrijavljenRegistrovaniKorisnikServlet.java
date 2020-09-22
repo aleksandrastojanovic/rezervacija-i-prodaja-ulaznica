@@ -57,7 +57,7 @@ public class PrijavljenRegistrovaniKorisnikServlet extends HttpServlet {
             rd.forward(request, response);
         }
         else {
-            
+            response.sendRedirect("prijava.jsp");
         }
     }
 

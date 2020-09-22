@@ -6,7 +6,7 @@
 package obrada;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,12 +17,14 @@ import klase.Blagajnik;
 import klase.BlagajnikBaza;
 import klase.Dogadjaj;
 import klase.DogadjajBaza;
+import klase.StrukturaUlaznica;
+import klase.StrukturaUlaznicaBaza;
 
 /**
  *
  * @author iq skola
  */
-public class PrijavljenBlagajnikServlet extends HttpServlet {
+public class IzmenaStruktureServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,27 +39,21 @@ public class PrijavljenBlagajnikServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sesija = request.getSession();
-        if (sesija.getAttribute("korisnik_id") != null){
-            RequestDispatcher rd = request.getRequestDispatcher("blagajnik_pocetna.jsp");
-            BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
-            Blagajnik blagajnik = (Blagajnik)blagajnikBaza.find((Integer)sesija.getAttribute("korisnik_id"));
-            request.setAttribute("korisnik", blagajnik);
-            
-            DogadjajBaza dogadjajBaza = new DogadjajBaza();
-            ArrayList<Dogadjaj> sviDogadjaji = dogadjajBaza.all();
-            ArrayList<Dogadjaj> dogadjaji = new ArrayList<>();
-            for (Dogadjaj dogadjaj: sviDogadjaji){
-                if(dogadjaj.getNaziv_lokacije().equals(blagajnik.getNaziv_lokacije())){
-                    dogadjaji.add(dogadjaj);
-                }
-            }
-            request.setAttribute("dogadjaji", dogadjaji);
-            
-            rd.forward(request, response);
+        RequestDispatcher rd = request.getRequestDispatcher("izmena_strukture.jsp");
+        BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
+        Blagajnik blagajnik = blagajnikBaza.find((int)sesija.getAttribute("korisnik_id"));
+        if(blagajnik.getId() == -1){
+            response.sendRedirect("index.jsp");
+            return;
         }
-        else {
-            response.sendRedirect("prijava.jsp");
-        }
+        
+        StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();        
+        StrukturaUlaznica struktura = strukturaUlaznicaBaza.find(Integer.parseInt(request.getParameter("struktura_id")));
+        
+        request.setAttribute("korisnik_id", sesija.getAttribute("korisnik_id"));
+        //request.setAttribute("strukture", strukture);
+        request.setAttribute("struktura", struktura);
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
