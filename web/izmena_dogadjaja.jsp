@@ -8,7 +8,7 @@
 <%@page import="klase.Dogadjaj"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <% Dogadjaj dogadjaj = (Dogadjaj)request.getAttribute("dogadjaj");
-    Blagajnik blagajnik = (Blagajnik)request.getAttribute("korisnik_id"); %>
+    Blagajnik blagajnik = (Blagajnik)request.getAttribute("blagajnik"); %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,13 +18,14 @@
     <body>
         <h1>Izmena dogadjaja</h1>
         <div>
-            <form action="izmenaDogadjaja" method="post">
+            <form action="sacuvajDogadjaj">
                 
                 <label>Mesto odrzavanja</label>
                 <%= blagajnik.getNaziv_lokacije() %><br>
                 
                 <label for="naziv">Naziv:</label>
-                <input type='text' id='naziv' value="<%= dogadjaj.getNaziv() %>"><br>
+                <input type='text' id='naziv' name='naziv' value="<%= dogadjaj.getNaziv() %>"><br>
+                <input type="hidden" name="dogadjaj_id" value="<%= "" + dogadjaj.getId() %>" >
                 
                 
                 <!--

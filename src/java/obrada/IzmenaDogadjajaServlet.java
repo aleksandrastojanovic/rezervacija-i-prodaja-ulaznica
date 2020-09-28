@@ -41,7 +41,7 @@ public class IzmenaDogadjajaServlet extends HttpServlet {
         -Ocitava podatke iz blagajnik_update
         -Sacuva izmenu dogadjaja u bazi*/
         HttpSession sesija = request.getSession();
-        RequestDispatcher rd = request.getRequestDispatcher("blagajnik_update.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("izmena_dogadjaja.jsp");
         BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
         Blagajnik blagajnik = blagajnikBaza.find((int)sesija.getAttribute("korisnik_id"));
         if(blagajnik.getId() == -1){
@@ -66,7 +66,7 @@ public class IzmenaDogadjajaServlet extends HttpServlet {
                 strukture.add(struktura);
             }
         }*/
-        request.setAttribute("korisnik_id", sesija.getAttribute("korisnik_id"));
+        request.setAttribute("blagajnik", blagajnik);
         //request.setAttribute("strukture", strukture);
         request.setAttribute("dogadjaj",dogadjaj);
         rd.forward(request, response);

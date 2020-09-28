@@ -15,10 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import klase.Blagajnik;
 import klase.BlagajnikBaza;
-import klase.RegistrovaniKorisnik;
-import klase.RegistrovaniKorisnikBaza;
-import klase.Rezervacija;
-import klase.RezervacijaBaza;
 import klase.StrukturaUlaznica;
 import klase.StrukturaUlaznicaBaza;
 
@@ -26,7 +22,7 @@ import klase.StrukturaUlaznicaBaza;
  *
  * @author iq skola
  */
-public class OtkazivanjeRezervacijeServlet extends HttpServlet {
+public class BrisanjeStruktureServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,20 +36,23 @@ public class OtkazivanjeRezervacijeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        /*
-        Pristupa se sa stranice moje_ulaznice i omogucava reg. korisniku
-        otkazivanje rezervacije iz liste*/
         HttpSession sesija = request.getSession();
-        RegistrovaniKorisnikBaza registrovaniKorisnikBaza = new RegistrovaniKorisnikBaza();
-        RegistrovaniKorisnik registrovaniKorisnik = (RegistrovaniKorisnik)registrovaniKorisnikBaza.find((Integer)sesija.getAttribute("korisnik_id"));
-        RequestDispatcher rd = request.getRequestDispatcher("reg_korisnik_pocetna.jsp");
-        if(registrovaniKorisnik.getId() == -1){
+        RequestDispatcher rd = request.getRequestDispatcher("blagajnik_pocetna.jsp");
+        BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
+        Blagajnik blagajnik = blagajnikBaza.find((int)sesija.getAttribute("korisnik_id"));
+        if(blagajnik.getId() == -1){
             response.sendRedirect("index.jsp");
             return;
         }
-        RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();        
-        Rezervacija rezervacija = rezervacijaBaza.find(Integer.parseInt(request.getParameter("rezervacija_id")));
-        rezervacijaBaza.delete(rezervacija);
+        
+        StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();        
+        StrukturaUlaznica struktura = strukturaUlaznicaBaza.find(Integer.parseInt(request.getParameter("struktura_id")));
+        strukturaUlaznicaBaza.delete(struktura);
+        request.setAttribute("korisnik_id", sesija.getAttribute("korisnik_id"));
+        //request.setAttribute("strukture", strukture);
+        rd.forward(request, response);
+        //response.sendRedirect("kategorije_ulaznica.jsp");
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

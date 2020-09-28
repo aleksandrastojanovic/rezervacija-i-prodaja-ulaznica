@@ -24,11 +24,10 @@ public class RezervacijaBaza implements Baza<Rezervacija>{
     }
     
     private static int insert(Rezervacija rezervacija){
-        String query = "INSERT INTO rezervacije (korisnik_id,vreme,dogadjaj_id,broj_ulaznica,struktura_id) VALUES(?,?,?,?,?)";        
+        String query = "INSERT INTO rezervacije (korisnik_id,dogadjaj_id,broj_ulaznica,struktura_id) VALUES(?,?,?,?)";        
         ArrayList<Object> vrednosti = new ArrayList();
         
         vrednosti.add(rezervacija.getKorisnik_id());
-        vrednosti.add(rezervacija.getVreme());
         vrednosti.add(rezervacija.getDogadjaj_id());
         vrednosti.add(rezervacija.getBroj_ulaznica());
         vrednosti.add(rezervacija.getStruktura_id());
@@ -42,11 +41,10 @@ public class RezervacijaBaza implements Baza<Rezervacija>{
 
     private static int update(Rezervacija rezervacija) {
         
-        String query = "UPDATE rezervacije SET korisnik_id = ?, vreme = ?, dogadjaj_id = ?,"
+        String query = "UPDATE rezervacije SET korisnik_id = ?, dogadjaj_id = ?,"
                 + " broj_ulaznica = ?, struktura_id = ? WHERE id = ?";
         ArrayList<Object> vrednosti = new ArrayList();
         vrednosti.add(rezervacija.getKorisnik_id());
-        vrednosti.add(rezervacija.getVreme());
         vrednosti.add(rezervacija.getDogadjaj_id());
         vrednosti.add(rezervacija.getBroj_ulaznica());
         vrednosti.add(rezervacija.getStruktura_id());

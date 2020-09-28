@@ -7,7 +7,10 @@ package obrada;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +29,7 @@ import klase.StrukturaUlaznicaBaza;
  *
  * @author iq skola
  */
-public class OtkazivanjeRezervacijeServlet extends HttpServlet {
+public class SacuvajRezervacijuServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,20 +43,43 @@ public class OtkazivanjeRezervacijeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        /*
-        Pristupa se sa stranice moje_ulaznice i omogucava reg. korisniku
-        otkazivanje rezervacije iz liste*/
         HttpSession sesija = request.getSession();
         RegistrovaniKorisnikBaza registrovaniKorisnikBaza = new RegistrovaniKorisnikBaza();
-        RegistrovaniKorisnik registrovaniKorisnik = (RegistrovaniKorisnik)registrovaniKorisnikBaza.find((Integer)sesija.getAttribute("korisnik_id"));
-        RequestDispatcher rd = request.getRequestDispatcher("reg_korisnik_pocetna.jsp");
-        if(registrovaniKorisnik.getId() == -1){
-            response.sendRedirect("index.jsp");
+        RegistrovaniKorisnik registrovaniKorisnik = registrovaniKorisnikBaza.find((int)sesija.getAttribute("korisnik_id"));
+        if (registrovaniKorisnik.getId() == -1) {
+            response.sendRedirect("prijava.jsp");
             return;
         }
-        RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();        
-        Rezervacija rezervacija = rezervacijaBaza.find(Integer.parseInt(request.getParameter("rezervacija_id")));
-        rezervacijaBaza.delete(rezervacija);
+        
+        RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
+        Rezervacija rezervacija = new Rezervacija();
+        String strukturaId = request.getParameter("kategorijja");
+        //strukturaUlaznicaBaza.find((int)sesija.getAttribute("struktura_id"));
+        if(request.getParameter("rezrvacija_id") != null){
+        rezervacija = rezervacijaBaza.find(Integer.parseInt(request.getParameter("struktura_id")));
+        }
+        //ovde for petlja da prolazi kroz checkboxove? ili je to preko js?             
+       /* ArrayList<>  = .all();
+        ArrayList<>  = new <>();
+        for (  : ){
+            if()
+        }
+        
+        if (strukturaId != null){
+            
+        }*/
+        rezervacija.setDogadjaj_id(Integer.parseInt(request.getParameter("dogadjaj_id")));
+        rezervacija.setKorisnik_id(Integer.parseInt("" + sesija.getAttribute("korisnik_id")));
+        rezervacija.setStruktura_id(Integer.parseInt(request.getParameter("struktura_id")));
+        rezervacija.setBroj_ulaznica(Integer.parseInt(request.getParameter("broj_ulaznica")));
+        
+      
+        rezervacija = rezervacijaBaza.save(rezervacija);
+        if (rezervacija.getId() > 0) {
+            //uspesno dodata struktura
+        } else {
+            //poruka da nije uspesno
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

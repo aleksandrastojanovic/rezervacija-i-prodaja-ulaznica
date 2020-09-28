@@ -21,9 +21,8 @@ public class Rezervacija implements Model {
     private int broj_ulaznica;
     private int struktura_id;
 
-    public Rezervacija(int korisnik_id, Timestamp vreme, int dogadjaj_id, int broj_ulaznica, int struktura_id) {
+    public Rezervacija(int korisnik_id,int dogadjaj_id, int broj_ulaznica, int struktura_id) {
         this.korisnik_id = korisnik_id;
-        this.vreme = vreme;
         this.dogadjaj_id = dogadjaj_id;
         this.broj_ulaznica = broj_ulaznica;
         this.struktura_id = struktura_id;

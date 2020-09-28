@@ -98,7 +98,8 @@
                             <td><%= ((StrukturaUlaznica) struktura).getKategorija()%></td>
                             <td><%= ((StrukturaUlaznica) struktura).getCena()%></td>
                             <td><%= ((StrukturaUlaznica) struktura).getBroj_dostupnih_ulaznica()%></td>
-                            <td><a href=""><input type="button" name="izmeniStrukture" value="IzmeniStrukturu"></a></td>
+                            <td><a href=""><input type="button" name="izmeniStrukture" value="Izmeni Strukturu"></a></td>
+                            
                         </tr>
                         <%
                             }

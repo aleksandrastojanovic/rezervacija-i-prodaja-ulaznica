@@ -7,6 +7,7 @@ package obrada;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,10 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import klase.Blagajnik;
 import klase.BlagajnikBaza;
+import klase.Dogadjaj;
+import klase.DogadjajBaza;
 import klase.RegistrovaniKorisnik;
 import klase.RegistrovaniKorisnikBaza;
-import klase.Rezervacija;
-import klase.RezervacijaBaza;
 import klase.StrukturaUlaznica;
 import klase.StrukturaUlaznicaBaza;
 
@@ -26,7 +27,7 @@ import klase.StrukturaUlaznicaBaza;
  *
  * @author iq skola
  */
-public class OtkazivanjeRezervacijeServlet extends HttpServlet {
+public class DogadjajPojedinacnoServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,20 +41,30 @@ public class OtkazivanjeRezervacijeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        /*
-        Pristupa se sa stranice moje_ulaznice i omogucava reg. korisniku
-        otkazivanje rezervacije iz liste*/
         HttpSession sesija = request.getSession();
+        RequestDispatcher rd = request.getRequestDispatcher("dogadjaj.jsp");
         RegistrovaniKorisnikBaza registrovaniKorisnikBaza = new RegistrovaniKorisnikBaza();
-        RegistrovaniKorisnik registrovaniKorisnik = (RegistrovaniKorisnik)registrovaniKorisnikBaza.find((Integer)sesija.getAttribute("korisnik_id"));
-        RequestDispatcher rd = request.getRequestDispatcher("reg_korisnik_pocetna.jsp");
+        RegistrovaniKorisnik registrovaniKorisnik = registrovaniKorisnikBaza.find((int)sesija.getAttribute("korisnik_id"));
         if(registrovaniKorisnik.getId() == -1){
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("prijava.jsp");
             return;
         }
-        RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();        
-        Rezervacija rezervacija = rezervacijaBaza.find(Integer.parseInt(request.getParameter("rezervacija_id")));
-        rezervacijaBaza.delete(rezervacija);
+        
+        DogadjajBaza dogadjajBaza = new DogadjajBaza();        
+        Dogadjaj dogadjaj = dogadjajBaza.find(Integer.parseInt(request.getParameter("dogadjaj_id")));
+                
+        StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
+        ArrayList<StrukturaUlaznica> sveStrukture = strukturaUlaznicaBaza.all();
+        ArrayList<StrukturaUlaznica> strukture = new ArrayList<>();
+        for (StrukturaUlaznica struktura : sveStrukture){
+            if (struktura.getId_dogadjaja() == dogadjaj.getId()){
+                strukture.add(struktura);
+            }
+        }
+        request.setAttribute("registrovaniKorisnik", registrovaniKorisnik);
+        request.setAttribute("strukture", strukture);
+        request.setAttribute("dogadjaj",dogadjaj);
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

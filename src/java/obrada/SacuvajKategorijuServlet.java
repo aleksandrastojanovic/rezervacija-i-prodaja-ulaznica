@@ -57,7 +57,7 @@ public class SacuvajKategorijuServlet extends HttpServlet {
       
         struktura = strukturaUlaznicaBaza.save(struktura);
         if (struktura.getId() > 0) {
-            //uspesno dodata struktura
+           // response.sendRedirect("kategorije_ulaznica.jsp");
         } else {
             //poruka da nije uspesno
         }

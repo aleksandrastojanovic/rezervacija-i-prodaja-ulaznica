@@ -6,8 +6,7 @@
 package obrada;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -45,18 +44,17 @@ public class SacuvajDogadjajServlet extends HttpServlet {
             response.sendRedirect("index.jsp");
             return;
         }
-        
+
         DogadjajBaza dogadjajBaza = new DogadjajBaza();
         Dogadjaj dogadjaj = new Dogadjaj();
-        if(Integer.parseInt(request.getParameter("dogadjaj_id")) > 0){
-        dogadjaj = dogadjajBaza.find(Integer.parseInt(request.getParameter("dogadjaj_id")));
-        dogadjaj.setId(Integer.parseInt(request.getParameter("dogadjaj_id")));}
-        else {
-            
+        boolean noviDogadjaj = Integer.parseInt(request.getParameter("dogadjaj_id")) <= 0;
+        if (!noviDogadjaj) {
+            dogadjaj = dogadjajBaza.find(Integer.parseInt(request.getParameter("dogadjaj_id")));            
         }
+
         dogadjaj.setNaziv(request.getParameter("naziv"));
         dogadjaj.setNaziv_lokacije(blagajnik.getNaziv_lokacije());
-        dogadjaj.setDatum_i_vreme(Timestamp.valueOf(request.getParameter("vreme_odrzavanja")).toLocalDateTime());
+        dogadjaj.setDatum_i_vreme(LocalDateTime.parse(request.getParameter("vreme_odrzavanja")));
         dogadjaj.setDetalji(request.getParameter("detalji"));
         /*
         Nisam sigurna kako funkcionise, da li ovako prima putanju ili ne, mada 
@@ -65,7 +63,6 @@ public class SacuvajDogadjajServlet extends HttpServlet {
         dogadjaj.setGlavna_slika_putanja(request.getParameter("slika_glavna"));
         dogadjaj.setVideo_putanja(request.getParameter("video"));
 
-        
         dogadjaj = dogadjajBaza.save(dogadjaj);
         if (dogadjaj.getId() > 0) {
             //uspesno kreiran dogadjaj
@@ -74,7 +71,8 @@ public class SacuvajDogadjajServlet extends HttpServlet {
             response.sendRedirect("blagajnik_novi_dogadjaj.jsp");
             return;
         }
-
+        
+        if(noviDogadjaj){
         StrukturaUlaznica strukturaUlaznica = new StrukturaUlaznica();
         StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
 
@@ -88,7 +86,7 @@ public class SacuvajDogadjajServlet extends HttpServlet {
             //uspesno dodata struktura
         } else {
             //poruka da nije uspesno
-        }
+        }}
 
         /*DogadjajBaza dogadjajBaza = new DogadjajBaza();
         dogadjaj = dogadjajBaza.save(dogadjaj);

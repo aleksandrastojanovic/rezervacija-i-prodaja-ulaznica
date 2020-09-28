@@ -80,6 +80,18 @@
         <servlet-name>SacuvajKategorijuServlet</servlet-name>
         <servlet-class>obrada.SacuvajKategorijuServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>DogadjajPojedinacnoServlet</servlet-name>
+        <servlet-class>obrada.DogadjajPojedinacnoServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SacuvajRezervacijuServlet</servlet-name>
+        <servlet-class>obrada.SacuvajRezervacijuServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BrisanjeStruktureServlet</servlet-name>
+        <servlet-class>obrada.BrisanjeStruktureServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegistracijaServlet</servlet-name>
         <url-pattern>/registracija</url-pattern>
@@ -159,6 +171,18 @@
     <servlet-mapping>
         <servlet-name>SacuvajKategorijuServlet</servlet-name>
         <url-pattern>/sacuvajKategoriju</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DogadjajPojedinacnoServlet</servlet-name>
+        <url-pattern>/dogadjajPojedinacno</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SacuvajRezervacijuServlet</servlet-name>
+        <url-pattern>/sacuvajRezervaciju</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BrisanjeStruktureServlet</servlet-name>
+        <url-pattern>/brisanjeStrukture</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

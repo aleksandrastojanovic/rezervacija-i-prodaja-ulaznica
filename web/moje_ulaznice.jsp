@@ -57,6 +57,7 @@
                     <%= d.getNaziv() %></td>
                     <td><%= ((Rezervacija)rezervacija).getBroj_ulaznica()%></td>
                     <td><%= ((Rezervacija)rezervacija).getVreme()%></td>
+                    <td><a href='otkazivanjeRezervacije?rezervacija_id=<%= "" + rezervacija.getId()%>'><input type="button" value="Otkazi rezervaciju"></a></td>
                 </tr>
                  <%   
                 }

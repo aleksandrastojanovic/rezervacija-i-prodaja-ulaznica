@@ -46,9 +46,8 @@ public class PrijavljenRegistrovaniKorisnikServlet extends HttpServlet {
         HttpSession sesija = request.getSession();
         if (sesija.getAttribute("korisnik_id") != null){
             RequestDispatcher rd = request.getRequestDispatcher("reg_korisnik_pocetna.jsp");
-            RegistrovaniKorisnik registrovaniKorisnik = new RegistrovaniKorisnik();
             RegistrovaniKorisnikBaza registrovaniKorisnikBaza = new RegistrovaniKorisnikBaza();
-            registrovaniKorisnik = (RegistrovaniKorisnik)registrovaniKorisnikBaza.find((Integer)sesija.getAttribute("korisnik_id"));
+            RegistrovaniKorisnik registrovaniKorisnik = (RegistrovaniKorisnik)registrovaniKorisnikBaza.find((Integer)sesija.getAttribute("korisnik_id"));
             request.setAttribute("korisnik", registrovaniKorisnik);
             
             DogadjajBaza dogadjajBaza = new DogadjajBaza();
