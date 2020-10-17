@@ -11,13 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import klase.*;
 
 /**
  *
  * @author iq skola
  */
-public class SacuvajKategorijuServlet extends HttpServlet {
+public class ProveraRegistrovanServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,31 +31,12 @@ public class SacuvajKategorijuServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sesija = request.getSession();
-        if (sesija.getAttribute("korisnik_id") == null || (int) sesija.getAttribute("korisnik_id") < 0) {
-            response.sendRedirect("proveraPrijavljen");
-            return;
+        if(sesija.getAttribute("korisnik_id") != null && (sesija.getAttribute("tip") != null)
+                || (int) sesija.getAttribute("korisnik_id") > 0){
+            response.sendRedirect("prijavljenProvera");
         }
-        if (Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))) {
-
-            StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
-            StrukturaUlaznica struktura = new StrukturaUlaznica();
-            if (request.getParameter("struktura_id") != null) {
-                struktura = strukturaUlaznicaBaza.find(Integer.parseInt(request.getParameter("struktura_id")));
-                struktura.setId(Integer.parseInt(request.getParameter("struktura_id")));
-            }
-
-            struktura.setId_dogadjaja(Integer.parseInt(request.getParameter("dogadjaj_id")));
-            struktura.setKategorija(request.getParameter("kategorija"));
-            struktura.setCena(Double.parseDouble(request.getParameter("cena")));
-            struktura.setBroj_dostupnih_ulaznica(Integer.parseInt(request.getParameter("broj_ulaznica")));
-            struktura.setPreostalo_ulaznica(struktura.getBroj_dostupnih_ulaznica());
-
-            struktura = strukturaUlaznicaBaza.save(struktura);
-            if (struktura.getId() > 0) {
-                response.sendRedirect("prijavljenBlagajnik");
-            } else {
-                //poruka da nije uspesno
-            }
+        else {
+            response.sendRedirect("registracija.jsp");
         }
     }
 

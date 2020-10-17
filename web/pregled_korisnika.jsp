@@ -4,7 +4,10 @@
     Author     : iq skola
 --%>
 
+<%@page import="klase.RegistrovaniKorisnik"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% ArrayList<RegistrovaniKorisnik> korisnici = (ArrayList<RegistrovaniKorisnik>)request.getAttribute("korisnici");%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,25 +19,34 @@
     <body>
         <header>
         <!-- Meni -->
-        <nav>
-        <ul>
-            <li>Pocetna stranica</li>
-            <li><ul>
-                    <li>Pozoriste</li>
-                    <li>Muzika</li>
-                    <li>Sport</li>
-                    <li>Festivali</li>
-                    <li>Muzeji</li>
-                    <li>Ostalo</li>
-                </ul>
-            </li>            
-            <li>Registruj se</li>
-            <li>Prijavi se</li>
-                        
-        </ul>
-        </nav>
+        <jsp:include page="parts/meni.jsp"></jsp:include>
     </header>
         <div></div>
+        <div>
+            <table>
+                <thead>
+                <th>Id</th>
+                <th>Tip</th>
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th>Korisnicko ime</th>
+                </thead>
+                <%
+                for(RegistrovaniKorisnik korisnik: korisnici){%>
+                <tr>
+                    <td><%= ((RegistrovaniKorisnik)korisnik).getId()%></td>
+                    <td><%= ((RegistrovaniKorisnik)korisnik).getTip()%></td>
+                    <td><%= ((RegistrovaniKorisnik)korisnik).getIme()%></td>
+                   <td><%= ((RegistrovaniKorisnik)korisnik).getPrezime() %></td>
+                    <td><%= ((RegistrovaniKorisnik)korisnik).getKorisnicko_ime()%></td>
+                    <td><a href='odobravanjeZahteva?korisnik_id=<%= korisnik.getId() %>'>
+                            <input type="button" value="Odblokiraj korisnika"></a></td>
+                </tr>
+                 <%   
+                }
+                %>
+            </table>
+</div>
         
         <footer>
         <!-- Povratak na vrh -->

@@ -24,13 +24,15 @@ public class StrukturaUlaznicaBaza implements Baza<StrukturaUlaznica>{
     }
     
     private static int insert(StrukturaUlaznica strukturaUlaznica){
-        String query = "INSERT INTO strukture (id_dogadjaja,kategorija,cena,broj_dostupnih_ulaznica) VALUES(?,?,?,?)";        
+        String query = "INSERT INTO strukture (id_dogadjaja,kategorija,cena,broj_dostupnih_ulaznica,preostalo_ulaznica,granica_po_korisniku) VALUES(?,?,?,?,?,?)";        
         ArrayList<Object> vrednosti = new ArrayList();
         
         vrednosti.add(strukturaUlaznica.getId_dogadjaja());
         vrednosti.add(strukturaUlaznica.getKategorija());
         vrednosti.add(strukturaUlaznica.getCena());
-        vrednosti.add(strukturaUlaznica.getBroj_dostupnih_ulaznica());       
+        vrednosti.add(strukturaUlaznica.getBroj_dostupnih_ulaznica());
+        vrednosti.add(strukturaUlaznica.getPreostalo_ulaznica());
+        vrednosti.add(strukturaUlaznica.getGranicaPoKorisniku());
               
         Database db = Database.getInstance();
         int id = db.insert(query, vrednosti);
@@ -41,13 +43,15 @@ public class StrukturaUlaznicaBaza implements Baza<StrukturaUlaznica>{
     private static int update(StrukturaUlaznica strukturaUlaznica) {
         
         String query = "UPDATE strukture SET id_dogadjaja = ?, kategorija = ?, cena = ?,"
-                + " broj_dostupnih_ulaznica = ? WHERE id = ?";
+                + " broj_dostupnih_ulaznica = ?, preostalo_ulaznica = ?, granica_po_korisniku = ? WHERE id = ?";
         ArrayList<Object> vrednosti = new ArrayList();
         vrednosti.add(strukturaUlaznica.getId_dogadjaja());
         vrednosti.add(strukturaUlaznica.getKategorija());
         vrednosti.add(strukturaUlaznica.getCena());
-        vrednosti.add(strukturaUlaznica.getBroj_dostupnih_ulaznica());        
-        vrednosti.add(strukturaUlaznica.getId());
+        vrednosti.add(strukturaUlaznica.getBroj_dostupnih_ulaznica()); 
+        vrednosti.add(strukturaUlaznica.getPreostalo_ulaznica());
+        vrednosti.add(strukturaUlaznica.getGranicaPoKorisniku());
+        vrednosti.add(strukturaUlaznica.getId());        
         
         Database db = Database.getInstance();
         boolean uspesno = db.update(query, vrednosti);     
@@ -71,6 +75,8 @@ public class StrukturaUlaznicaBaza implements Baza<StrukturaUlaznica>{
                 strukturaUlaznica.setKategorija(rs.getString("kategorija"));
                 strukturaUlaznica.setCena(rs.getDouble("cena"));
                 strukturaUlaznica.setBroj_dostupnih_ulaznica(rs.getInt("broj_dostupnih_ulaznica"));
+                strukturaUlaznica.setPreostalo_ulaznica(rs.getInt("preostalo_ulaznica"));
+                strukturaUlaznica.setGranicaPoKorisniku(rs.getInt("granica_po_korisniku"));
                
                                 
             }
@@ -124,7 +130,9 @@ public class StrukturaUlaznicaBaza implements Baza<StrukturaUlaznica>{
                     strukturaUlaznica.setId_dogadjaja(rs.getInt("id_dogadjaja"));
                     strukturaUlaznica.setKategorija(rs.getString("kategorija"));
                     strukturaUlaznica.setCena(rs.getDouble("cena"));
-                    strukturaUlaznica.setBroj_dostupnih_ulaznica(rs.getInt("broj_dostupnih_ulaznica"));                                                                                         
+                    strukturaUlaznica.setBroj_dostupnih_ulaznica(rs.getInt("broj_dostupnih_ulaznica"));
+                    strukturaUlaznica.setPreostalo_ulaznica(rs.getInt("preostalo_ulaznica"));
+                    strukturaUlaznica.setGranicaPoKorisniku(rs.getInt("granica_po_korisniku"));
                     
                     strukture.add(strukturaUlaznica); 
                 

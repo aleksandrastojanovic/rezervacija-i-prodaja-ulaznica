@@ -6,7 +6,6 @@
 package obrada;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,14 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import klase.Blagajnik;
-import klase.BlagajnikBaza;
-import klase.Dogadjaj;
-import klase.DogadjajBaza;
-import klase.RegistrovaniKorisnik;
-import klase.RegistrovaniKorisnikBaza;
-import klase.StrukturaUlaznica;
-import klase.StrukturaUlaznicaBaza;
+import klase.*;
 
 /**
  *
@@ -42,14 +34,18 @@ public class DogadjajPojedinacnoServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sesija = request.getSession();
-        RequestDispatcher rd = request.getRequestDispatcher("dogadjaj.jsp");
-        RegistrovaniKorisnikBaza registrovaniKorisnikBaza = new RegistrovaniKorisnikBaza();
-        RegistrovaniKorisnik registrovaniKorisnik = registrovaniKorisnikBaza.find((int)sesija.getAttribute("korisnik_id"));
-        if(registrovaniKorisnik.getId() == -1){
-            response.sendRedirect("prijava.jsp");
+        if(sesija.getAttribute("korisnik_id") == null){
+            response.sendRedirect("proveraPrijavljen");
+            //poruka
             return;
         }
-        
+        int korisnik_id = (Integer)sesija.getAttribute("korisnik_id");
+        if(korisnik_id <= 0 && (!Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))
+                || !Korisnik.TIP_REGISTROVANI_KORISNIK.equals(sesija.getAttribute("tip")))){
+            response.sendRedirect("proveraPrijavljen");
+            return;
+        }
+        RequestDispatcher rd = request.getRequestDispatcher("dogadjaj.jsp");
         DogadjajBaza dogadjajBaza = new DogadjajBaza();        
         Dogadjaj dogadjaj = dogadjajBaza.find(Integer.parseInt(request.getParameter("dogadjaj_id")));
                 
@@ -61,7 +57,6 @@ public class DogadjajPojedinacnoServlet extends HttpServlet {
                 strukture.add(struktura);
             }
         }
-        request.setAttribute("registrovaniKorisnik", registrovaniKorisnik);
         request.setAttribute("strukture", strukture);
         request.setAttribute("dogadjaj",dogadjaj);
         rd.forward(request, response);

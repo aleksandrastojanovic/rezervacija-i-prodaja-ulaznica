@@ -6,7 +6,6 @@
 package obrada;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,12 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import klase.Dogadjaj;
-import klase.DogadjajBaza;
-import klase.RegistrovaniKorisnik;
-import klase.RegistrovaniKorisnikBaza;
-import klase.Rezervacija;
-import klase.RezervacijaBaza;
+import klase.*;
 
 /**
  *
@@ -40,13 +34,14 @@ public class MojeUlazniceServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sesija = request.getSession();
-        if (sesija.getAttribute("korisnik_id") != null){
+        if (sesija.getAttribute("korisnik_id") != null 
+                && Korisnik.TIP_REGISTROVANI_KORISNIK.equals(sesija.getAttribute("tip"))){
             RequestDispatcher rd = request.getRequestDispatcher("moje_ulaznice.jsp");
             
             RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
             ArrayList<Rezervacija> sveRezervacije = rezervacijaBaza.all();
             ArrayList<Rezervacija> rezervacije = new ArrayList<>();
-            for(Rezervacija rezervacija: sveRezervacije){
+            for(Rezervacija rezervacija : sveRezervacije){
                 if(rezervacija.getKorisnik_id() == (int)sesija.getAttribute("korisnik_id")){
                     rezervacije.add(rezervacija);
                 }
@@ -60,7 +55,7 @@ public class MojeUlazniceServlet extends HttpServlet {
             rd.forward(request, response);*/
         }
         else {
-            response.sendRedirect("prijava.jsp");
+            response.sendRedirect("proveraPrijavljen");
         }
     }
 

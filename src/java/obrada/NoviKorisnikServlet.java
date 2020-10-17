@@ -11,13 +11,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import klase.Administrator;
-import klase.AdministratorBaza;
-import klase.Blagajnik;
-import klase.BlagajnikBaza;
-import klase.Korisnik;
-import klase.RegistrovaniKorisnik;
-import klase.RegistrovaniKorisnikBaza;
+import javax.servlet.http.HttpSession;
+import klase.*;
 
 /**
  *
@@ -42,6 +37,14 @@ public class NoviKorisnikServlet extends HttpServlet {
         -Pravi objekat odgovarajuce klase
         -Smesta ga u bazu*/
         //private metode x3
+        
+        HttpSession sesija = request.getSession();
+        if(sesija.getAttribute("korisnik_id") == null || (int)sesija.getAttribute("korisnik_id") < 0){
+            response.sendRedirect("proveraPrijavljen");
+            return;
+        }
+        if(Korisnik.TIP_ADMINISTRATOR.equals(sesija.getAttribute("tip"))){
+            
         switch (request.getParameter("korisnik")) {
             case Korisnik.TIP_REGISTROVANI_KORISNIK: {
 
@@ -73,7 +76,7 @@ public class NoviKorisnikServlet extends HttpServlet {
                 korisnik = registrovaniKorisnikBaza.save(korisnik);
                 if (korisnik.getId() > 0) {
                     //poruka uspesno kreiran korisnik
-                    response.sendRedirect("reg_korisnik_pocetna.jsp");
+                    response.sendRedirect("index");
                 }
                 break;
             }
@@ -142,7 +145,10 @@ public class NoviKorisnikServlet extends HttpServlet {
                 break;
             }
             default:
+                response.sendRedirect("prijavljenAdministrator");
                 break;
+        }
+        
         }
 
     }

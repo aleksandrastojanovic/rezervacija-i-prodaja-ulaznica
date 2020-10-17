@@ -15,7 +15,12 @@ public class Rezervacija implements Model {
     protected int id;
     private final String table;
     
+    public static final String STATUS_REZERVISANO = "rezervisano";
+    public static final String STATUS_PLACENO = "placeno";
+    public static final String STATUS_ISTEKLO = "isteklo";
+    
     private int korisnik_id;
+    private String status;
     private Timestamp vreme;
     private int dogadjaj_id;
     private int broj_ulaznica;
@@ -28,17 +33,28 @@ public class Rezervacija implements Model {
         this.struktura_id = struktura_id;
         this.id = -1;
         this.table = "rezervacije";
+        this.status = STATUS_REZERVISANO;
     }
     
     public Rezervacija(){
         this.id = -1;
         this.table = "rezervacije";
+        this.status = STATUS_REZERVISANO;
     }
 
     public int getKorisnik_id() {
         return korisnik_id;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
+    
     public void setKorisnik_id(int korisnik_id) {
         this.korisnik_id = korisnik_id;
     }

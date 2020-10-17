@@ -6,7 +6,6 @@
 package obrada;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,12 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import klase.Blagajnik;
-import klase.BlagajnikBaza;
-import klase.Dogadjaj;
-import klase.DogadjajBaza;
-import klase.StrukturaUlaznica;
-import klase.StrukturaUlaznicaBaza;
+import klase.*;
 
 /**
  *
@@ -40,13 +34,12 @@ public class KategorijeUlaznicaServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sesija = request.getSession();
-        BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
-        Blagajnik blagajnik = blagajnikBaza.find((int)sesija.getAttribute("korisnik_id"));
-        if(blagajnik.getId() == -1){
-            response.sendRedirect("index.jsp");
+        if(sesija.getAttribute("korisnik_id") == null || (int)sesija.getAttribute("korisnik_id") < 0){
+            response.sendRedirect("proveraPrijavljen");
             return;
         }
-        int dogadjaj_id = Integer.parseInt(request.getParameter("dogadjaj_id"));
+        if(Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))){
+            int dogadjaj_id = Integer.parseInt(request.getParameter("dogadjaj_id"));
         
         if (dogadjaj_id > 0){
             RequestDispatcher rd = request.getRequestDispatcher("kategorije_ulaznica.jsp");
@@ -59,9 +52,12 @@ public class KategorijeUlaznicaServlet extends HttpServlet {
                 }
             }
             request.setAttribute("strukture", strukture);
-            request.setAttribute("korisnik", blagajnik);
             request.setAttribute("dogadjaj_id", request.getParameter("dogadjaj_id"));
             rd.forward(request, response);
+        }
+        
+        } else{
+            response.sendRedirect("proveraPrijavljen");
         }
     }
 

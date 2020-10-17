@@ -22,23 +22,7 @@
     <body>
         <header>
         <!-- Meni -->
-        <nav>
-        <ul>
-            <li>Pocetna stranica</li>
-            <li><ul>
-                    <li>Pozoriste</li>
-                    <li>Muzika</li>
-                    <li>Sport</li>
-                    <li>Festivali</li>
-                    <li>Muzeji</li>
-                    <li>Ostalo</li>
-                </ul>
-            </li>            
-            <li>Registruj se</li>
-            <li>Prijavi se</li>
-                        
-        </ul>
-        </nav>
+        <jsp:include page="parts/meni.jsp"></jsp:include>
     </header>
         <div>
             <table>
@@ -47,6 +31,7 @@
                 <th>Naziv dogadjaja</th>
                 <th>Broj ulaznica</th>
                 <th>Vreme</th>
+                <th>Status</th>
                 </thead>
                 <%
                 for(Rezervacija rezervacija: rezervacije){%>
@@ -57,6 +42,7 @@
                     <%= d.getNaziv() %></td>
                     <td><%= ((Rezervacija)rezervacija).getBroj_ulaznica()%></td>
                     <td><%= ((Rezervacija)rezervacija).getVreme()%></td>
+                    <td><%= ((Rezervacija)rezervacija).getStatus()%></td>
                     <td><a href='otkazivanjeRezervacije?rezervacija_id=<%= "" + rezervacija.getId()%>'><input type="button" value="Otkazi rezervaciju"></a></td>
                 </tr>
                  <%   

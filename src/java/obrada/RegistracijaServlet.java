@@ -49,7 +49,7 @@ public class RegistracijaServlet extends HttpServlet {
                 //poruka korisnicko ime vec postoji, pokusajte ponovo. 
                 //vraca na registracija za sad,
                 //ne znam kako da se to radi i na frontu
-                response.sendRedirect("registracija.jsp");
+                response.sendRedirect("proveraRegistrovan");
                 return;
             }
             
@@ -79,9 +79,9 @@ public class RegistracijaServlet extends HttpServlet {
         //ArrayList<RegistrovaniKorisnik> korisnici = registrovaniKorisnikBaza.all();
         if (registrovaniKorisnik.getId() > 0) {
             //gde prosledjuje zavisi od uloge administratora
-            response.sendRedirect("prijava.jsp");
+            response.sendRedirect("proveraPrijavljen");
         } else {
-            response.sendRedirect("registracija.jsp");
+            response.sendRedirect("proveraRegistrovan");
         }
 
     }

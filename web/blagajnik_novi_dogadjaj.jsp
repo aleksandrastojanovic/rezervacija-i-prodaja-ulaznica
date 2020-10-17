@@ -18,23 +18,7 @@
     <body>
         <header>
         <!-- Meni -->
-        <nav>
-        <ul>
-            <li>Pocetna stranica</li>
-            <li><ul>
-                    <li>Pozoriste</li>
-                    <li>Muzika</li>
-                    <li>Sport</li>
-                    <li>Festivali</li>
-                    <li>Muzeji</li>
-                    <li>Ostalo</li>
-                </ul>
-            </li>            
-            <li>Registruj se</li>
-            <li>Prijavi se</li>
-                        
-        </ul>
-        </nav>
+        <jsp:include page="parts/meni.jsp"></jsp:include>
     </header>
         <h1>Kreiranje novog dogadjaja</h1>
         <div>
@@ -78,8 +62,10 @@
                 <input type='text' id='nova_kategorija' name="nova_kategorija" placeholder='Unesite novu kateoriju ulaznica'>
                 <label for='nova_kategorija_cena'>| Cena:</label>
                 <input type='number' id="nova_kategorija_cena" name='nova_kategorija_cena'>
-                <label for="limit_nova_kategorija">| Limit:</label>
+                <label for="limit_nova_kategorija">| Broj dostupnih ulaznica:</label>
                 <input type="number" id="limit_nova_kategorija" name="limit_nova_kategorija"><br>
+                <label for="granica_po_korisniku">| Granica po korisniku:</label>
+                <input type="number" id="granica_po_korisniku" name="granica_po_korisniku"><br>
                 <input type="submit" value="Kreiraj novi dogadjaj">
                                                            
             </form>

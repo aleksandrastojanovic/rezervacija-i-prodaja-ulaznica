@@ -4,58 +4,64 @@
     Author     : iq skola
 --%>
 
+<%@page import="java.time.LocalDateTime"%>
+<%@page import="klase.Dogadjaj"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<% 
+    ArrayList<Dogadjaj> dogadjaji = (ArrayList<Dogadjaj>) request.getAttribute("dogadjaji");
+%><!DOCTYPE html>
 <html>
     <head>
         <title>Pocetna stranica</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
-    
+
     <body>
         <header>
-        <!-- Meni -->
-        <nav>
-        <ul>
-            <li>Pocetna stranica</li>
-            <li><ul>
-                    <li>Pozoriste</li>
-                    <li>Muzika</li>
-                    <li>Sport</li>
-                    <li>Festivali</li>
-                    <li>Muzeji</li>
-                    <li>Ostalo</li>
-                </ul>
-            </li>            
-            <li><a href="registracija.jsp">Registruj se</a>
-                </li>
-            <li>Prijavi se</li>
-                        
-        </ul>
-        </nav>
-    </header>
-        <div>
-            <form>
-                <label for='po_nazivu'>Pretrazi po nazivu:</label>
-                <input type="text" id="po_nazivu" name='po_nazivu' placeholder='Unesite naziv'><br>
-                
-                <label for='vreme_od'>Pretrazi po datumu od:</label>
-                <input type="datetime-local" id="vreme_od" name='vreme_od' placeholder='Unesite od kog datuma'>
-                <label for='vreme_do'> do:</label>
-                <input type="datetime-local" id="vreme_do" name='vreme_do' placeholder='Unesite do kog datuma'><br>
-                
-                <label for='po_mestu'>Pretrazi po mestu odrzavanja:</label>
-                <input type="text" id="po_mestu" name='po_metu' placeholder='Unesite mesto odrzavanja'><br>
-            </form>
+            <!-- Meni -->
+            <jsp:include page="parts/meni.jsp"></jsp:include>
+            </header>
+            <jsp:include page="parts/pretraga_dogadjaja.jsp"></jsp:include>
+            <div>
+                <table>
+                    <thead>
+                    <th>Naziv dogadjaja</th>
+                    <th>Naziv lokacije</th>
+                    <th>Datum i vreme</th>
+                    <th>Detalji</th>
+                    </thead>
+                <%
+                    for (Dogadjaj dogadjaj : dogadjaji) {%>
+                <tr>
+                    <td><%= ((Dogadjaj) dogadjaj).getNaziv()%></td>
+                    <td><%= ((Dogadjaj) dogadjaj).getNaziv_lokacije()%></td>
+                    <td><%= ((Dogadjaj) dogadjaj).getDatum_i_vreme()%></td>
+                    <% if (request.getSession().getAttribute("korisnik_id") != null && request.getSession().getAttribute("tip") != null) {%>                    
+                    <td><a href="dogadjajPojedinacno?dogadjaj_id=<%= "" + dogadjaj.getId()%>">
+                            <input type="button" name="dogadjaj_pojedinacno" value="Detaljnije"></a></td>
+                            <% } else { %>
+                    <td><a href="proveraRegistrovan">
+                            <input type="button" name="registracija" value="Detaljnije"></a></td>    
+                            <% } %>
+                </tr>
+                <%
+                    }
+                %>
+                <!-- <tr>
+                    <td></td>
+                </tr> -->
+            </table>
         </div>
-        <div></div>
-        
+        <hr>
+        <div><a href="mojeUlaznice">Moje ulaznice</a></div>
+
         <footer>
-        <!-- Povratak na vrh -->
-        
-    </footer>
+            <!-- Povratak na vrh -->
+
+        </footer>
     </body>
-    
+
 </html>
 

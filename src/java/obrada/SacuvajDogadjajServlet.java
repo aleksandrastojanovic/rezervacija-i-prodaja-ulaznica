@@ -7,17 +7,13 @@ package obrada;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import klase.Blagajnik;
-import klase.BlagajnikBaza;
-import klase.Dogadjaj;
-import klase.DogadjajBaza;
-import klase.StrukturaUlaznica;
-import klase.StrukturaUlaznicaBaza;
+import klase.*;
 
 /**
  *
@@ -38,16 +34,20 @@ public class SacuvajDogadjajServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sesija = request.getSession();
-        BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
-        Blagajnik blagajnik = blagajnikBaza.find((int) sesija.getAttribute("korisnik_id"));
-        if (blagajnik.getId() == -1) {
-            response.sendRedirect("index.jsp");
+        if(sesija.getAttribute("korisnik_id") == null || (int)sesija.getAttribute("korisnik_id") < 0){
+            response.sendRedirect("proveraPrijavljen");
             return;
         }
+        if(sesija.getAttribute("tip").equals(Korisnik.TIP_BLAGAJNIK)){
+            
+        RequestDispatcher rd = request.getRequestDispatcher("prijavljenBlagajnik");
 
+        BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
+        Blagajnik blagajnik = blagajnikBaza.find((int) sesija.getAttribute("korisnik_id"));
+        
         DogadjajBaza dogadjajBaza = new DogadjajBaza();
         Dogadjaj dogadjaj = new Dogadjaj();
-        boolean noviDogadjaj = Integer.parseInt(request.getParameter("dogadjaj_id")) <= 0;
+        boolean noviDogadjaj = request.getParameter("dogadjaj_id") == null || Integer.parseInt(request.getParameter("dogadjaj_id")) <= 0;
         if (!noviDogadjaj) {
             dogadjaj = dogadjajBaza.find(Integer.parseInt(request.getParameter("dogadjaj_id")));            
         }
@@ -68,7 +68,7 @@ public class SacuvajDogadjajServlet extends HttpServlet {
             //uspesno kreiran dogadjaj
         } else {
             //poruka da nije kreiran, za sad vraca na blagajnik_novi_dogadjaj.jsp
-            response.sendRedirect("blagajnik_novi_dogadjaj.jsp");
+            response.sendRedirect("noviDogadjaj");
             return;
         }
         
@@ -80,6 +80,8 @@ public class SacuvajDogadjajServlet extends HttpServlet {
         strukturaUlaznica.setKategorija(request.getParameter("nova_kategorija"));
         strukturaUlaznica.setCena(Double.parseDouble(request.getParameter("nova_kategorija_cena")));
         strukturaUlaznica.setBroj_dostupnih_ulaznica(Integer.parseInt(request.getParameter("limit_nova_kategorija")));
+        strukturaUlaznica.setPreostalo_ulaznica(strukturaUlaznica.getBroj_dostupnih_ulaznica());
+        strukturaUlaznica.setGranicaPoKorisniku(Integer.parseInt(request.getParameter("granica_po_korisniku")));
 
         strukturaUlaznica = strukturaUlaznicaBaza.save(strukturaUlaznica);
         if (strukturaUlaznica.getId() > 0) {
@@ -87,6 +89,7 @@ public class SacuvajDogadjajServlet extends HttpServlet {
         } else {
             //poruka da nije uspesno
         }}
+        }
 
         /*DogadjajBaza dogadjajBaza = new DogadjajBaza();
         dogadjaj = dogadjajBaza.save(dogadjaj);

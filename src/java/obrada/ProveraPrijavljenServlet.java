@@ -6,21 +6,17 @@
 package obrada;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import klase.Blagajnik;
-import klase.RegistrovaniKorisnik;
-import klase.Rezervacija;
 
 /**
  *
  * @author iq skola
  */
-public class NovaRezervacijaServlet extends HttpServlet {
+public class ProveraPrijavljenServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,13 +30,14 @@ public class NovaRezervacijaServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        RegistrovaniKorisnik registrovaniKorisnik = new RegistrovaniKorisnik();
         HttpSession sesija = request.getSession();
-        sesija.setAttribute("id", registrovaniKorisnik.getId());
-        
-        Rezervacija rezervacija = new Rezervacija();
-        rezervacija.setKorisnik_id(registrovaniKorisnik.getId());
-        rezervacija.setBroj_ulaznica(Integer.parseInt(request.getParameter("broj_ulaznica")));
+        if (sesija.getAttribute("korisnik_id") != null && (sesija.getAttribute("tip") != null)
+                || (int) sesija.getAttribute("korisnik_id") > 0) {
+            //vec ulogovan poruka
+            response.sendRedirect("odjava.jsp");
+        } else {
+            response.sendRedirect("prijava.jsp");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

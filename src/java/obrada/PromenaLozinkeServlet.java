@@ -6,17 +6,18 @@
 package obrada;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import klase.*;
 
 /**
  *
  * @author iq skola
  */
-public class PregledKorisnikaServlet extends HttpServlet {
+public class PromenaLozinkeServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,9 +31,50 @@ public class PregledKorisnikaServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        /*
-        -Za admina
-        -Prolazi kroz bazu i priazuje sve korisnike tabelarno*/
+        HttpSession sesija = request.getSession();
+        if (sesija.getAttribute("korisnik_id") == null || sesija.getAttribute("tip") == null) {
+            response.sendRedirect("proveraPrijavljen");
+            return;
+        }
+
+        String novaLozinka = request.getParameter("nova_lozinka");
+        String novaLozinkaPotvrda = request.getParameter("nova_lozinka_potvrda");
+
+        if (novaLozinka.equals(novaLozinkaPotvrda)) {
+            String tip = sesija.getAttribute("tip").toString();
+            int korisnikId = (int) sesija.getAttribute("korisnik_id");
+            KorisnikBaza korisnikBaza = new KorisnikBaza();
+            Korisnik korisnik;
+            switch (tip) {
+                case Korisnik.TIP_REGISTROVANI_KORISNIK:
+                    RegistrovaniKorisnikBaza registrovaniKorisnikBaza = new RegistrovaniKorisnikBaza();
+                    korisnik = registrovaniKorisnikBaza.find(korisnikId);
+                    break;
+                case Korisnik.TIP_BLAGAJNIK:
+                    BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
+                    korisnik = blagajnikBaza.find(korisnikId);
+                    break;
+                case Korisnik.TIP_ADMINISTRATOR:
+
+                    korisnik = korisnikBaza.find(korisnikId);
+                    break;
+                default:
+                    response.sendRedirect("proveraPrijavljen");
+                    return;
+
+            }
+            String lozinka = request.getParameter("lozinka");
+            if (korisnik.getLozinka().equals(lozinka)) {
+                korisnik.setLozinka(novaLozinka);
+                korisnikBaza.save(korisnik);
+                response.sendRedirect("index");
+            } else {
+                //poruka da se ne poklapaju sifre
+            }
+        } else {
+            //poruka greska ne poklapa se nova lozinka i potvrda nove lozinke
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

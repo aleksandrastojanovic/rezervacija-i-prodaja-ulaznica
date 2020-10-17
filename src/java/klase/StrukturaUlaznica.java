@@ -17,15 +17,20 @@ public class StrukturaUlaznica implements Model {
     private String kategorija;
     private double cena;
     private int broj_dostupnih_ulaznica;
+    private int preostalo_ulaznica;
+    private int granicaPoKorisniku;
 
-    public StrukturaUlaznica(int id_dogadjaja, String kategorija, double cena, int broj_dostupnih_ulaznica) {
+    public StrukturaUlaznica(int id_dogadjaja, String kategorija, double cena, int broj_dostupnih_ulaznica, int granicaPoKorisniku) {
         this.id_dogadjaja = id_dogadjaja;
         this.kategorija = kategorija;
         this.cena = cena;
         this.broj_dostupnih_ulaznica = broj_dostupnih_ulaznica;
         this.id = -1;
         this.table = "strukture";
+        this.preostalo_ulaznica = this.broj_dostupnih_ulaznica;
+        this.granicaPoKorisniku = granicaPoKorisniku;
     }
+    
 
     public StrukturaUlaznica() {
         this.id = -1;
@@ -38,6 +43,14 @@ public class StrukturaUlaznica implements Model {
 
     public void setId_dogadjaja(int id_dogadjaja) {
         this.id_dogadjaja = id_dogadjaja;
+    }
+
+    public int getPreostalo_ulaznica() {
+        return preostalo_ulaznica;
+    }
+
+    public void setPreostalo_ulaznica(int preostalo_ulaznica) {
+        this.preostalo_ulaznica = preostalo_ulaznica;
     }
 
     public String getKategorija() {
@@ -64,6 +77,14 @@ public class StrukturaUlaznica implements Model {
         this.broj_dostupnih_ulaznica = broj_dostupnih_ulaznica;
     }
 
+    public int getGranicaPoKorisniku() {
+        return granicaPoKorisniku;
+    }
+
+    public void setGranicaPoKorisniku(int granicaPoKorisniku) {
+        this.granicaPoKorisniku = granicaPoKorisniku;
+    }
+        
     @Override
     public int getId() {
         return id;

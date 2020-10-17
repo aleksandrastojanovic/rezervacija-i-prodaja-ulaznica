@@ -16,6 +16,7 @@
         <title>Izmena dogadjaja</title>
     </head>
     <body>
+        <jsp:include page="parts/meni.jsp"></jsp:include>
         <h1>Izmena dogadjaja</h1>
         <div>
             <form action="sacuvajDogadjaj">

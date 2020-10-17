@@ -4,7 +4,15 @@
     Author     : iq skola
 --%>
 
+<%@page import="klase.Korisnik"%>
+<%@page import="klase.Dogadjaj"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<% 
+    ArrayList<Dogadjaj> dogadjaji = (ArrayList<Dogadjaj>)request.getAttribute("dogadjaji");
+    HttpSession sesija = request.getSession();
+    
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,39 +24,40 @@
     <body>
         <header>
         <!-- Meni -->
-        <nav>
-        <ul>
-            <li>Pocetna stranica</li>
-            <li><ul>
-                    <li>Pozoriste</li>
-                    <li>Muzika</li>
-                    <li>Sport</li>
-                    <li>Festivali</li>
-                    <li>Muzeji</li>
-                    <li>Ostalo</li>
-                </ul>
-            </li>            
-            <li>Registruj se</li>
-            <li>Prijavi se</li>
-                        
-        </ul>
-        </nav>
+        <jsp:include page="parts/meni.jsp"></jsp:include>
     </header>
-        <h1>Pretraga dogadjaja</h1>
-        <!-- forma za pretragu dogadjaja-->
+        <h1>Rezultat pretrage: </h1>        
+        
         <div>
-            <form>
-                <label for='po_nazivu'>Pretrazi po nazivu:</label>
-                <input type="text" id="po_nazivu" name='po_nazivu' placeholder='Unesite naziv'><br>
-                
-                <label for='vreme_od'>Pretrazi po datumu od:</label>
-                <input type="datetime-local" id="vreme_od" name='vreme_od' placeholder='Unesite od kog datuma'>
-                <label for='vreme_do'> do:</label>
-                <input type="datetime-local" id="vreme_do" name='vreme_do' placeholder='Unesite do kog datuma'><br>
-                
-                <label for='po_mestu'>Pretrazi po mestu odrzavanja:</label>
-                <input type="text" id="po_mestu" name='po_metu' placeholder='Unesite mesto odrzavanja'><br>
-            </form>
+            <table>
+                <thead>
+                <th>Naziv dogadjaja</th>
+                <th>Naziv lokacije</th>
+                <th>Datum i vreme</th>
+                <th>Detalji</th>
+                </thead>
+                <%
+                    for (Dogadjaj dogadjaj : dogadjaji) {%>
+                <tr>
+                    <td><%= ((Dogadjaj) dogadjaj).getNaziv()%></td>
+                    <td><%= ((Dogadjaj) dogadjaj).getNaziv_lokacije()%></td>
+                    <td><%= ((Dogadjaj) dogadjaj).getDatum_i_vreme()%></td>
+                    <% if (sesija.getAttribute("korisnik_id") != null 
+                            && Korisnik.TIP_REGISTROVANI_KORISNIK.equals(sesija.getAttribute("tip"))) {%>                    
+                    <td><a href="dogadjajPojedinacno?dogadjaj_id=<%= "" + dogadjaj.getId()%>">
+                            <input type="button" name="dogadjaj_pojedinacno" value="Detaljnije"></a></td>
+                            <% } else { %>
+                    <td><a href="registracija.jsp">
+                            <input type="button" name="registracija" value="Detaljnije"></a></td>    
+                            <% } %>
+                </tr>
+                <%
+                    }
+                %>
+                <!-- <tr>
+                    <td></td>
+                </tr> -->
+            </table>
         </div>
         
         <footer>

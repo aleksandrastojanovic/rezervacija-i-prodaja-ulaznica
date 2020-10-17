@@ -7,23 +7,17 @@ package obrada;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import klase.Dogadjaj;
-import klase.DogadjajBaza;
-import klase.RegistrovaniKorisnik;
-import klase.RegistrovaniKorisnikBaza;
 
 /**
  *
  * @author iq skola
  */
-public class PrijavljenRegistrovaniKorisnikServlet extends HttpServlet {
+public class OdjavaServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,27 +31,12 @@ public class PrijavljenRegistrovaniKorisnikServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        /*DogadjajBaza dogadjajBaza = new DogadjajBaza();
-        ArrayList<Dogadjaj> dogadjaji = dogadjajBaza.all();
-        request.setAttribute("dogadjaji", dogadjaji);*/
-        //RequestDispatcher rd = request.getRequestDispatcher("prijava");
-        
-        
         HttpSession sesija = request.getSession();
-        if (sesija.getAttribute("korisnik_id") != null){
-            RequestDispatcher rd = request.getRequestDispatcher("reg_korisnik_pocetna.jsp");
-            RegistrovaniKorisnikBaza registrovaniKorisnikBaza = new RegistrovaniKorisnikBaza();
-            RegistrovaniKorisnik registrovaniKorisnik = (RegistrovaniKorisnik)registrovaniKorisnikBaza.find((Integer)sesija.getAttribute("korisnik_id"));
-            request.setAttribute("korisnik", registrovaniKorisnik);
-            
-            DogadjajBaza dogadjajBaza = new DogadjajBaza();
-            ArrayList<Dogadjaj> dogadjaji = dogadjajBaza.all();
-            request.setAttribute("dogadjaji", dogadjaji);
-            rd.forward(request, response);
+        if(sesija.getAttribute("korisnik_id") != null && sesija.getAttribute("tip") != null){
+            sesija.setAttribute("korisnik_id", null);
+            sesija.setAttribute("tip", null);            
         }
-        else {
-            response.sendRedirect("prijava.jsp");
-        }
+        response.sendRedirect("index");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -6,27 +6,21 @@
 package obrada;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import klase.Dogadjaj;
-import klase.DogadjajBaza;
-import klase.Korisnik;
-import klase.RegistrovaniKorisnik;
-import klase.RegistrovaniKorisnikBaza;
+import klase.*;
 
 /**
  *
  * @author iq skola
  */
-@WebServlet(name = "SviDogadjajiServlet", urlPatterns = {"/sviDogadjaji"})
-public class SviDogadjajiServlet extends HttpServlet {
+public class IndexServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,36 +33,29 @@ public class SviDogadjajiServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        /*prebaceno u prijavljenregkor servlet, treba da osmislim za nereg kor i kor kako cuuuu*/
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sesija = request.getSession();
-        if (sesija.getAttribute("korisnik_id") != null){
-            
-            RegistrovaniKorisnik registrovaniKorisnik = new RegistrovaniKorisnik();
-            RegistrovaniKorisnikBaza registrovaniKorisnikBaza = new RegistrovaniKorisnikBaza();
-            registrovaniKorisnik = (RegistrovaniKorisnik)registrovaniKorisnikBaza.find((Integer)sesija.getAttribute("korisnik_id"));
-            request.setAttribute("korisnik", registrovaniKorisnik);
-            
-            DogadjajBaza dogadjajBaza = new DogadjajBaza();
-            ArrayList<Dogadjaj> dogadjaji = dogadjajBaza.all();
-            request.setAttribute("dogadjaji", dogadjaji);
-            response.sendRedirect("reg_korisnik_pocetna.jsp");}
+        RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+        if (sesija.getAttribute("korisnik_id") == null) {
+            sesija.setAttribute("korisnik_id", -1);
+        }
+        LocalDateTime pre48h = LocalDateTime.now().minusDays(2);
+        RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
+        ArrayList<Rezervacija> sveRezervacije = rezervacijaBaza.all();
+        ArrayList<Rezervacija> rezervacije = new ArrayList<>();
+        for (Rezervacija rezervacija : sveRezervacije) {
+            if (pre48h.isEqual(rezervacija.getVreme().toLocalDateTime())
+                    || pre48h.isBefore(rezervacija.getVreme().toLocalDateTime())) {
+                //ako status nije STATUS_PLACENO
+                rezervacija.setStatus(Rezervacija.STATUS_ISTEKLO);
+                rezervacijaBaza.save(rezervacija);
+            }
+        }
+        DogadjajBaza dogadjajBaza = new DogadjajBaza();
+        ArrayList<Dogadjaj> dogadjaji = dogadjajBaza.all();
+        request.setAttribute("dogadjaji", dogadjaji);
+        rd.forward(request, response);
 
-//        HttpSession sesija = request.getSession();
-//        if (sesija.getAttribute("korisnik_id") != null) {
-//            RequestDispatcher rd = request.getRequestDispatcher("reg_korisnik_pocetna.jsp");
-//            RegistrovaniKorisnik k = new RegistrovaniKorisnik();
-//            RegistrovaniKorisnikBaza registrovaniKorisnikBaza = new RegistrovaniKorisnikBaza();
-//            k = registrovaniKorisnikBaza.find((Integer)sesija.getAttribute("korisnik_id"));
-//            request.setAttribute("korisnik", k);
-        /*ArrayList<Model> poruke = Poruka.all(Poruka.class);
-            request.setAttribute("poruke", poruke);
-            
-            rd.forward(request, response);
-        } else {
-            response.sendRedirect("prijava.jsp");
-        }*/
-//        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

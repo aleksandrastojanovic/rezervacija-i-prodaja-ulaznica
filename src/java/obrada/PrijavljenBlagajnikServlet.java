@@ -13,10 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import klase.Blagajnik;
-import klase.BlagajnikBaza;
-import klase.Dogadjaj;
-import klase.DogadjajBaza;
+import klase.*;
 
 /**
  *
@@ -37,26 +34,25 @@ public class PrijavljenBlagajnikServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sesija = request.getSession();
-        if (sesija.getAttribute("korisnik_id") != null){
+        if (sesija.getAttribute("korisnik_id") != null && Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))) {
             RequestDispatcher rd = request.getRequestDispatcher("blagajnik_pocetna.jsp");
             BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
-            Blagajnik blagajnik = (Blagajnik)blagajnikBaza.find((Integer)sesija.getAttribute("korisnik_id"));
+            Blagajnik blagajnik = (Blagajnik) blagajnikBaza.find((Integer) sesija.getAttribute("korisnik_id"));
             request.setAttribute("korisnik", blagajnik);
-            
+
             DogadjajBaza dogadjajBaza = new DogadjajBaza();
             ArrayList<Dogadjaj> sviDogadjaji = dogadjajBaza.all();
             ArrayList<Dogadjaj> dogadjaji = new ArrayList<>();
-            for (Dogadjaj dogadjaj: sviDogadjaji){
-                if(dogadjaj.getNaziv_lokacije().equals(blagajnik.getNaziv_lokacije())){
+            for (Dogadjaj dogadjaj : sviDogadjaji) {
+                if (dogadjaj.getNaziv_lokacije().equals(blagajnik.getNaziv_lokacije())) {
                     dogadjaji.add(dogadjaj);
                 }
             }
             request.setAttribute("dogadjaji", dogadjaji);
-            
+
             rd.forward(request, response);
-        }
-        else {
-            response.sendRedirect("prijava.jsp");
+        } else {
+            response.sendRedirect("proveraPrijavljen");
         }
     }
 

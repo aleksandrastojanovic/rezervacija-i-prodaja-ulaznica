@@ -19,23 +19,7 @@
     <body>
         <header>
             <!-- Meni -->
-            <nav>
-                <ul>
-                    <li>Pocetna stranica</li>
-                    <li><ul>
-                            <li>Pozoriste</li>
-                            <li>Muzika</li>
-                            <li>Sport</li>
-                            <li>Festivali</li>
-                            <li>Muzeji</li>
-                            <li>Ostalo</li>
-                        </ul>
-                    </li>            
-                    <li>Registruj se</li>
-                    <li>Prijavi se</li>
-
-                </ul>
-            </nav>
+            <jsp:include page="parts/meni.jsp"></jsp:include>
         </header>
 
         <div>
@@ -49,7 +33,10 @@
                 <input type="number" id="cena" name="cena" value="<%= struktura.getCena()%>"><br>
 
                 <label for="broj_ulaznica">Broj dostupnih ulaznica:</label>
-                <input type="text" id='broj_ulaznica' name="broj_ulaznica" value="<%= struktura.getBroj_dostupnih_ulaznica()%>"><br>
+                <input type="number" id='broj_ulaznica' name="broj_ulaznica" value="<%= struktura.getBroj_dostupnih_ulaznica()%>"><br>
+                
+                <label for="granica_po_korisniku">Granica po korisniku:</label>
+                <input type="number" id='granica_po_korisniku' name="granica_po_korisniku" value="<%= struktura.getGranicaPoKorisniku()%>"><br>
                 
                 <input type="submit" value="Sacuvaj izmene">
             </form>

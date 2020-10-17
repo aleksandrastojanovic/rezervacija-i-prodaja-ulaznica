@@ -6,18 +6,25 @@
 package obrada;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import klase.Korisnik;
 import klase.*;
+import klase.Rezervacija;
+import klase.RezervacijaBaza;
 
 /**
  *
  * @author iq skola
  */
-public class SacuvajKategorijuServlet extends HttpServlet {
+public class ProveraRegistrovanogKorisnikaServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,32 +39,39 @@ public class SacuvajKategorijuServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sesija = request.getSession();
-        if (sesija.getAttribute("korisnik_id") == null || (int) sesija.getAttribute("korisnik_id") < 0) {
-            response.sendRedirect("proveraPrijavljen");
+        RequestDispatcher rd = request.getRequestDispatcher("index");
+        if (sesija.getAttribute("korisnik_id") == null) {
+            response.sendRedirect("index");
             return;
         }
-        if (Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))) {
-
-            StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
-            StrukturaUlaznica struktura = new StrukturaUlaznica();
-            if (request.getParameter("struktura_id") != null) {
-                struktura = strukturaUlaznicaBaza.find(Integer.parseInt(request.getParameter("struktura_id")));
-                struktura.setId(Integer.parseInt(request.getParameter("struktura_id")));
+        int korisnik_id = (int)sesija.getAttribute("korisnik_id");
+        RegistrovaniKorisnikBaza korisnikBaza = new RegistrovaniKorisnikBaza();
+        RegistrovaniKorisnik korisnik = korisnikBaza.find(korisnik_id);
+        LocalDateTime pre48h = LocalDateTime.now().minusDays(2);
+        
+        RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
+        ArrayList<Rezervacija> sveRezervacije = rezervacijaBaza.all();
+        ArrayList<Rezervacija> istekleRezervacije = new ArrayList<>();
+        for(Rezervacija rezervacija : sveRezervacije){
+            if(pre48h.isEqual(rezervacija.getVreme().toLocalDateTime()) 
+                    || pre48h.isBefore(rezervacija.getVreme().toLocalDateTime())){
+                rezervacija.setStatus(Rezervacija.STATUS_ISTEKLO);
+                rezervacija = rezervacijaBaza.save(rezervacija);
             }
-
-            struktura.setId_dogadjaja(Integer.parseInt(request.getParameter("dogadjaj_id")));
-            struktura.setKategorija(request.getParameter("kategorija"));
-            struktura.setCena(Double.parseDouble(request.getParameter("cena")));
-            struktura.setBroj_dostupnih_ulaznica(Integer.parseInt(request.getParameter("broj_ulaznica")));
-            struktura.setPreostalo_ulaznica(struktura.getBroj_dostupnih_ulaznica());
-
-            struktura = strukturaUlaznicaBaza.save(struktura);
-            if (struktura.getId() > 0) {
-                response.sendRedirect("prijavljenBlagajnik");
-            } else {
-                //poruka da nije uspesno
+            if(rezervacija.getKorisnik_id() == (int)sesija.getAttribute("korisnik_id")
+                    && rezervacija.getStatus().equals(Rezervacija.STATUS_ISTEKLO)){
+                istekleRezervacije.add(rezervacija);
             }
         }
+        if(istekleRezervacije.size() >= 3){
+            korisnik.setTip(Korisnik.TIP_BLOKIRANI_KORISNIK);
+            korisnik = korisnikBaza.save(korisnik);
+        }
+        if(!korisnik.getTip().equals(Korisnik.TIP_REGISTROVANI_KORISNIK)){
+            sesija.setAttribute("korisnik_id", -1);
+        } 
+        rd.forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

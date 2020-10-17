@@ -6,6 +6,7 @@
 package obrada;
 
 import java.io.IOException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,7 @@ import klase.*;
  *
  * @author iq skola
  */
-public class SacuvajKategorijuServlet extends HttpServlet {
+public class PotvrdaRezervacijeServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,28 +37,34 @@ public class SacuvajKategorijuServlet extends HttpServlet {
             response.sendRedirect("proveraPrijavljen");
             return;
         }
+
         if (Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))) {
-
-            StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
-            StrukturaUlaznica struktura = new StrukturaUlaznica();
-            if (request.getParameter("struktura_id") != null) {
-                struktura = strukturaUlaznicaBaza.find(Integer.parseInt(request.getParameter("struktura_id")));
-                struktura.setId(Integer.parseInt(request.getParameter("struktura_id")));
-            }
-
-            struktura.setId_dogadjaja(Integer.parseInt(request.getParameter("dogadjaj_id")));
-            struktura.setKategorija(request.getParameter("kategorija"));
-            struktura.setCena(Double.parseDouble(request.getParameter("cena")));
-            struktura.setBroj_dostupnih_ulaznica(Integer.parseInt(request.getParameter("broj_ulaznica")));
-            struktura.setPreostalo_ulaznica(struktura.getBroj_dostupnih_ulaznica());
-
-            struktura = strukturaUlaznicaBaza.save(struktura);
-            if (struktura.getId() > 0) {
-                response.sendRedirect("prijavljenBlagajnik");
+            int rezervacija_id;
+            if (request.getParameter("rezervacija_id") != null) {
+                rezervacija_id = Integer.parseInt(request.getParameter("rezervacija_id"));
+            } else if (request.getAttribute("rezervacija_id") != null) {
+                rezervacija_id = (int) request.getAttribute("rezervacija_id");
             } else {
-                //poruka da nije uspesno
+                response.sendRedirect("prijavljenBlagajnik");
+                return;
             }
+            RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
+            Rezervacija rezervacija = rezervacijaBaza.find(rezervacija_id);
+            StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
+            StrukturaUlaznica strukturaUlaznica = strukturaUlaznicaBaza.find(rezervacija.getStruktura_id());
+            DogadjajBaza dogadjajBaza = new DogadjajBaza();
+            Dogadjaj dogadjaj = dogadjajBaza.find(rezervacija.getDogadjaj_id());
+
+            RequestDispatcher rd = request.getRequestDispatcher("potvrda_uplate.jsp");
+            request.setAttribute("rezervacija", rezervacija);
+            request.setAttribute("struktura", strukturaUlaznica);
+            request.setAttribute("dogadjaj", dogadjaj);
+            rd.forward(request, response);
+
+        } else {
+            response.sendRedirect("proveraPrijavljen");
         }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

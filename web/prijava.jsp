@@ -16,23 +16,7 @@
     <body>
         <header>
         <!-- Meni -->
-        <nav>
-        <ul>
-            <li>Pocetna stranica</li>
-            <li><ul>
-                    <li>Pozoriste</li>
-                    <li>Muzika</li>
-                    <li>Sport</li>
-                    <li>Festivali</li>
-                    <li>Muzeji</li>
-                    <li>Ostalo</li>
-                </ul>
-            </li>            
-            <li>Registruj se</li>
-            <li>Prijavi se</li>
-                        
-        </ul>
-        </nav>
+        <jsp:include page="parts/meni.jsp"></jsp:include>
     </header>
         <h1>Prijava:</h1>
         <div>

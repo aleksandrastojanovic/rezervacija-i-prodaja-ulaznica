@@ -6,19 +6,15 @@
 package obrada;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import klase.Dogadjaj;
-import klase.DogadjajBaza;
-import klase.RegistrovaniKorisnik;
-import klase.RegistrovaniKorisnikBaza;
+import klase.*;
 
 /**
  *
@@ -43,61 +39,54 @@ public class PretragaDogadjajaServlet extends HttpServlet {
         -Omogucava pretragu dogadjaja po vremenskom intervalu
         -Omogucava pretragu dogadjaja po mestu odrzavanja
         -U slucaju da je u pitanju registrovani korisnik, omogucava preusmeravanje na rezervaciju(pojedinacni dogadjaj
-        */
-        
-        HttpSession sesija = request.getSession();
+         */
+
         RequestDispatcher rd = request.getRequestDispatcher("rezultat_pretrage.jsp");
-        RegistrovaniKorisnikBaza registrovaniKorisnikBaza = new RegistrovaniKorisnikBaza();
-        RegistrovaniKorisnik registrovaniKorisnik = registrovaniKorisnikBaza.find((int)sesija.getAttribute("korisnik_id"));
-        
+
         DogadjajBaza dogadjajBaza = new DogadjajBaza();
         ArrayList<Dogadjaj> sviDogadjaji = dogadjajBaza.all();
-        ArrayList<Dogadjaj> dogadjaji = new ArrayList<>();
-        
-        String naziv = request.getParameter("naziv");
+        ArrayList<Dogadjaj> dogadjajiSviFilteri = new ArrayList<>();
+        boolean prosaoSveFiltere = true;
+
+        String naziv = request.getParameter("naziv").toLowerCase();
+        naziv = naziv.trim();
         LocalDateTime vreme_od = LocalDateTime.parse(request.getParameter("vreme_od"));
         LocalDateTime vreme_do = LocalDateTime.parse(request.getParameter("vreme_do"));
-        String mesto = request.getParameter("mesto");
-        
-        
-            for(Dogadjaj dogadjaj : sviDogadjaji){
-                if(naziv != null && dogadjaj.getNaziv().equals(naziv)){
-                    if(!dogadjaji.contains(dogadjaj)){
-                    dogadjaji.add(dogadjaj);    
-                    }                    
-                }
-                if(vreme_od != null && 
-                        vreme_od.isAfter(LocalDateTime.now())
-                        && (dogadjaj.getDatum_i_vreme().isAfter(vreme_od) || 
-                        dogadjaj.getDatum_i_vreme().isEqual(vreme_od))){
-                    if(!dogadjaji.contains(dogadjaj)){
-                        dogadjaji.add(dogadjaj);
-                    }
-                }
-                if(vreme_do != null && 
-                        vreme_do.isAfter(LocalDateTime.now())
-                        && (dogadjaj.getDatum_i_vreme().isBefore(vreme_do) || 
-                        dogadjaj.getDatum_i_vreme().isEqual(vreme_do))){
-                    if(!dogadjaji.contains(dogadjaj)){
-                        dogadjaji.add(dogadjaj);
-                    }
-                }
-                
-                if(mesto != null && dogadjaj.getNaziv_lokacije().equals(mesto)){
-                    if(!dogadjaji.contains(dogadjaj)){
-                        dogadjaji.add(dogadjaj);
-                    }
-                }
+        String mesto = request.getParameter("mesto").toLowerCase();
+        mesto = mesto.trim();
+
+        for (Dogadjaj dogadjaj : sviDogadjaji) {
+
+            if (prosaoSveFiltere && naziv != null) {
+                prosaoSveFiltere = dogadjaj.getNaziv().toLowerCase().contains(naziv);
             }
-            
-            request.setAttribute("dogadjaji", dogadjaji);
-            rd.forward(request, response);
-        
-        
+            if (prosaoSveFiltere && !LocalDateTime.of(2001, Month.JANUARY, 1, 0, 0).equals(vreme_od)) {
+                prosaoSveFiltere = vreme_od.isAfter(LocalDateTime.now())
+                        && (dogadjaj.getDatum_i_vreme().isAfter(vreme_od)
+                        || dogadjaj.getDatum_i_vreme().isEqual(vreme_od));
+            }
+            if (prosaoSveFiltere && !LocalDateTime.of(2001, Month.JANUARY, 1, 0, 0).equals(vreme_do)) {
+
+                prosaoSveFiltere = vreme_do.isAfter(LocalDateTime.now())
+                        && (dogadjaj.getDatum_i_vreme().isBefore(vreme_do)
+                        || dogadjaj.getDatum_i_vreme().isEqual(vreme_do));
+            }
+            if (prosaoSveFiltere && mesto != null) {
+                prosaoSveFiltere = dogadjaj.getNaziv_lokacije().toLowerCase().contains(mesto);
+            }
+
+            if (prosaoSveFiltere) {
+                dogadjajiSviFilteri.add(dogadjaj);
+            }
+        }
+
+        request.setAttribute("dogadjaji", dogadjajiSviFilteri);
+        rd.forward(request, response);
+
         //if(registrovan){
-            //response.sendRedirect("prijava.jsp");
-            //return;
-       // }
+        //response.sendRedirect("proveraPrijavljen");
+        //return;
+        // }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

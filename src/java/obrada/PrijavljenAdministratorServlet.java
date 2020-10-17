@@ -13,11 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import klase.Administrator;
-import klase.AdministratorBaza;
-import klase.Korisnik;
-import klase.KorisnikBaza;
-
+import klase.*;
 
 /**
  *
@@ -38,24 +34,16 @@ public class PrijavljenAdministratorServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sesija = request.getSession();
-        if (sesija.getAttribute("korisnik_id") != null){
+        if (sesija.getAttribute("korisnik_id") != null && Korisnik.TIP_ADMINISTRATOR.equals(sesija.getAttribute("tip"))) {
             RequestDispatcher rd = request.getRequestDispatcher("admin_pocetna.jsp");
-            AdministratorBaza administratorBaza = new AdministratorBaza();
-            Administrator administrator = (Administrator)administratorBaza.find((Integer)sesija.getAttribute("korisnik_id"));
-            request.setAttribute("korisnik", administrator);
-            
+
             KorisnikBaza korisnikBaza = new KorisnikBaza();
             ArrayList<Korisnik> korisnici = korisnikBaza.all();
             request.setAttribute("korisnici", korisnici);
             rd.forward(request, response);
-            
-            /*DogadjajBaza dogadjajBaza = new DogadjajBaza();
-            ArrayList<Dogadjaj> dogadjaji = dogadjajBaza.all();
-            request.setAttribute("dogadjaji", dogadjaji);
-            rd.forward(request, response);*/
-        }
-        else {
-            response.sendRedirect("prijava.jsp");
+
+        } else {
+            response.sendRedirect("proveraPrijavljen");
         }
     }
 

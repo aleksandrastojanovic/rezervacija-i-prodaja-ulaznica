@@ -20,23 +20,7 @@
     <body>
         <header>
         <!-- Meni -->
-        <nav>
-        <ul>
-            <li>Pocetna stranica</li>
-            <li><ul>
-                    <li>Pozoriste</li>
-                    <li>Muzika</li>
-                    <li>Sport</li>
-                    <li>Festivali</li>
-                    <li>Muzeji</li>
-                    <li>Ostalo</li>
-                </ul>
-            </li>            
-            <li>Registruj se</li>
-            <li>Prijavi se</li>
-                        
-        </ul>
-        </nav>
+        <jsp:include page="parts/meni.jsp"></jsp:include>
     </header>
         <!-- 
         
@@ -60,6 +44,8 @@
                     <td><%= ((Dogadjaj)dogadjaj).getDatum_i_vreme()%></td>
                     <td><%= ((Dogadjaj)dogadjaj).getDetalji()%></td>
                    
+                    <td><a href="dogadjajPojedinacno?dogadjaj_id=<%=String.valueOf(dogadjaj.getId())%>">
+                            <input type="button" name="dogadjajPojedinacno" value="Izaberi"></a></td>
                     <td><a href="izmenaDogadjaja?dogadjaj_id=<%=String.valueOf(dogadjaj.getId())%>">
                             <input type="button" name="izmeni" value="Izmeni dogadjaj"></a></td>
                     <td><a href="kategorijeUlaznica?dogadjaj_id=<%=String.valueOf(dogadjaj.getId())%>">

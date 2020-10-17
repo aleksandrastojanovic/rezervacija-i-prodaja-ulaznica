@@ -6,17 +6,13 @@
 package obrada;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import klase.Blagajnik;
-import klase.BlagajnikBaza;
-import klase.StrukturaUlaznica;
-import klase.StrukturaUlaznicaBaza;
+import klase.*;
 
 /**
  *
@@ -37,21 +33,18 @@ public class BrisanjeStruktureServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sesija = request.getSession();
-        RequestDispatcher rd = request.getRequestDispatcher("blagajnik_pocetna.jsp");
-        BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
-        Blagajnik blagajnik = blagajnikBaza.find((int)sesija.getAttribute("korisnik_id"));
-        if(blagajnik.getId() == -1){
-            response.sendRedirect("index.jsp");
-            return;
+
+        if (sesija.getAttribute("korisnik_id") != null
+                && Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))) {
+            RequestDispatcher rd = request.getRequestDispatcher("prijavljenBlagajnik");
+            StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
+            StrukturaUlaznica struktura = strukturaUlaznicaBaza.find(Integer.parseInt(request.getParameter("struktura_id")));
+            strukturaUlaznicaBaza.delete(struktura);
+            rd.forward(request, response);
+        } else {
+            response.sendRedirect("proveraPrijavljen");
+            //poruka nije prepoznat blagajnik
         }
-        
-        StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();        
-        StrukturaUlaznica struktura = strukturaUlaznicaBaza.find(Integer.parseInt(request.getParameter("struktura_id")));
-        strukturaUlaznicaBaza.delete(struktura);
-        request.setAttribute("korisnik_id", sesija.getAttribute("korisnik_id"));
-        //request.setAttribute("strukture", strukture);
-        rd.forward(request, response);
-        //response.sendRedirect("kategorije_ulaznica.jsp");
 
     }
 

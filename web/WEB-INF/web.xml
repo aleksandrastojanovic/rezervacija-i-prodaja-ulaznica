@@ -17,20 +17,12 @@
         <servlet-class>obrada.KupovinaUlaznicaServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>NoviDogadjajServlet</servlet-name>
-        <servlet-class>obrada.NoviDogadjajServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>OdobravanjeZahtevaServlet</servlet-name>
         <servlet-class>obrada.OdobravanjeZahtevaServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>NoviKorisnikServlet</servlet-name>
         <servlet-class>obrada.NoviKorisnikServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>PregledKorisnikaServlet</servlet-name>
-        <servlet-class>obrada.PregledKorisnikaServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>IzmenaDogadjajaServlet</servlet-name>
@@ -41,16 +33,8 @@
         <servlet-class>obrada.PrijavaServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>NovaRezervacijaServlet</servlet-name>
-        <servlet-class>obrada.NovaRezervacijaServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>SviDogadjajiServlet</servlet-name>
-        <servlet-class>obrada.SviDogadjajiServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>PrijavljenRegistrovaniKorisnik</servlet-name>
-        <servlet-class>obrada.PrijavljenRegistrovaniKorisnikServlet</servlet-class>
+        <servlet-name>IndexServlet</servlet-name>
+        <servlet-class>obrada.IndexServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>PrijavljenBlagajnikServlet</servlet-name>
@@ -92,6 +76,34 @@
         <servlet-name>BrisanjeStruktureServlet</servlet-name>
         <servlet-class>obrada.BrisanjeStruktureServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PregledBlokiranihKorisnikaServlet</servlet-name>
+        <servlet-class>obrada.PregledBlokiranihKorisnikaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProveraRegistrovanogKorisnikaServlet</servlet-name>
+        <servlet-class>obrada.ProveraRegistrovanogKorisnikaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PotvrdaRezervacijeServlet</servlet-name>
+        <servlet-class>obrada.PotvrdaRezervacijeServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProveraPrijavljenServlet</servlet-name>
+        <servlet-class>obrada.ProveraPrijavljenServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProveraRegistrovanServlet</servlet-name>
+        <servlet-class>obrada.ProveraRegistrovanServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OdjavaServlet</servlet-name>
+        <servlet-class>obrada.OdjavaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PromenaLozinkeServlet</servlet-name>
+        <servlet-class>obrada.PromenaLozinkeServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegistracijaServlet</servlet-name>
         <url-pattern>/registracija</url-pattern>
@@ -109,20 +121,12 @@
         <url-pattern>/kupovinaUlaznica</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>NoviDogadjajServlet</servlet-name>
-        <url-pattern>/noviDogadjaj</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>OdobravanjeZahtevaServlet</servlet-name>
         <url-pattern>/odobravanjeZahteva</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>NoviKorisnikServlet</servlet-name>
         <url-pattern>/noviKorisnik</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>PregledKorisnikaServlet</servlet-name>
-        <url-pattern>/pregledKorisnika</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>IzmenaDogadjajaServlet</servlet-name>
@@ -133,16 +137,8 @@
         <url-pattern>/prijava</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>NovaRezervacijaServlet</servlet-name>
-        <url-pattern>/novaRezervacija</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name> SviDogadjajiServlet</servlet-name>
-        <url-pattern>/sviDogadjaji</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>PrijavljenRegistrovaniKorisnik</servlet-name>
-        <url-pattern>/prijavljenRegistrovaniKorisnik</url-pattern>
+        <servlet-name>IndexServlet</servlet-name>
+        <url-pattern>/index</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PrijavljenBlagajnikServlet</servlet-name>
@@ -183,6 +179,37 @@
     <servlet-mapping>
         <servlet-name>BrisanjeStruktureServlet</servlet-name>
         <url-pattern>/brisanjeStrukture</url-pattern>
+    </servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>index</welcome-file>
+    </welcome-file-list>
+    <servlet-mapping>
+        <servlet-name>PregledBlokiranihKorisnikaServlet</servlet-name>
+        <url-pattern>/pregledBlokiranihKorisnika</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProveraRegistrovanogKorisnikaServlet</servlet-name>
+        <url-pattern>/proveraRegistrovanogKorisnika</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PotvrdaRezervacijeServlet</servlet-name>
+        <url-pattern>/potvrdaRezervacije</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProveraPrijavljenServlet</servlet-name>
+        <url-pattern>/proveraPrijavljen</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProveraRegistrovanServlet</servlet-name>
+        <url-pattern>/proveraRegistrovan</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OdjavaServlet</servlet-name>
+        <url-pattern>/odjava</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PromenaLozinkeServlet</servlet-name>
+        <url-pattern>/promenaLozinke</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -6,11 +6,13 @@
 package obrada;
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import klase.*;
 
 /**
  *
@@ -30,21 +32,48 @@ public class OdobravanjeZahtevaServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+
+        HttpSession sesija = request.getSession();
+        if (sesija.getAttribute("korisnik_id") == null) {
+            return;
+        }
+        if(Korisnik.TIP_ADMINISTRATOR.equals(sesija.getAttribute("tip"))){
+        KorisnikBaza korisnikBaza = new KorisnikBaza();
+        Korisnik korisnik = korisnikBaza.find((int) request.getAttribute("korisnik_id"));
+        if (Korisnik.TIP_BLOKIRANI_KORISNIK.equals(korisnik.getTip())) {
+            korisnik.setTip(Korisnik.TIP_REGISTROVANI_KORISNIK);
+            RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
+            ArrayList<Rezervacija> sveRezervacije = rezervacijaBaza.all();
+            for(Rezervacija rezervacija : sveRezervacije){
+                if(rezervacija.getKorisnik_id() == korisnik.getId() 
+                        && Rezervacija.STATUS_ISTEKLO.equals(rezervacija.getStatus())){
+                    rezervacijaBaza.delete(rezervacija);
+                }
+            }
+            
+            korisnikBaza.save(korisnik);
+            
+        }
+        if(korisnik.getId() > 0){
+            //poruka uspesno
+            response.sendRedirect("prijavljenAdministrator");
+        }
+        
         /*
         -Za admin korisnika
         -Prima objekat iz RegistracijaServlet-a
         -Smesta napravljeni objekat u bazu
-        */
-        
-        /*Ovaj deo se valjda izvrsava u OdobravanjeZahtevaServlet:
+         */
+
+ /*Ovaj deo se valjda izvrsava u OdobravanjeZahtevaServlet:
         -Uz izmene klase na RegistrovaniKorisnik*/
-        
-        /*korisnik = (Korisnik)korisnik.save();
+ /*korisnik = (Korisnik)korisnik.save();
         if (korisnik.getId() > 0) {
-            response.sendRedirect("prijava.jsp");
+            response.sendRedirect("proveraPrijavljen");
         } else {
-            response.sendRedirect("registracija.jsp");
+            response.sendRedirect("proveraRegistrovan");
         }*/
+    }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

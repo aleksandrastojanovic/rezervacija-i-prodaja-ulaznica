@@ -24,13 +24,14 @@ public class RezervacijaBaza implements Baza<Rezervacija>{
     }
     
     private static int insert(Rezervacija rezervacija){
-        String query = "INSERT INTO rezervacije (korisnik_id,dogadjaj_id,broj_ulaznica,struktura_id) VALUES(?,?,?,?)";        
+        String query = "INSERT INTO rezervacije (korisnik_id,dogadjaj_id,broj_ulaznica,struktura_id,status) VALUES(?,?,?,?,?)";        
         ArrayList<Object> vrednosti = new ArrayList();
         
         vrednosti.add(rezervacija.getKorisnik_id());
         vrednosti.add(rezervacija.getDogadjaj_id());
         vrednosti.add(rezervacija.getBroj_ulaznica());
         vrednosti.add(rezervacija.getStruktura_id());
+        vrednosti.add(rezervacija.getStatus());
         
               
         Database db = Database.getInstance();
@@ -42,13 +43,14 @@ public class RezervacijaBaza implements Baza<Rezervacija>{
     private static int update(Rezervacija rezervacija) {
         
         String query = "UPDATE rezervacije SET korisnik_id = ?, dogadjaj_id = ?,"
-                + " broj_ulaznica = ?, struktura_id = ? WHERE id = ?";
+                + " broj_ulaznica = ?, struktura_id = ?, status = ? WHERE id = ?";
         ArrayList<Object> vrednosti = new ArrayList();
         vrednosti.add(rezervacija.getKorisnik_id());
         vrednosti.add(rezervacija.getDogadjaj_id());
         vrednosti.add(rezervacija.getBroj_ulaznica());
         vrednosti.add(rezervacija.getStruktura_id());
         vrednosti.add(rezervacija.getId());
+        vrednosti.add(rezervacija.getStatus());
         
         Database db = Database.getInstance();
         boolean uspesno = db.update(query, vrednosti);     
@@ -74,6 +76,7 @@ public class RezervacijaBaza implements Baza<Rezervacija>{
                 rezervacija.setDogadjaj_id(rs.getInt("dogadjaj_id"));
                 rezervacija.setBroj_ulaznica(rs.getInt("broj_ulaznica"));
                 rezervacija.setStruktura_id(rs.getInt("struktura_id"));
+                rezervacija.setStatus(rs.getString("status"));
                
                                 
             }
@@ -129,7 +132,8 @@ public class RezervacijaBaza implements Baza<Rezervacija>{
                     rezervacija.setVreme(rs.getTimestamp("vreme"));
                     rezervacija.setDogadjaj_id(rs.getInt("dogadjaj_id"));
                     rezervacija.setBroj_ulaznica(rs.getInt("broj_ulaznica"));
-                    rezervacija.setStruktura_id(rs.getInt("struktura_id"));                                                                                         
+                    rezervacija.setStruktura_id(rs.getInt("struktura_id"));  
+                    rezervacija.setStatus(rs.getString("status"));
                     
                     rezervacije.add(rezervacija); 
                 

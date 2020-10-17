@@ -6,6 +6,7 @@
 package obrada;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,10 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import klase.Blagajnik;
-import klase.BlagajnikBaza;
-import klase.Dogadjaj;
-import klase.DogadjajBaza;
+import klase.*;
 
 /**
  *
@@ -37,39 +35,30 @@ public class IzmenaDogadjajaServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        /*
-        -Ocitava podatke iz blagajnik_update
-        -Sacuva izmenu dogadjaja u bazi*/
         HttpSession sesija = request.getSession();
-        RequestDispatcher rd = request.getRequestDispatcher("izmena_dogadjaja.jsp");
-        BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
-        Blagajnik blagajnik = blagajnikBaza.find((int)sesija.getAttribute("korisnik_id"));
-        if(blagajnik.getId() == -1){
-            response.sendRedirect("index.jsp");
+        if(sesija.getAttribute("korisnik_id") == null || (int)sesija.getAttribute("korisnik_id") < 0){
+            response.sendRedirect("proveraPrijavljen");
             return;
         }
+        if(Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))){
+            RequestDispatcher rd = request.getRequestDispatcher("prijavljenBlagajnik");
+                
+            DogadjajBaza dogadjajBaza = new DogadjajBaza();        
+            Dogadjaj dogadjaj = dogadjajBaza.find(Integer.parseInt(request.getParameter("dogadjaj_id")));
+            
+            dogadjaj.setNaziv(request.getParameter("naziv"));
+            dogadjaj.setNaziv_lokacije(request.getParameter("naziv_lokacije"));
+            dogadjaj.setDatum_i_vreme(LocalDateTime.parse(request.getParameter("vreme_odrzavanja")));
+            dogadjaj.setDetalji(request.getParameter("detalji"));
+            dogadjajBaza.save(dogadjaj);
+
+            request.setAttribute("dogadjaj",dogadjaj);
+            rd.forward(request, response);
+        }
         
-        DogadjajBaza dogadjajBaza = new DogadjajBaza();        
-        Dogadjaj dogadjaj = dogadjajBaza.find(Integer.parseInt(request.getParameter("dogadjaj_id")));
         
-        /*dogadjaj.setNaziv(request.getParameter("naziv"));
-        dogadjaj.setNaziv_lokacije(blagajnik.getNaziv_lokacije());
-        dogadjaj.setDatum_i_vreme(Timestamp.valueOf(request.getParameter("vreme_odrzavanja")).toLocalDateTime());
-        dogadjaj.setDetalji(request.getParameter("detalji"));
-        dogadjajBaza.save(dogadjaj);*/
         
-        /*StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
-        ArrayList<StrukturaUlaznica> sveStrukture = strukturaUlaznicaBaza.all();
-        ArrayList<StrukturaUlaznica> strukture = new ArrayList<>();
-        for (StrukturaUlaznica struktura : sveStrukture){
-            if (struktura.getId_dogadjaja() == dogadjaj.getId()){
-                strukture.add(struktura);
-            }
-        }*/
-        request.setAttribute("blagajnik", blagajnik);
-        //request.setAttribute("strukture", strukture);
-        request.setAttribute("dogadjaj",dogadjaj);
-        rd.forward(request, response);
+        
         
         
         

@@ -7,6 +7,7 @@ package obrada;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -42,21 +43,36 @@ public class PrijavaServlet extends HttpServlet {
             if (korisnik.getKorisnicko_ime().equals(request.getParameter("username"))
                     && korisnik.getLozinka().equals(request.getParameter("password"))) {
                 HttpSession sesija = request.getSession();
-                sesija.setAttribute("korisnik_id", korisnik.getId());
-                switch (korisnik.getTip()) {
+                String putanja = "";
+                String tip = korisnik.getTip();
+                sesija.setAttribute("tip", tip);
+                int korisnikId = korisnik.getId();
+
+                switch (tip) {
                     case Korisnik.TIP_REGISTROVANI_KORISNIK:
-                        response.sendRedirect("prijavljenRegistrovaniKorisnik");
-                        return;
+                        sesija.setAttribute("korisnik_id", korisnikId);
+                        putanja = "proveraRegistrovanogKorisnika";
+                        break;
                     case Korisnik.TIP_BLAGAJNIK:
-                        response.sendRedirect("prijavljenBlagajnik");
-                        return;
+                        sesija.setAttribute("korisnik_id", korisnikId);
+                        putanja = "prijavljenBlagajnik";
+                        break;
                     case Korisnik.TIP_ADMINISTRATOR:
-                        response.sendRedirect("prijavljenAdministrator");
-                        return;
+                        sesija.setAttribute("korisnik_id", korisnikId);
+                        putanja = "prijavljenAdministrator";
+                        break;
+                    case Korisnik.TIP_BLOKIRANI_KORISNIK:
+                        sesija.setAttribute("korisnik_id", -1);
+                        putanja = "index";
+                        break;
+                    //poruka da je blokiran ili drugi  jsp
                 }
-            } 
+                RequestDispatcher rd = request.getRequestDispatcher(putanja);
+                rd.forward(request, response);
+
+            }
         }
-        response.sendRedirect("prijava.jsp");
+        response.sendRedirect("proveraPrijavljen");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
