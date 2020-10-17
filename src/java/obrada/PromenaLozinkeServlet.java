@@ -5,6 +5,7 @@
  */
 package obrada;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -65,7 +66,8 @@ public class PromenaLozinkeServlet extends HttpServlet {
             }
             String lozinka = request.getParameter("lozinka");
             if (korisnik.getLozinka().equals(lozinka)) {
-                korisnik.setLozinka(novaLozinka);
+                String sifrovanaLozinka = BCrypt.withDefaults().hashToString(BCrypt.MIN_COST, lozinka.toCharArray());
+                korisnik.setLozinka(sifrovanaLozinka);
                 korisnikBaza.save(korisnik);
                 response.sendRedirect("index");
             } else {

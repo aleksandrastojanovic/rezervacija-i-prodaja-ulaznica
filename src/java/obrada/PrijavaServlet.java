@@ -5,6 +5,7 @@
  */
 package obrada;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
@@ -40,8 +41,10 @@ public class PrijavaServlet extends HttpServlet {
         ArrayList<Korisnik> korisnici = korisnikBaza.all();
 
         for (Korisnik korisnik : korisnici) {
+            String lozinka = request.getParameter("password");
+            String sifrovanaLozinka = BCrypt.withDefaults().hashToString(BCrypt.MIN_COST, lozinka.toCharArray());
             if (korisnik.getKorisnickoIme().equals(request.getParameter("username"))
-                    && korisnik.getLozinka().equals(request.getParameter("password"))) {
+                    && korisnik.getLozinka().equals(sifrovanaLozinka)) {
                 HttpSession sesija = request.getSession();
                 String putanja = "";
                 String tip = korisnik.getTip();

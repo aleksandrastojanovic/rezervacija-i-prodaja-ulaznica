@@ -5,6 +5,7 @@
  */
 package obrada;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
@@ -66,8 +67,10 @@ public class NoviKorisnikServlet extends HttpServlet {
                 korisnik.setIme(request.getParameter("ime"));
                 korisnik.setPrezime(request.getParameter("prezime"));
                 korisnik.setKorisnickoIme(request.getParameter("username"));
-                if (request.getParameter("password").equals(request.getParameter("password_check"))) {
-                    korisnik.setLozinka(request.getParameter("password"));
+                String lozinka = request.getParameter("password");
+                if (lozinka.equals(request.getParameter("password_check"))) {
+                    String sifrovanaLozinka = BCrypt.withDefaults().hashToString(BCrypt.MIN_COST, lozinka.toCharArray());
+                    korisnik.setLozinka(sifrovanaLozinka);
                 }
                 korisnik.setGrad(request.getParameter("grad"));
                 korisnik.setAdresa(request.getParameter("adresa"));

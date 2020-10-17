@@ -5,6 +5,7 @@
  */
 package obrada;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -62,8 +63,10 @@ public class RegistracijaServlet extends HttpServlet {
         /*ne znam da li ova provera treba ovde ili preko js */
         // Najbolje na oba mesta, svakako mora ovde
         // ako nije dobra mora da se vrati na registraciju opet, sa porukom da sifre nisu iste
-        if (request.getParameter("password").equals(request.getParameter("password_check"))) {
-            registrovaniKorisnik.setLozinka(request.getParameter("password"));
+        String lozinka = request.getParameter("password");
+        if (lozinka.equals(request.getParameter("password_check"))) {
+            String sifrovanaLozinka = BCrypt.withDefaults().hashToString(BCrypt.MIN_COST, lozinka.toCharArray());
+            registrovaniKorisnik.setLozinka(sifrovanaLozinka);
 
         }
         registrovaniKorisnik.setGrad(request.getParameter("grad"));
