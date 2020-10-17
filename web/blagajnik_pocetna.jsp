@@ -4,6 +4,7 @@
     Author     : iq skola
 --%>
 
+<%@page import="klase.Korisnik"%>
 <%@page import="klase.Dogadjaj"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -57,6 +58,17 @@
                 %>
             </table>
         </div>
+            <%  HttpSession sesija = request.getSession();
+            if (Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))) {
+        %>
+        <div>
+            <form aciton="potvrdaRezervacije">
+                <label>ID rezervacije</label>
+                <input type="number" placeholder="Unesi ID rezervacije" name="rezervacija_id">
+                <input type="submit" value="Placanje">
+            </form>
+        </div>
+        <%}%>
         <footer>
         <!-- Povratak na vrh -->
         

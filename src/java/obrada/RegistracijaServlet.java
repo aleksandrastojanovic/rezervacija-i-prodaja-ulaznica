@@ -72,7 +72,12 @@ public class RegistracijaServlet extends HttpServlet {
         registrovaniKorisnik.setGrad(request.getParameter("grad"));
         registrovaniKorisnik.setAdresa(request.getParameter("adresa"));
         registrovaniKorisnik.setKontaktTelefon(request.getParameter("telefon"));
-        registrovaniKorisnik.setEmail(request.getParameter("email"));
+        if(request.getParameter("email").matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")){
+            registrovaniKorisnik.setEmail(request.getParameter("email"));
+        } else {
+            response.sendRedirect("proveraRegistrovan");
+        }
+        
 
         /*Ovaj deo se valjda izvrsava u OdobravanjeZahtevaServlet:
         -Uz izmene klase na RegistrovaniKorisnik*/

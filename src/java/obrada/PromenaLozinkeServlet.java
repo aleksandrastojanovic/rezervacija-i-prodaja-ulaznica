@@ -38,45 +38,70 @@ public class PromenaLozinkeServlet extends HttpServlet {
             return;
         }
 
+        String lozinka = request.getParameter("lozinka");
         String novaLozinka = request.getParameter("nova_lozinka");
         String novaLozinkaPotvrda = request.getParameter("nova_lozinka_potvrda");
 
         if (novaLozinka.equals(novaLozinkaPotvrda)) {
             String tip = sesija.getAttribute("tip").toString();
             int korisnikId = (int) sesija.getAttribute("korisnik_id");
-            KorisnikBaza korisnikBaza = new KorisnikBaza();
-            Korisnik korisnik;
             switch (tip) {
                 case Korisnik.TIP_REGISTROVANI_KORISNIK:
                     RegistrovaniKorisnikBaza registrovaniKorisnikBaza = new RegistrovaniKorisnikBaza();
-                    korisnik = registrovaniKorisnikBaza.find(korisnikId);
+                    RegistrovaniKorisnik korisnik = registrovaniKorisnikBaza.find(korisnikId);
+                    if(verifikujIIzmeniLozinku(korisnik, lozinka, novaLozinka)){
+                        registrovaniKorisnikBaza.save(korisnik);                      
+                        
+                    } else {
+                        //nije dobra stara lozinka
+                    } 
+                    response.sendRedirect("index");
                     break;
                 case Korisnik.TIP_BLAGAJNIK:
                     BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
-                    korisnik = blagajnikBaza.find(korisnikId);
+                    Blagajnik blagajnik = blagajnikBaza.find(korisnikId);
+                    if(verifikujIIzmeniLozinku(blagajnik, lozinka, novaLozinka)){
+                        blagajnikBaza.save(blagajnik);                      
+                        
+                    }
+                    response.sendRedirect("prijavljenBlagajnik");
                     break;
                 case Korisnik.TIP_ADMINISTRATOR:
-
-                    korisnik = korisnikBaza.find(korisnikId);
+                    AdministratorBaza administratorBaza = new AdministratorBaza();
+                    Administrator administrator = administratorBaza.find(korisnikId);
+                    if(verifikujIIzmeniLozinku(administrator, lozinka, novaLozinka)){
+                        administratorBaza.save(administrator);                      
+                        
+                    }
+                    response.sendRedirect("prijavljenAdministrator");
                     break;
                 default:
                     response.sendRedirect("proveraPrijavljen");
                     return;
 
             }
-            String lozinka = request.getParameter("lozinka");
-            if (korisnik.getLozinka().equals(lozinka)) {
-                String sifrovanaLozinka = BCrypt.withDefaults().hashToString(BCrypt.MIN_COST, lozinka.toCharArray());
+           /* String lozinka = request.getParameter("lozinka");
+            if (BCrypt.verifyer().verify(lozinka.toCharArray(), korisnik.getLozinka()).verified) {
+                String sifrovanaLozinka = BCrypt.withDefaults().hashToString(BCrypt.MIN_COST, novaLozinka.toCharArray());
                 korisnik.setLozinka(sifrovanaLozinka);
                 korisnikBaza.save(korisnik);
                 response.sendRedirect("index");
             } else {
                 //poruka da se ne poklapaju sifre
-            }
+            }*/
         } else {
             //poruka greska ne poklapa se nova lozinka i potvrda nove lozinke
         }
 
+    }
+
+    private boolean verifikujIIzmeniLozinku(Korisnik korisnik, String lozinka, String novaLozinka) {
+        if (BCrypt.verifyer().verify(lozinka.toCharArray(), korisnik.getLozinka()).verified) {
+            String sifrovanaLozinka = BCrypt.withDefaults().hashToString(BCrypt.MIN_COST, novaLozinka.toCharArray());
+            korisnik.setLozinka(sifrovanaLozinka);
+            return true;
+        }
+        return false;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

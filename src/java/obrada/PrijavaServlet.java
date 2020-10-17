@@ -42,9 +42,8 @@ public class PrijavaServlet extends HttpServlet {
 
         for (Korisnik korisnik : korisnici) {
             String lozinka = request.getParameter("password");
-            String sifrovanaLozinka = BCrypt.withDefaults().hashToString(BCrypt.MIN_COST, lozinka.toCharArray());
             if (korisnik.getKorisnickoIme().equals(request.getParameter("username"))
-                    && korisnik.getLozinka().equals(sifrovanaLozinka)) {
+                    && BCrypt.verifyer().verify(lozinka.toCharArray(), korisnik.getLozinka()).verified) {
                 HttpSession sesija = request.getSession();
                 String putanja = "";
                 String tip = korisnik.getTip();

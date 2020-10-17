@@ -33,7 +33,8 @@ public class PotvrdaRezervacijeServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession sesija = request.getSession();
-        if (sesija.getAttribute("korisnik_id") == null || (int) sesija.getAttribute("korisnik_id") < 0) {
+        int korisnikId = (int) sesija.getAttribute("korisnik_id");
+        if (sesija.getAttribute("korisnik_id") == null || korisnikId < 0) {
             response.sendRedirect("proveraPrijavljen");
             return;
         }
@@ -54,6 +55,13 @@ public class PotvrdaRezervacijeServlet extends HttpServlet {
             StrukturaUlaznica strukturaUlaznica = strukturaUlaznicaBaza.find(rezervacija.getStrukturaId());
             DogadjajBaza dogadjajBaza = new DogadjajBaza();
             Dogadjaj dogadjaj = dogadjajBaza.find(rezervacija.getDogadjajId());
+            BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
+            Blagajnik blagajnik = blagajnikBaza.find(korisnikId);
+            if(!dogadjaj.getNazivLokacije().equals(blagajnik.getNazivLokacije())){
+                response.sendRedirect("blagajni_pocetna.jsp");
+                //poruka nije pronadjena rezervacija
+                return;
+            }
 
             RequestDispatcher rd = request.getRequestDispatcher("potvrda_uplate.jsp");
             request.setAttribute("rezervacija", rezervacija);
