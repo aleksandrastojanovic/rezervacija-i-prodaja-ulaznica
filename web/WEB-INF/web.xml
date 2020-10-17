@@ -104,6 +104,14 @@
         <servlet-name>PromenaLozinkeServlet</servlet-name>
         <servlet-class>obrada.PromenaLozinkeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>NoviDogadjajServlet</servlet-name>
+        <servlet-class>obrada.NoviDogadjajServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SacuvajKorisnikaServlet</servlet-name>
+        <servlet-class>obrada.SacuvajKorisnikaServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegistracijaServlet</servlet-name>
         <url-pattern>/registracija</url-pattern>
@@ -210,6 +218,14 @@
     <servlet-mapping>
         <servlet-name>PromenaLozinkeServlet</servlet-name>
         <url-pattern>/promenaLozinke</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NoviDogadjajServlet</servlet-name>
+        <url-pattern>/noviDogadjaj</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SacuvajKorisnikaServlet</servlet-name>
+        <url-pattern>/sacuvajKorisnika</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

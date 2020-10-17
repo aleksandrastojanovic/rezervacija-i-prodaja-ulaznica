@@ -5,21 +5,18 @@
  */
 package obrada;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import klase.*;
 
 /**
  *
  * @author iq skola
  */
-public class NoviKorisnikServlet extends HttpServlet {
+public class NoviDogadjajServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,19 +30,8 @@ public class NoviKorisnikServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        /*
-        -Prima podatke iz admin_novi_korisnik
-        -Pravi objekat odgovarajuce klase
-        -Smesta ga u bazu*/
-        //private metode x3
         
-        
-
     }
-    
-    //private void noviRegistrovaniKorisnik(){
-        
-    //}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
