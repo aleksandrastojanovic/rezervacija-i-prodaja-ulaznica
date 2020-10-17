@@ -23,9 +23,9 @@
         <jsp:include page="parts/meni.jsp"></jsp:include>
         <h1><%= "" + dogadjaj.getNaziv()%></h1>
         <div>
-            Mesto odrzavanja: <%= dogadjaj.getNaziv_lokacije()%><br>
+            Mesto odrzavanja: <%= dogadjaj.getNazivLokacije()%><br>
             <%DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-                String datumIVreme = dogadjaj.getDatum_i_vreme().format(formatter);%>
+                String datumIVreme = dogadjaj.getDatumIVreme().format(formatter);%>
             Vreme odrzavanja: <%= datumIVreme%><br>
             Detalji: <%= dogadjaj.getDetalji()%><br>
             <!--fotografije i video kad bude front, za sad bez, plan da bude galerija -->
@@ -44,7 +44,7 @@
 
         <% if (Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))
                     || (Korisnik.TIP_REGISTROVANI_KORISNIK.equals(sesija.getAttribute("tip"))
-                    && LocalDateTime.now().isBefore(dogadjaj.getDatum_i_vreme().minusDays(2)))){ %>
+                    && LocalDateTime.now().isBefore(dogadjaj.getDatumIVreme().minusDays(2)))){ %>
         <div>
             <form action='sacuvajRezervaciju'>
                 <h3>Rezervisi ulaznice:</h3><br>
@@ -59,7 +59,7 @@
                         for (StrukturaUlaznica struktura : strukture) {%>
                     <tr>
                     <input type="hidden" name="struktura_id" value='<%= "" + struktura.getId()%>' >
-                    <input type="hidden" name="dogadjaj_id" value="<%= "" + struktura.getId_dogadjaja()%>" >
+                    <input type="hidden" name="dogadjaj_id" value="<%= "" + struktura.getIdDogadjaja()%>" >
                     <td><input type="radio" name='kategorija' id='<%= "" + struktura.getKategorija()%>'
                                value='<%= "" + struktura.getId()%>'></td>
                     <td><%= struktura.getKategorija()%></td>

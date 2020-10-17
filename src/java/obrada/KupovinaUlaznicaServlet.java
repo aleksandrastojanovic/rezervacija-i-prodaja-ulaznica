@@ -53,8 +53,8 @@ public class KupovinaUlaznicaServlet extends HttpServlet {
         if(!rezervacija.getStatus().equals(Rezervacija.STATUS_ISTEKLO)){
             rezervacija.setStatus(Rezervacija.STATUS_PLACENO);
             StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
-            StrukturaUlaznica struktura = strukturaUlaznicaBaza.find(rezervacija.getStruktura_id());
-            struktura.setPreostalo_ulaznica(struktura.getPreostalo_ulaznica() - rezervacija.getBroj_ulaznica());
+            StrukturaUlaznica struktura = strukturaUlaznicaBaza.find(rezervacija.getStrukturaId());
+            struktura.setPreostaloUlaznica(struktura.getPreostaloUlaznica() - rezervacija.getBrojUlaznica());
 
             strukturaUlaznicaBaza.save(struktura);
             rezervacijaBaza.save(rezervacija);

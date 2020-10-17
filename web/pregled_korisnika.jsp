@@ -38,7 +38,7 @@
                     <td><%= ((RegistrovaniKorisnik)korisnik).getTip()%></td>
                     <td><%= ((RegistrovaniKorisnik)korisnik).getIme()%></td>
                    <td><%= ((RegistrovaniKorisnik)korisnik).getPrezime() %></td>
-                    <td><%= ((RegistrovaniKorisnik)korisnik).getKorisnicko_ime()%></td>
+                    <td><%= ((RegistrovaniKorisnik)korisnik).getKorisnickoIme()%></td>
                     <td><a href='odobravanjeZahteva?korisnik_id=<%= korisnik.getId() %>'>
                             <input type="button" value="Odblokiraj korisnika"></a></td>
                 </tr>

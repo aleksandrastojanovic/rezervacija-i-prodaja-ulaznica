@@ -42,10 +42,9 @@ public class IndexServlet extends HttpServlet {
         LocalDateTime pre48h = LocalDateTime.now().minusDays(2);
         RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
         ArrayList<Rezervacija> sveRezervacije = rezervacijaBaza.all();
-        ArrayList<Rezervacija> rezervacije = new ArrayList<>();
         for (Rezervacija rezervacija : sveRezervacije) {
-            if (pre48h.isEqual(rezervacija.getVreme().toLocalDateTime())
-                    || pre48h.isBefore(rezervacija.getVreme().toLocalDateTime())) {
+            if (!Rezervacija.STATUS_PLACENO.equals(rezervacija.getStatus()) && (pre48h.isEqual(rezervacija.getVreme().toLocalDateTime())
+                    || pre48h.isBefore(rezervacija.getVreme().toLocalDateTime()))) {
                 //ako status nije STATUS_PLACENO
                 rezervacija.setStatus(Rezervacija.STATUS_ISTEKLO);
                 rezervacijaBaza.save(rezervacija);

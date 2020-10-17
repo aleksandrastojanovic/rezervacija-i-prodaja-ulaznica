@@ -38,7 +38,7 @@
                 -->
 
                 <label for="vreme_odrzavanja">Vreme odrzavanja:</label>
-                <input type="datetime-local" id="vreme_odrzavanja" name="vreme_odrzavanja" value="<%= dogadjaj.getDatum_i_vreme()%>"><br>
+                <input type="datetime-local" id="vreme_odrzavanja" name="vreme_odrzavanja" value="<%= dogadjaj.getDatumIVreme()%>"><br>
 
                 <label for="detalji">Detalji dogadjaja</label>
                 <input type="text" id='detalji' name="detalji" placeholder='Unesite detalje dogadjaja' value="<%= dogadjaj.getDetalji()%>"><br>
@@ -81,7 +81,7 @@
                         <tr>
                             <td><%= ((StrukturaUlaznica) struktura).getKategorija()%></td>
                             <td><%= ((StrukturaUlaznica) struktura).getCena()%></td>
-                            <td><%= ((StrukturaUlaznica) struktura).getBroj_dostupnih_ulaznica()%></td>
+                            <td><%= ((StrukturaUlaznica) struktura).getBrojDostupnihUlaznica()%></td>
                             <td><a href=""><input type="button" name="izmeniStrukture" value="Izmeni Strukturu"></a></td>
                             
                         </tr>

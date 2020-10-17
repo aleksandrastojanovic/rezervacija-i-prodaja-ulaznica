@@ -45,7 +45,7 @@ public class RegistracijaServlet extends HttpServlet {
 
         for (RegistrovaniKorisnik korisnik : korisnici) {
             RegistrovaniKorisnik k = korisnik;
-            if (k.getKorisnicko_ime().equals(request.getParameter("username"))) {
+            if (k.getKorisnickoIme().equals(request.getParameter("username"))) {
                 //poruka korisnicko ime vec postoji, pokusajte ponovo. 
                 //vraca na registracija za sad,
                 //ne znam kako da se to radi i na frontu
@@ -58,7 +58,7 @@ public class RegistracijaServlet extends HttpServlet {
 
         registrovaniKorisnik.setIme(request.getParameter("ime"));
         registrovaniKorisnik.setPrezime(request.getParameter("prezime"));
-        registrovaniKorisnik.setKorisnicko_ime(request.getParameter("username"));
+        registrovaniKorisnik.setKorisnickoIme(request.getParameter("username"));
         /*ne znam da li ova provera treba ovde ili preko js */
         // Najbolje na oba mesta, svakako mora ovde
         // ako nije dobra mora da se vrati na registraciju opet, sa porukom da sifre nisu iste
@@ -68,7 +68,7 @@ public class RegistracijaServlet extends HttpServlet {
         }
         registrovaniKorisnik.setGrad(request.getParameter("grad"));
         registrovaniKorisnik.setAdresa(request.getParameter("adresa"));
-        registrovaniKorisnik.setKontakt_telefon(request.getParameter("telefon"));
+        registrovaniKorisnik.setKontaktTelefon(request.getParameter("telefon"));
         registrovaniKorisnik.setEmail(request.getParameter("email"));
 
         /*Ovaj deo se valjda izvrsava u OdobravanjeZahtevaServlet:

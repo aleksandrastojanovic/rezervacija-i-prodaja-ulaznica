@@ -11,8 +11,8 @@ package klase;
  */
 public class Administrator extends Korisnik {
         
-    public Administrator(String ime, String prezime, String korisnicko_ime, String lozinka) {
-        super(Korisnik.TIP_ADMINISTRATOR, ime, prezime, korisnicko_ime, lozinka, "korisnici");
+    public Administrator(String ime, String prezime, String korisnickoIme, String lozinka) {
+        super(Korisnik.TIP_ADMINISTRATOR, ime, prezime, korisnickoIme, lozinka, "korisnici");
     }
 
     public Administrator() {

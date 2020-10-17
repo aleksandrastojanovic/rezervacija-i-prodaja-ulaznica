@@ -36,8 +36,8 @@
                     for (Dogadjaj dogadjaj : dogadjaji) {%>
                 <tr>
                     <td><%= ((Dogadjaj) dogadjaj).getNaziv()%></td>
-                    <td><%= ((Dogadjaj) dogadjaj).getNaziv_lokacije()%></td>
-                    <td><%= ((Dogadjaj) dogadjaj).getDatum_i_vreme()%></td>
+                    <td><%= ((Dogadjaj) dogadjaj).getNazivLokacije()%></td>
+                    <td><%= ((Dogadjaj) dogadjaj).getDatumIVreme()%></td>
                     <% if (request.getSession().getAttribute("korisnik_id") != null && request.getSession().getAttribute("tip") != null) {%>                    
                     <td><a href="dogadjajPojedinacno?dogadjaj_id=<%= "" + dogadjaj.getId()%>">
                             <input type="button" name="dogadjaj_pojedinacno" value="Detaljnije"></a></td>

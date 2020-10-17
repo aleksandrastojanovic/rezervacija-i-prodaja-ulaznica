@@ -31,7 +31,7 @@ public class AdministratorBaza implements Baza<Administrator> {
         vrednosti.add(administrator.getTip());
         vrednosti.add(administrator.getIme());
         vrednosti.add(administrator.getPrezime());
-        vrednosti.add(administrator.getKorisnicko_ime());
+        vrednosti.add(administrator.getKorisnickoIme());
         vrednosti.add(administrator.getLozinka());
 
         Database db = Database.getInstance();
@@ -48,7 +48,7 @@ public class AdministratorBaza implements Baza<Administrator> {
         vrednosti.add(administrator.getTip());
         vrednosti.add(administrator.getIme());
         vrednosti.add(administrator.getPrezime());
-        vrednosti.add(administrator.getKorisnicko_ime());
+        vrednosti.add(administrator.getKorisnickoIme());
         vrednosti.add(administrator.getLozinka());
         vrednosti.add(administrator.getId());
 
@@ -72,7 +72,7 @@ public class AdministratorBaza implements Baza<Administrator> {
                 administrator.setId(rs.getInt("id"));
                 administrator.setIme(rs.getString("ime"));
                 administrator.setPrezime(rs.getString("prezime"));
-                administrator.setKorisnicko_ime(rs.getString("korisnicko_ime"));
+                administrator.setKorisnickoIme(rs.getString("korisnicko_ime"));
                 administrator.setLozinka(rs.getString("lozinka"));
 
             }
@@ -125,7 +125,7 @@ public class AdministratorBaza implements Baza<Administrator> {
                 administrator.setId(rs.getInt("id"));
                 administrator.setIme(rs.getString("ime"));
                 administrator.setPrezime(rs.getString("prezime"));
-                administrator.setKorisnicko_ime(rs.getString("korisnicko_ime"));
+                administrator.setKorisnickoIme(rs.getString("korisnicko_ime"));
                 administrator.setLozinka(rs.getString("lozinka"));
 
                 korisnici.add(administrator);

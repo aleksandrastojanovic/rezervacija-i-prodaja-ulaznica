@@ -31,7 +31,7 @@ public class RegistrovaniKorisnikBaza implements Baza<RegistrovaniKorisnik> {
         vrednosti.add(registrovaniKorisnik.getTip());
         vrednosti.add(registrovaniKorisnik.getIme());
         vrednosti.add(registrovaniKorisnik.getPrezime());
-        vrednosti.add(registrovaniKorisnik.getKorisnicko_ime());
+        vrednosti.add(registrovaniKorisnik.getKorisnickoIme());
         vrednosti.add(registrovaniKorisnik.getLozinka());
 
         Database db = Database.getInstance();
@@ -45,7 +45,7 @@ public class RegistrovaniKorisnikBaza implements Baza<RegistrovaniKorisnik> {
             vrednosti2.add(id);
             vrednosti2.add(registrovaniKorisnik.getGrad());
             vrednosti2.add(registrovaniKorisnik.getAdresa());
-            vrednosti2.add(registrovaniKorisnik.getKontakt_telefon());
+            vrednosti2.add(registrovaniKorisnik.getKontaktTelefon());
             vrednosti2.add(registrovaniKorisnik.getEmail());
 
             int id2 = db.insert(query2, vrednosti2);
@@ -66,7 +66,7 @@ public class RegistrovaniKorisnikBaza implements Baza<RegistrovaniKorisnik> {
         vrednosti.add(registrovaniKorisnik.getTip());
         vrednosti.add(registrovaniKorisnik.getIme());
         vrednosti.add(registrovaniKorisnik.getPrezime());
-        vrednosti.add(registrovaniKorisnik.getKorisnicko_ime());
+        vrednosti.add(registrovaniKorisnik.getKorisnickoIme());
         vrednosti.add(registrovaniKorisnik.getLozinka());
         vrednosti.add(registrovaniKorisnik.getId());
 
@@ -80,7 +80,7 @@ public class RegistrovaniKorisnikBaza implements Baza<RegistrovaniKorisnik> {
 
             vrednosti2.add(registrovaniKorisnik.getGrad());
             vrednosti2.add(registrovaniKorisnik.getAdresa());
-            vrednosti2.add(registrovaniKorisnik.getKontakt_telefon());
+            vrednosti2.add(registrovaniKorisnik.getKontaktTelefon());
             vrednosti2.add(registrovaniKorisnik.getEmail());
             vrednosti2.add(registrovaniKorisnik.getId());
             uspesno = uspesno && db.update(query2, vrednosti2);
@@ -104,11 +104,11 @@ public class RegistrovaniKorisnikBaza implements Baza<RegistrovaniKorisnik> {
                 registrovaniKorisnik.setId(rs.getInt("id"));
                 registrovaniKorisnik.setIme(rs.getString("ime"));
                 registrovaniKorisnik.setPrezime(rs.getString("prezime"));
-                registrovaniKorisnik.setKorisnicko_ime(rs.getString("korisnicko_ime"));
+                registrovaniKorisnik.setKorisnickoIme(rs.getString("korisnicko_ime"));
                 registrovaniKorisnik.setLozinka(rs.getString("lozinka"));
                 registrovaniKorisnik.setGrad(rs.getString("grad"));
                 registrovaniKorisnik.setAdresa(rs.getString("adresa"));
-                registrovaniKorisnik.setKontakt_telefon(rs.getString("kontakt_telefon"));
+                registrovaniKorisnik.setKontaktTelefon(rs.getString("kontakt_telefon"));
                 registrovaniKorisnik.setEmail(rs.getString("email"));
             }
         } catch (SQLException ex) {
@@ -173,7 +173,7 @@ public class RegistrovaniKorisnikBaza implements Baza<RegistrovaniKorisnik> {
                 registrovaniKorisnik.setId(rs.getInt("id"));
                 registrovaniKorisnik.setIme(rs.getString("ime"));
                 registrovaniKorisnik.setPrezime(rs.getString("prezime"));
-                registrovaniKorisnik.setKorisnicko_ime(rs.getString("korisnicko_ime"));
+                registrovaniKorisnik.setKorisnickoIme(rs.getString("korisnicko_ime"));
                 registrovaniKorisnik.setLozinka(rs.getString("lozinka"));
 
                 korisnici.add(registrovaniKorisnik);

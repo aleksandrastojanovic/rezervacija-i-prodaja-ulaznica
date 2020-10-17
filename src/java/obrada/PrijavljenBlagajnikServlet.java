@@ -44,7 +44,7 @@ public class PrijavljenBlagajnikServlet extends HttpServlet {
             ArrayList<Dogadjaj> sviDogadjaji = dogadjajBaza.all();
             ArrayList<Dogadjaj> dogadjaji = new ArrayList<>();
             for (Dogadjaj dogadjaj : sviDogadjaji) {
-                if (dogadjaj.getNaziv_lokacije().equals(blagajnik.getNaziv_lokacije())) {
+                if (dogadjaj.getNazivLokacije().equals(blagajnik.getNazivLokacije())) {
                     dogadjaji.add(dogadjaj);
                 }
             }

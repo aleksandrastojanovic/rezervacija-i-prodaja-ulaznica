@@ -45,11 +45,11 @@ public class SacuvajKategorijuServlet extends HttpServlet {
                 struktura.setId(Integer.parseInt(request.getParameter("struktura_id")));
             }
 
-            struktura.setId_dogadjaja(Integer.parseInt(request.getParameter("dogadjaj_id")));
+            struktura.setIdDogadjaja(Integer.parseInt(request.getParameter("dogadjaj_id")));
             struktura.setKategorija(request.getParameter("kategorija"));
             struktura.setCena(Double.parseDouble(request.getParameter("cena")));
-            struktura.setBroj_dostupnih_ulaznica(Integer.parseInt(request.getParameter("broj_ulaznica")));
-            struktura.setPreostalo_ulaznica(struktura.getBroj_dostupnih_ulaznica());
+            struktura.setBrojDostupnihUlaznica(Integer.parseInt(request.getParameter("broj_ulaznica")));
+            struktura.setPreostaloUlaznica(struktura.getBrojDostupnihUlaznica());
 
             struktura = strukturaUlaznicaBaza.save(struktura);
             if (struktura.getId() > 0) {

@@ -45,7 +45,7 @@ public class OdobravanjeZahtevaServlet extends HttpServlet {
             RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
             ArrayList<Rezervacija> sveRezervacije = rezervacijaBaza.all();
             for(Rezervacija rezervacija : sveRezervacije){
-                if(rezervacija.getKorisnik_id() == korisnik.getId() 
+                if(rezervacija.getKorisnikId() == korisnik.getId() 
                         && Rezervacija.STATUS_ISTEKLO.equals(rezervacija.getStatus())){
                     rezervacijaBaza.delete(rezervacija);
                 }

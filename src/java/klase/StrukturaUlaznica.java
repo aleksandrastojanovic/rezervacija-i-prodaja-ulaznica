@@ -13,21 +13,21 @@ public class StrukturaUlaznica implements Model {
     protected int id;
     private final String table;
     
-    private int id_dogadjaja;
+    private int idDogadjaja;
     private String kategorija;
     private double cena;
-    private int broj_dostupnih_ulaznica;
-    private int preostalo_ulaznica;
+    private int brojDostupnihUlaznica;
+    private int preostaloUlaznica;
     private int granicaPoKorisniku;
 
-    public StrukturaUlaznica(int id_dogadjaja, String kategorija, double cena, int broj_dostupnih_ulaznica, int granicaPoKorisniku) {
-        this.id_dogadjaja = id_dogadjaja;
+    public StrukturaUlaznica(int idDogadjaja, String kategorija, double cena, int brojDostupnihUlaznica, int granicaPoKorisniku) {
+        this.idDogadjaja = idDogadjaja;
         this.kategorija = kategorija;
         this.cena = cena;
-        this.broj_dostupnih_ulaznica = broj_dostupnih_ulaznica;
+        this.brojDostupnihUlaznica = brojDostupnihUlaznica;
         this.id = -1;
         this.table = "strukture";
-        this.preostalo_ulaznica = this.broj_dostupnih_ulaznica;
+        this.preostaloUlaznica = this.brojDostupnihUlaznica;
         this.granicaPoKorisniku = granicaPoKorisniku;
     }
     
@@ -37,20 +37,20 @@ public class StrukturaUlaznica implements Model {
         this.table = "strukture";
     }
 
-    public int getId_dogadjaja() {
-        return id_dogadjaja;
+    public int getIdDogadjaja() {
+        return idDogadjaja;
     }
 
-    public void setId_dogadjaja(int id_dogadjaja) {
-        this.id_dogadjaja = id_dogadjaja;
+    public void setIdDogadjaja(int idDogadjaja) {
+        this.idDogadjaja = idDogadjaja;
     }
 
-    public int getPreostalo_ulaznica() {
-        return preostalo_ulaznica;
+    public int getPreostaloUlaznica() {
+        return preostaloUlaznica;
     }
 
-    public void setPreostalo_ulaznica(int preostalo_ulaznica) {
-        this.preostalo_ulaznica = preostalo_ulaznica;
+    public void setPreostaloUlaznica(int preostaloUlaznica) {
+        this.preostaloUlaznica = preostaloUlaznica;
     }
 
     public String getKategorija() {
@@ -69,12 +69,12 @@ public class StrukturaUlaznica implements Model {
         this.cena = cena;
     }
 
-    public int getBroj_dostupnih_ulaznica() {
-        return broj_dostupnih_ulaznica;
+    public int getBrojDostupnihUlaznica() {
+        return brojDostupnihUlaznica;
     }
 
-    public void setBroj_dostupnih_ulaznica(int broj_dostupnih_ulaznica) {
-        this.broj_dostupnih_ulaznica = broj_dostupnih_ulaznica;
+    public void setBrojDostupnihUlaznica(int brojDostupnihUlaznica) {
+        this.brojDostupnihUlaznica = brojDostupnihUlaznica;
     }
 
     public int getGranicaPoKorisniku() {

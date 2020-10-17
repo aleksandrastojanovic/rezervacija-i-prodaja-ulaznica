@@ -47,7 +47,7 @@ public class KorisnikBaza implements Baza<Korisnik> {
                 korisnik.setId(rs.getInt("id"));
                 korisnik.setIme(rs.getString("ime"));
                 korisnik.setPrezime(rs.getString("prezime"));
-                korisnik.setKorisnicko_ime(rs.getString("korisnicko_ime"));
+                korisnik.setKorisnickoIme(rs.getString("korisnicko_ime"));
                 korisnik.setLozinka(rs.getString("lozinka"));
 
                 korisnici.add(korisnik);

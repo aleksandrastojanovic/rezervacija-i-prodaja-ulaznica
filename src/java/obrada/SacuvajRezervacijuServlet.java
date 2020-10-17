@@ -51,12 +51,12 @@ public class SacuvajRezervacijuServlet extends HttpServlet {
 
         Rezervacija rezervacija = napraviRezervaciju(sesija, request);
         StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
-        StrukturaUlaznica struktura = strukturaUlaznicaBaza.find(rezervacija.getStruktura_id());
+        StrukturaUlaznica struktura = strukturaUlaznicaBaza.find(rezervacija.getStrukturaId());
         
         int brojUlaznica = Integer.parseInt(request.getParameter("broj_ulaznica"));
         switch (tip) {
             case Korisnik.TIP_REGISTROVANI_KORISNIK:
-                if (LocalDateTime.now().isAfter(dogadjaj.getDatum_i_vreme().minusDays(2))) {
+                if (LocalDateTime.now().isAfter(dogadjaj.getDatumIVreme().minusDays(2))) {
                     //poruka ulaznice je moguce kupiti samo na blagajni
                     response.sendRedirect("index");
                     return;
@@ -68,14 +68,14 @@ public class SacuvajRezervacijuServlet extends HttpServlet {
                 
                 for (Rezervacija rezervacijaKorisnika : rezervacije) {
                     int ukupanBrojUlaznica = brojUlaznica;
-                    if (rezervacijaKorisnika.getKorisnik_id() == korisnikId) {
-                        if (rezervacijaKorisnika.getDogadjaj_id() == dogadjaj.getId()
+                    if (rezervacijaKorisnika.getKorisnikId() == korisnikId) {
+                        if (rezervacijaKorisnika.getDogadjajId() == dogadjaj.getId()
                                 && !Rezervacija.STATUS_PLACENO.equals(rezervacijaKorisnika.getStatus())) {
                             putanja = "dogadjajPojedinacno"; //greska ne moze da rezervise za taj dogadjaj dok ne plati
                             request.setAttribute("dogadjajId", dogadjaj.getId());
                         }
-                        if (rezervacijaKorisnika.getStruktura_id() == struktura.getId()) {
-                            ukupanBrojUlaznica += rezervacijaKorisnika.getBroj_ulaznica();
+                        if (rezervacijaKorisnika.getStrukturaId() == struktura.getId()) {
+                            ukupanBrojUlaznica += rezervacijaKorisnika.getBrojUlaznica();
                             if (struktura.getGranicaPoKorisniku() - ukupanBrojUlaznica < 0) {
                                 response.sendRedirect("index"); //greska ne moze da rezervise vise od granicaPoKorisniku karata
                             }
@@ -91,9 +91,9 @@ public class SacuvajRezervacijuServlet extends HttpServlet {
                 return;
         }
 
-        if (struktura.getPreostalo_ulaznica() - brojUlaznica >= 0) {
-            rezervacija.setBroj_ulaznica(brojUlaznica);
-            struktura.setPreostalo_ulaznica(struktura.getPreostalo_ulaznica() - rezervacija.getBroj_ulaznica());
+        if (struktura.getPreostaloUlaznica() - brojUlaznica >= 0) {
+            rezervacija.setBrojUlaznica(brojUlaznica);
+            struktura.setPreostaloUlaznica(struktura.getPreostaloUlaznica() - rezervacija.getBrojUlaznica());
             strukturaUlaznicaBaza.save(struktura);
             rezervacija = rezervacijaBaza.save(rezervacija);
 
@@ -157,9 +157,9 @@ public class SacuvajRezervacijuServlet extends HttpServlet {
     private Rezervacija napraviRezervaciju(HttpSession session, HttpServletRequest request) {
         int korisnikId = (int) session.getAttribute("korisnik_id");
         Rezervacija rezervacija = new Rezervacija();
-        rezervacija.setDogadjaj_id(Integer.parseInt(request.getParameter("dogadjaj_id")));
-        rezervacija.setKorisnik_id(korisnikId);
-        rezervacija.setStruktura_id(Integer.parseInt(request.getParameter("struktura_id")));
+        rezervacija.setDogadjajId(Integer.parseInt(request.getParameter("dogadjaj_id")));
+        rezervacija.setKorisnikId(korisnikId);
+        rezervacija.setStrukturaId(Integer.parseInt(request.getParameter("struktura_id")));
         return rezervacija;
     }
 }

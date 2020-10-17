@@ -39,8 +39,8 @@ public class DogadjajPojedinacnoServlet extends HttpServlet {
             //poruka
             return;
         }
-        int korisnik_id = (Integer)sesija.getAttribute("korisnik_id");
-        if(korisnik_id <= 0 && (!Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))
+        int korisnikId = (Integer)sesija.getAttribute("korisnik_id");
+        if(korisnikId <= 0 && (!Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))
                 || !Korisnik.TIP_REGISTROVANI_KORISNIK.equals(sesija.getAttribute("tip")))){
             response.sendRedirect("proveraPrijavljen");
             return;
@@ -53,7 +53,7 @@ public class DogadjajPojedinacnoServlet extends HttpServlet {
         ArrayList<StrukturaUlaznica> sveStrukture = strukturaUlaznicaBaza.all();
         ArrayList<StrukturaUlaznica> strukture = new ArrayList<>();
         for (StrukturaUlaznica struktura : sveStrukture){
-            if (struktura.getId_dogadjaja() == dogadjaj.getId()){
+            if (struktura.getIdDogadjaja() == dogadjaj.getId()){
                 strukture.add(struktura);
             }
         }

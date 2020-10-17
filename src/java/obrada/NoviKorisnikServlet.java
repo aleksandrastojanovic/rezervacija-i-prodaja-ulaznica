@@ -53,7 +53,7 @@ public class NoviKorisnikServlet extends HttpServlet {
 
                 for (RegistrovaniKorisnik korisnik : korisnici) {
                     RegistrovaniKorisnik k = korisnik;
-                    if (k.getKorisnicko_ime().equals(request.getParameter("username"))) {
+                    if (k.getKorisnickoIme().equals(request.getParameter("username"))) {
                         //poruka korisnicko ime vec postoji, pokusajte ponovo. 
                         //vraca na ("admin_novi_korisnik.jsp") za sad,
                         //ne znam kako da se to radi i na frontu
@@ -65,13 +65,13 @@ public class NoviKorisnikServlet extends HttpServlet {
                 RegistrovaniKorisnik korisnik = new RegistrovaniKorisnik();
                 korisnik.setIme(request.getParameter("ime"));
                 korisnik.setPrezime(request.getParameter("prezime"));
-                korisnik.setKorisnicko_ime(request.getParameter("username"));
+                korisnik.setKorisnickoIme(request.getParameter("username"));
                 if (request.getParameter("password").equals(request.getParameter("password_check"))) {
                     korisnik.setLozinka(request.getParameter("password"));
                 }
                 korisnik.setGrad(request.getParameter("grad"));
                 korisnik.setAdresa(request.getParameter("adresa"));
-                korisnik.setKontakt_telefon(request.getParameter("telefon"));
+                korisnik.setKontaktTelefon(request.getParameter("telefon"));
                 korisnik.setEmail(request.getParameter("email"));
                 korisnik = registrovaniKorisnikBaza.save(korisnik);
                 if (korisnik.getId() > 0) {
@@ -87,7 +87,7 @@ public class NoviKorisnikServlet extends HttpServlet {
 
                 for (Blagajnik korisnik : korisnici) {
                     Blagajnik k = korisnik;
-                    if (k.getKorisnicko_ime().equals(request.getParameter("username"))) {
+                    if (k.getKorisnickoIme().equals(request.getParameter("username"))) {
                         //poruka korisnicko ime vec postoji, pokusajte ponovo. 
                         //vraca na ("admin_novi_korisnik.jsp") za sad,
                         //ne znam kako da se to radi i na frontu
@@ -99,13 +99,13 @@ public class NoviKorisnikServlet extends HttpServlet {
                 Blagajnik korisnik = new Blagajnik();
                 korisnik.setIme(request.getParameter("ime"));
                 korisnik.setPrezime(request.getParameter("prezime"));
-                korisnik.setKorisnicko_ime(request.getParameter("username"));
+                korisnik.setKorisnickoIme(request.getParameter("username"));
                 if (request.getParameter("password").equals(request.getParameter("password_check"))) {
                     korisnik.setLozinka(request.getParameter("password"));
                 }
-                korisnik.setNaziv_lokacije(request.getParameter("naziv_lokacije"));
-                korisnik.setGrad_lokacije(request.getParameter("grad_lokacije"));
-                korisnik.setAdresa_lokacije(request.getParameter("adresa_lokacije"));
+                korisnik.setNazivLokacije(request.getParameter("naziv_lokacije"));
+                korisnik.setGradLokacije(request.getParameter("grad_lokacije"));
+                korisnik.setAdresaLokacije(request.getParameter("adresa_lokacije"));
                 korisnik = blagajnikBaza.save(korisnik);
                 if (korisnik.getId() > 0) {
                     response.sendRedirect("blagajnik_pocetna.jsp");
@@ -120,7 +120,7 @@ public class NoviKorisnikServlet extends HttpServlet {
 
                 for (Administrator korisnik : korisnici) {
                     Administrator k = korisnik;
-                    if (k.getKorisnicko_ime().equals(request.getParameter("username"))) {
+                    if (k.getKorisnickoIme().equals(request.getParameter("username"))) {
                         //poruka korisnicko ime vec postoji, pokusajte ponovo. 
                         //vraca na ("admin_novi_korisnik.jsp") za sad,
                         //ne znam kako da se to radi i na frontu
@@ -132,7 +132,7 @@ public class NoviKorisnikServlet extends HttpServlet {
                 Administrator korisnik = new Administrator();
                 korisnik.setIme(request.getParameter("ime"));
                 korisnik.setPrezime(request.getParameter("prezime"));
-                korisnik.setKorisnicko_ime(request.getParameter("username"));
+                korisnik.setKorisnickoIme(request.getParameter("username"));
                 if (request.getParameter("password").equals(request.getParameter("password_check"))) {
                     korisnik.setLozinka(request.getParameter("password"));
                 }

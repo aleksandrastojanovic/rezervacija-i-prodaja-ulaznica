@@ -28,11 +28,11 @@ public class DogadjajBaza implements Baza<Dogadjaj> {
         ArrayList<Object> vrednosti = new ArrayList();
 
         vrednosti.add(dogadjaj.getNaziv());
-        vrednosti.add(dogadjaj.getNaziv_lokacije());
-        vrednosti.add(dogadjaj.getDatum_i_vreme());
+        vrednosti.add(dogadjaj.getNazivLokacije());
+        vrednosti.add(dogadjaj.getDatumIVreme());
         vrednosti.add(dogadjaj.getDetalji());
-        vrednosti.add(dogadjaj.getGlavna_slika_putanja());
-        vrednosti.add(dogadjaj.getVideo_putanja());
+        vrednosti.add(dogadjaj.getGlavnaSlikaPutanja());
+        vrednosti.add(dogadjaj.getVideoPutanja());
 
         Database db = Database.getInstance();
         int id = db.insert(query, vrednosti);
@@ -47,11 +47,11 @@ public class DogadjajBaza implements Baza<Dogadjaj> {
                 + " WHERE dogadjaj_id = ?";
         ArrayList<Object> vrednosti = new ArrayList();
         vrednosti.add(dogadjaj.getNaziv());
-        vrednosti.add(dogadjaj.getNaziv_lokacije());
-        vrednosti.add(dogadjaj.getDatum_i_vreme());
+        vrednosti.add(dogadjaj.getNazivLokacije());
+        vrednosti.add(dogadjaj.getDatumIVreme());
         vrednosti.add(dogadjaj.getDetalji());
-        vrednosti.add(dogadjaj.getGlavna_slika_putanja());
-        vrednosti.add(dogadjaj.getVideo_putanja());
+        vrednosti.add(dogadjaj.getGlavnaSlikaPutanja());
+        vrednosti.add(dogadjaj.getVideoPutanja());
         vrednosti.add(dogadjaj.getId());
 
         Database db = Database.getInstance();
@@ -73,12 +73,12 @@ public class DogadjajBaza implements Baza<Dogadjaj> {
             if (rs.first()) {
                 dogadjaj.setId(rs.getInt("dogadjaj_id"));
                 dogadjaj.setNaziv(rs.getString("naziv"));
-                dogadjaj.setNaziv_lokacije(rs.getString("naziv_lokacije"));
+                dogadjaj.setNazivLokacije(rs.getString("naziv_lokacije"));
                 //nisam uspela sama da nadjem, tj nisam sigurna sta sam nasla :D
-                dogadjaj.setDatum_i_vreme(rs.getTimestamp("datum_i_vreme").toLocalDateTime());
+                dogadjaj.setDatumIVreme(rs.getTimestamp("datum_i_vreme").toLocalDateTime());
                 dogadjaj.setDetalji(rs.getString("detalji"));
-                dogadjaj.setGlavna_slika_putanja(rs.getString("glavna_slika_putanja"));
-                dogadjaj.setVideo_putanja(rs.getString("video_putanja"));
+                dogadjaj.setGlavnaSlikaPutanja(rs.getString("glavna_slika_putanja"));
+                dogadjaj.setVideoPutanja(rs.getString("video_putanja"));
 
             }
         } catch (SQLException ex) {
@@ -129,12 +129,12 @@ public class DogadjajBaza implements Baza<Dogadjaj> {
 
                 dogadjaj.setId(rs.getInt("dogadjaj_id"));
                 dogadjaj.setNaziv(rs.getString("naziv"));
-                dogadjaj.setNaziv_lokacije(rs.getString("naziv_lokacije"));
+                dogadjaj.setNazivLokacije(rs.getString("naziv_lokacije"));
                 //nisam uspela sama da nadjem, tj nisam sigurna sta sam nasla :D
-                dogadjaj.setDatum_i_vreme(rs.getTimestamp("datum_i_vreme").toLocalDateTime());
+                dogadjaj.setDatumIVreme(rs.getTimestamp("datum_i_vreme").toLocalDateTime());
                 dogadjaj.setDetalji(rs.getString("detalji"));
-                dogadjaj.setGlavna_slika_putanja(rs.getString("glavna_slika_putanja"));
-                dogadjaj.setVideo_putanja(rs.getString("video_putanja"));
+                dogadjaj.setGlavnaSlikaPutanja(rs.getString("glavna_slika_putanja"));
+                dogadjaj.setVideoPutanja(rs.getString("video_putanja"));
 
                 dogadjaji.add(dogadjaj);
 

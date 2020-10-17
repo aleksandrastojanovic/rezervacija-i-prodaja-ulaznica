@@ -44,9 +44,9 @@ public class ProveraRegistrovanogKorisnikaServlet extends HttpServlet {
             response.sendRedirect("index");
             return;
         }
-        int korisnik_id = (int)sesija.getAttribute("korisnik_id");
+        int korisnikId = (int)sesija.getAttribute("korisnik_id");
         RegistrovaniKorisnikBaza korisnikBaza = new RegistrovaniKorisnikBaza();
-        RegistrovaniKorisnik korisnik = korisnikBaza.find(korisnik_id);
+        RegistrovaniKorisnik korisnik = korisnikBaza.find(korisnikId);
         LocalDateTime pre48h = LocalDateTime.now().minusDays(2);
         
         RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
@@ -58,7 +58,7 @@ public class ProveraRegistrovanogKorisnikaServlet extends HttpServlet {
                 rezervacija.setStatus(Rezervacija.STATUS_ISTEKLO);
                 rezervacija = rezervacijaBaza.save(rezervacija);
             }
-            if(rezervacija.getKorisnik_id() == (int)sesija.getAttribute("korisnik_id")
+            if(rezervacija.getKorisnikId() == (int)sesija.getAttribute("korisnik_id")
                     && rezervacija.getStatus().equals(Rezervacija.STATUS_ISTEKLO)){
                 istekleRezervacije.add(rezervacija);
             }

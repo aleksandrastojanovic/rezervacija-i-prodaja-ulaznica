@@ -53,15 +53,15 @@ public class SacuvajDogadjajServlet extends HttpServlet {
         }
 
         dogadjaj.setNaziv(request.getParameter("naziv"));
-        dogadjaj.setNaziv_lokacije(blagajnik.getNaziv_lokacije());
-        dogadjaj.setDatum_i_vreme(LocalDateTime.parse(request.getParameter("vreme_odrzavanja")));
+        dogadjaj.setNazivLokacije(blagajnik.getNazivLokacije());
+        dogadjaj.setDatumIVreme(LocalDateTime.parse(request.getParameter("vreme_odrzavanja")));
         dogadjaj.setDetalji(request.getParameter("detalji"));
         /*
         Nisam sigurna kako funkcionise, da li ovako prima putanju ili ne, mada 
         se ne buni, znaci String je.*/
         // Za sad ignorisi fotke to cemo kasnije
-        dogadjaj.setGlavna_slika_putanja(request.getParameter("slika_glavna"));
-        dogadjaj.setVideo_putanja(request.getParameter("video"));
+        dogadjaj.setGlavnaSlikaPutanja(request.getParameter("slika_glavna"));
+        dogadjaj.setVideoPutanja(request.getParameter("video"));
 
         dogadjaj = dogadjajBaza.save(dogadjaj);
         if (dogadjaj.getId() > 0) {
@@ -76,11 +76,11 @@ public class SacuvajDogadjajServlet extends HttpServlet {
         StrukturaUlaznica strukturaUlaznica = new StrukturaUlaznica();
         StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
 
-        strukturaUlaznica.setId_dogadjaja(dogadjaj.getId());
+        strukturaUlaznica.setIdDogadjaja(dogadjaj.getId());
         strukturaUlaznica.setKategorija(request.getParameter("nova_kategorija"));
         strukturaUlaznica.setCena(Double.parseDouble(request.getParameter("nova_kategorija_cena")));
-        strukturaUlaznica.setBroj_dostupnih_ulaznica(Integer.parseInt(request.getParameter("limit_nova_kategorija")));
-        strukturaUlaznica.setPreostalo_ulaznica(strukturaUlaznica.getBroj_dostupnih_ulaznica());
+        strukturaUlaznica.setBrojDostupnihUlaznica(Integer.parseInt(request.getParameter("limit_nova_kategorija")));
+        strukturaUlaznica.setPreostaloUlaznica(strukturaUlaznica.getBrojDostupnihUlaznica());
         strukturaUlaznica.setGranicaPoKorisniku(Integer.parseInt(request.getParameter("granica_po_korisniku")));
 
         strukturaUlaznica = strukturaUlaznicaBaza.save(strukturaUlaznica);

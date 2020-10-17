@@ -23,11 +23,11 @@
             <p>
                 Id rezervacije: <%= rezervacija.getId()%><br>
                 Naziv dogadjaja: <%= dogadjaj.getNaziv() %><br>
-                Naziv lokacije: <%= dogadjaj.getNaziv_lokacije() %><br>
-                Broj karata: <%= rezervacija.getBroj_ulaznica() %><br>
+                Naziv lokacije: <%= dogadjaj.getNazivLokacije()%><br>
+                Broj karata: <%= rezervacija.getBrojUlaznica()%><br>
                 Kategorija: <%= struktura.getKategorija() %><br>
                 Cena: <%= struktura.getCena() %><br>
-                Ukupna cena: <%= struktura.getCena() * rezervacija.getBroj_ulaznica() %><br>
+                Ukupna cena: <%= struktura.getCena() * rezervacija.getBrojUlaznica()%><br>
                 <a href="kupovinaUlaznica?rezervacija_id=<%=rezervacija.getId()%>">
                     <input type="buttton" value="Potvrdi"></a><br>
                 <a href="otkazivanjeRezervacije?rezervacija_id=<%=rezervacija.getId()%>">

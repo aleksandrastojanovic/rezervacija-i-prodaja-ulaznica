@@ -19,18 +19,18 @@ public class Rezervacija implements Model {
     public static final String STATUS_PLACENO = "placeno";
     public static final String STATUS_ISTEKLO = "isteklo";
     
-    private int korisnik_id;
+    private int korisnikId;
     private String status;
     private Timestamp vreme;
-    private int dogadjaj_id;
-    private int broj_ulaznica;
-    private int struktura_id;
+    private int dogadjajId;
+    private int brojUlaznica;
+    private int strukturaId;
 
-    public Rezervacija(int korisnik_id,int dogadjaj_id, int broj_ulaznica, int struktura_id) {
-        this.korisnik_id = korisnik_id;
-        this.dogadjaj_id = dogadjaj_id;
-        this.broj_ulaznica = broj_ulaznica;
-        this.struktura_id = struktura_id;
+    public Rezervacija(int korisnikId,int dogadjajId, int brojUlaznica, int strukturaId) {
+        this.korisnikId = korisnikId;
+        this.dogadjajId = dogadjajId;
+        this.brojUlaznica = brojUlaznica;
+        this.strukturaId = strukturaId;
         this.id = -1;
         this.table = "rezervacije";
         this.status = STATUS_REZERVISANO;
@@ -42,8 +42,8 @@ public class Rezervacija implements Model {
         this.status = STATUS_REZERVISANO;
     }
 
-    public int getKorisnik_id() {
-        return korisnik_id;
+    public int getKorisnikId() {
+        return korisnikId;
     }
 
     public String getStatus() {
@@ -55,8 +55,8 @@ public class Rezervacija implements Model {
     }
     
     
-    public void setKorisnik_id(int korisnik_id) {
-        this.korisnik_id = korisnik_id;
+    public void setKorisnikId(int korisnikId) {
+        this.korisnikId = korisnikId;
     }
 
     public Timestamp getVreme() {
@@ -67,28 +67,28 @@ public class Rezervacija implements Model {
         this.vreme = vreme;
     }
 
-    public int getDogadjaj_id() {
-        return dogadjaj_id;
+    public int getDogadjajId() {
+        return dogadjajId;
     }
 
-    public void setDogadjaj_id(int dogadjaj_id) {
-        this.dogadjaj_id = dogadjaj_id;
+    public void setDogadjajId(int dogadjajId) {
+        this.dogadjajId = dogadjajId;
     }
 
-    public int getBroj_ulaznica() {
-        return broj_ulaznica;
+    public int getBrojUlaznica() {
+        return brojUlaznica;
     }
 
-    public void setBroj_ulaznica(int broj_ulaznica) {
-        this.broj_ulaznica = broj_ulaznica;
+    public void setBrojUlaznica(int brojUlaznica) {
+        this.brojUlaznica = brojUlaznica;
     }
 
-    public int getStruktura_id() {
-        return struktura_id;
+    public int getStrukturaId() {
+        return strukturaId;
     }
 
-    public void setStruktura_id(int struktura_id) {
-        this.struktura_id = struktura_id;
+    public void setStrukturaId(int strukturaId) {
+        this.strukturaId = strukturaId;
     }
 
     @Override

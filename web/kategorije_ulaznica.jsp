@@ -42,7 +42,7 @@
                 <tr>
                     <td><%= ((StrukturaUlaznica) struktura).getKategorija()%></td>
                     <td><%= ((StrukturaUlaznica) struktura).getCena()%></td>
-                    <td><%= ((StrukturaUlaznica) struktura).getBroj_dostupnih_ulaznica()%></td>
+                    <td><%= ((StrukturaUlaznica) struktura).getBrojDostupnihUlaznica()%></td>
                     <td><a href="izmenaStrukture?struktura_id=<%=String.valueOf(struktura.getId())%>">
                             <input type="button" name="izmeniStrukture" value="Izmeni Strukturu"></a></td>
                     <td><a href="brisanjeStrukture?struktura_id=<%=String.valueOf(struktura.getId())%>">

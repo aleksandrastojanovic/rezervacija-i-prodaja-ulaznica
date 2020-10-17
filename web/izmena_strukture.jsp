@@ -25,7 +25,7 @@
         <div>
             <form action="sacuvajKategoriju">
                 <input type="hidden" name="struktura_id" value="<%= String.valueOf(struktura.getId()) %>" >
-                <input type="hidden" name="dogadjaj_id" value="<%= String.valueOf(struktura.getId_dogadjaja()) %>" >
+                <input type="hidden" name="dogadjaj_id" value="<%= String.valueOf(struktura.getIdDogadjaja()) %>" >
                 <label for="kategorija">Kategorija:</label>
                 <input type='text' id='kategorija' name="kategorija" value="<%= struktura.getKategorija()%>"><br>
 
@@ -33,7 +33,7 @@
                 <input type="number" id="cena" name="cena" value="<%= struktura.getCena()%>"><br>
 
                 <label for="broj_ulaznica">Broj dostupnih ulaznica:</label>
-                <input type="number" id='broj_ulaznica' name="broj_ulaznica" value="<%= struktura.getBroj_dostupnih_ulaznica()%>"><br>
+                <input type="number" id='broj_ulaznica' name="broj_ulaznica" value="<%= struktura.getBrojDostupnihUlaznica()%>"><br>
                 
                 <label for="granica_po_korisniku">Granica po korisniku:</label>
                 <input type="number" id='granica_po_korisniku' name="granica_po_korisniku" value="<%= struktura.getGranicaPoKorisniku()%>"><br>

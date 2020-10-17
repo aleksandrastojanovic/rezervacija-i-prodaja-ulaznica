@@ -47,8 +47,8 @@ public class IzmenaDogadjajaServlet extends HttpServlet {
             Dogadjaj dogadjaj = dogadjajBaza.find(Integer.parseInt(request.getParameter("dogadjaj_id")));
             
             dogadjaj.setNaziv(request.getParameter("naziv"));
-            dogadjaj.setNaziv_lokacije(request.getParameter("naziv_lokacije"));
-            dogadjaj.setDatum_i_vreme(LocalDateTime.parse(request.getParameter("vreme_odrzavanja")));
+            dogadjaj.setNazivLokacije(request.getParameter("naziv_lokacije"));
+            dogadjaj.setDatumIVreme(LocalDateTime.parse(request.getParameter("vreme_odrzavanja")));
             dogadjaj.setDetalji(request.getParameter("detalji"));
             dogadjajBaza.save(dogadjaj);
 

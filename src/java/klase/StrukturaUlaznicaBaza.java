@@ -27,11 +27,11 @@ public class StrukturaUlaznicaBaza implements Baza<StrukturaUlaznica>{
         String query = "INSERT INTO strukture (id_dogadjaja,kategorija,cena,broj_dostupnih_ulaznica,preostalo_ulaznica,granica_po_korisniku) VALUES(?,?,?,?,?,?)";        
         ArrayList<Object> vrednosti = new ArrayList();
         
-        vrednosti.add(strukturaUlaznica.getId_dogadjaja());
+        vrednosti.add(strukturaUlaznica.getIdDogadjaja());
         vrednosti.add(strukturaUlaznica.getKategorija());
         vrednosti.add(strukturaUlaznica.getCena());
-        vrednosti.add(strukturaUlaznica.getBroj_dostupnih_ulaznica());
-        vrednosti.add(strukturaUlaznica.getPreostalo_ulaznica());
+        vrednosti.add(strukturaUlaznica.getBrojDostupnihUlaznica());
+        vrednosti.add(strukturaUlaznica.getPreostaloUlaznica());
         vrednosti.add(strukturaUlaznica.getGranicaPoKorisniku());
               
         Database db = Database.getInstance();
@@ -45,11 +45,11 @@ public class StrukturaUlaznicaBaza implements Baza<StrukturaUlaznica>{
         String query = "UPDATE strukture SET id_dogadjaja = ?, kategorija = ?, cena = ?,"
                 + " broj_dostupnih_ulaznica = ?, preostalo_ulaznica = ?, granica_po_korisniku = ? WHERE id = ?";
         ArrayList<Object> vrednosti = new ArrayList();
-        vrednosti.add(strukturaUlaznica.getId_dogadjaja());
+        vrednosti.add(strukturaUlaznica.getIdDogadjaja());
         vrednosti.add(strukturaUlaznica.getKategorija());
         vrednosti.add(strukturaUlaznica.getCena());
-        vrednosti.add(strukturaUlaznica.getBroj_dostupnih_ulaznica()); 
-        vrednosti.add(strukturaUlaznica.getPreostalo_ulaznica());
+        vrednosti.add(strukturaUlaznica.getBrojDostupnihUlaznica()); 
+        vrednosti.add(strukturaUlaznica.getPreostaloUlaznica());
         vrednosti.add(strukturaUlaznica.getGranicaPoKorisniku());
         vrednosti.add(strukturaUlaznica.getId());        
         
@@ -71,11 +71,11 @@ public class StrukturaUlaznicaBaza implements Baza<StrukturaUlaznica>{
             
             if (rs.first()) {
                 strukturaUlaznica.setId(rs.getInt("id"));
-                strukturaUlaznica.setId_dogadjaja(rs.getInt("id_dogadjaja"));
+                strukturaUlaznica.setIdDogadjaja(rs.getInt("id_dogadjaja"));
                 strukturaUlaznica.setKategorija(rs.getString("kategorija"));
                 strukturaUlaznica.setCena(rs.getDouble("cena"));
-                strukturaUlaznica.setBroj_dostupnih_ulaznica(rs.getInt("broj_dostupnih_ulaznica"));
-                strukturaUlaznica.setPreostalo_ulaznica(rs.getInt("preostalo_ulaznica"));
+                strukturaUlaznica.setBrojDostupnihUlaznica(rs.getInt("broj_dostupnih_ulaznica"));
+                strukturaUlaznica.setPreostaloUlaznica(rs.getInt("preostalo_ulaznica"));
                 strukturaUlaznica.setGranicaPoKorisniku(rs.getInt("granica_po_korisniku"));
                
                                 
@@ -127,11 +127,11 @@ public class StrukturaUlaznicaBaza implements Baza<StrukturaUlaznica>{
                 StrukturaUlaznica strukturaUlaznica = new StrukturaUlaznica();                            
                                                
                     strukturaUlaznica.setId(rs.getInt("id"));
-                    strukturaUlaznica.setId_dogadjaja(rs.getInt("id_dogadjaja"));
+                    strukturaUlaznica.setIdDogadjaja(rs.getInt("id_dogadjaja"));
                     strukturaUlaznica.setKategorija(rs.getString("kategorija"));
                     strukturaUlaznica.setCena(rs.getDouble("cena"));
-                    strukturaUlaznica.setBroj_dostupnih_ulaznica(rs.getInt("broj_dostupnih_ulaznica"));
-                    strukturaUlaznica.setPreostalo_ulaznica(rs.getInt("preostalo_ulaznica"));
+                    strukturaUlaznica.setBrojDostupnihUlaznica(rs.getInt("broj_dostupnih_ulaznica"));
+                    strukturaUlaznica.setPreostaloUlaznica(rs.getInt("preostalo_ulaznica"));
                     strukturaUlaznica.setGranicaPoKorisniku(rs.getInt("granica_po_korisniku"));
                     
                     strukture.add(strukturaUlaznica); 

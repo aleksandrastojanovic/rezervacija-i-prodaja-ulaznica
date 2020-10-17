@@ -25,7 +25,7 @@
             <form action="sacuvajDogadjaj" method="post">
                 
                 <label>Mesto odrzavanja: </label>
-                <%= blagajnik.getNaziv_lokacije() %><br>
+                <%= blagajnik.getNazivLokacije() %><br>
                 
                 <label for="naziv">Naziv:</label>
                 <input type='text' id='naziv' placeholder="Unesite naziv" required><br>

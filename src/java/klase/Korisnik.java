@@ -21,17 +21,17 @@ public class Korisnik implements Model{
     protected String tip;
     protected String ime;
     protected String prezime;
-    protected String korisnicko_ime;
+    protected String korisnickoIme;
     protected String lozinka;
     
     // mozda treba da imaju status i timestamp
-    public Korisnik(String tip, String ime, String prezime, String korisnicko_ime,
+    public Korisnik(String tip, String ime, String prezime, String korisnickoIme,
                     String lozinka, String table) {
         
         this.tip = tip;
         this.ime = ime;
         this.prezime = prezime;
-        this.korisnicko_ime = korisnicko_ime;
+        this.korisnickoIme = korisnickoIme;
         this.lozinka = lozinka;
         this.table = table;
         
@@ -70,12 +70,12 @@ public class Korisnik implements Model{
         this.prezime = prezime;
     }
 
-    public String getKorisnicko_ime() {
-        return korisnicko_ime;
+    public String getKorisnickoIme() {
+        return korisnickoIme;
     }
 
-    public void setKorisnicko_ime(String korisnicko_ime) {
-        this.korisnicko_ime = korisnicko_ime;
+    public void setKorisnickoIme(String korisnickoIme) {
+        this.korisnickoIme = korisnickoIme;
     }
 
     public String getLozinka() {

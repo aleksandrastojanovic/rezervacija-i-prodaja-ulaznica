@@ -40,7 +40,7 @@ public class PrijavaServlet extends HttpServlet {
         ArrayList<Korisnik> korisnici = korisnikBaza.all();
 
         for (Korisnik korisnik : korisnici) {
-            if (korisnik.getKorisnicko_ime().equals(request.getParameter("username"))
+            if (korisnik.getKorisnickoIme().equals(request.getParameter("username"))
                     && korisnik.getLozinka().equals(request.getParameter("password"))) {
                 HttpSession sesija = request.getSession();
                 String putanja = "";

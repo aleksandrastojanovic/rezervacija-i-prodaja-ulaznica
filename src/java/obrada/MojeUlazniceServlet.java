@@ -42,7 +42,7 @@ public class MojeUlazniceServlet extends HttpServlet {
             ArrayList<Rezervacija> sveRezervacije = rezervacijaBaza.all();
             ArrayList<Rezervacija> rezervacije = new ArrayList<>();
             for(Rezervacija rezervacija : sveRezervacije){
-                if(rezervacija.getKorisnik_id() == (int)sesija.getAttribute("korisnik_id")){
+                if(rezervacija.getKorisnikId() == (int)sesija.getAttribute("korisnik_id")){
                     rezervacije.add(rezervacija);
                 }
             }

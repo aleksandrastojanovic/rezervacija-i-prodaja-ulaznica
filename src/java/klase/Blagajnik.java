@@ -11,44 +11,44 @@ package klase;
  */
 public class Blagajnik extends Korisnik {
     
-    private String naziv_lokacije;
-    private String grad_lokacije;
-    private String adresa_lokacije;
+    private String nazivLokacije;
+    private String gradLokacije;
+    private String adresaLokacije;
 
-    public Blagajnik(String ime, String prezime, String korisnicko_ime, String lozinka, 
-            String naziv_lokacije, String grad_lokacije, String adresa_lokacije) {
-        super(Korisnik.TIP_BLAGAJNIK, ime, prezime, korisnicko_ime, lozinka, "blagajnici");
-        this.naziv_lokacije = naziv_lokacije;
-        this.grad_lokacije = grad_lokacije;
-        this.adresa_lokacije = adresa_lokacije;
+    public Blagajnik(String ime, String prezime, String korisnickoIme, String lozinka, 
+            String nazivLokacije, String gradLokacije, String adresaLokacije) {
+        super(Korisnik.TIP_BLAGAJNIK, ime, prezime, korisnickoIme, lozinka, "blagajnici");
+        this.nazivLokacije = nazivLokacije;
+        this.gradLokacije = gradLokacije;
+        this.adresaLokacije = adresaLokacije;
     }
 
     public Blagajnik() {
         super("blagajnici", Korisnik.TIP_BLAGAJNIK);
     }
 
-    public String getNaziv_lokacije() {
-        return naziv_lokacije;
+    public String getNazivLokacije() {
+        return nazivLokacije;
     }
 
-    public void setNaziv_lokacije(String naziv_lokacije) {
-        this.naziv_lokacije = naziv_lokacije;
+    public void setNazivLokacije(String nazivLokacije) {
+        this.nazivLokacije = nazivLokacije;
     }
 
-    public String getGrad_lokacije() {
-        return grad_lokacije;
+    public String getGradLokacije() {
+        return gradLokacije;
     }
 
-    public void setGrad_lokacije(String grad_lokacije) {
-        this.grad_lokacije = grad_lokacije;
+    public void setGradLokacije(String gradLokacije) {
+        this.gradLokacije = gradLokacije;
     }
 
-    public String getAdresa_lokacije() {
-        return adresa_lokacije;
+    public String getAdresaLokacije() {
+        return adresaLokacije;
     }
 
-    public void setAdresa_lokacije(String adresa_lokacije) {
-        this.adresa_lokacije = adresa_lokacije;
+    public void setAdresaLokacije(String adresaLokacije) {
+        this.adresaLokacije = adresaLokacije;
     }
 
    

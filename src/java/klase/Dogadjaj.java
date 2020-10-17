@@ -16,13 +16,13 @@ public class Dogadjaj implements Model {
     private int id;
     
     private String naziv;
-    private String naziv_lokacije;
+    private String nazivLokacije;
     //proveriti format mySql i LocalDateTime
     //dodati limit po korisniku
-    private LocalDateTime datum_i_vreme;
+    private LocalDateTime datumIVreme;
     private String detalji;
-    private String glavna_slika_putanja;
-    private String video_putanja;
+    private String glavnaSlikaPutanja;
+    private String videoPutanja;
     private final String table;
     //ostale slike?
 
@@ -31,13 +31,13 @@ public class Dogadjaj implements Model {
         this.id = -1;
     }
 
-    public Dogadjaj(String naziv, String naziv_lokacije, LocalDateTime datum_i_vreme, String detalji, String glavna_slika_putanja, String video_putanja) {
+    public Dogadjaj(String naziv, String nazivLokacije, LocalDateTime datumIVreme, String detalji, String glavnaSlikaPutanja, String videoPutanja) {
         this.naziv = naziv;
-        this.naziv_lokacije = naziv_lokacije;
-        this.datum_i_vreme = datum_i_vreme;
+        this.nazivLokacije = nazivLokacije;
+        this.datumIVreme = datumIVreme;
         this.detalji = detalji;
-        this.glavna_slika_putanja = glavna_slika_putanja;
-        this.video_putanja = video_putanja;
+        this.glavnaSlikaPutanja = glavnaSlikaPutanja;
+        this.videoPutanja = videoPutanja;
         this.table = "dogadjaji";
         this.id = -1;
     }
@@ -51,20 +51,20 @@ public class Dogadjaj implements Model {
         this.naziv = naziv;
     }
 
-    public String getNaziv_lokacije() {
-        return naziv_lokacije;
+    public String getNazivLokacije() {
+        return nazivLokacije;
     }
 
-    public void setNaziv_lokacije(String naziv_lokacije) {
-        this.naziv_lokacije = naziv_lokacije;
+    public void setNazivLokacije(String nazivLokacije) {
+        this.nazivLokacije = nazivLokacije;
     }
 
-    public LocalDateTime getDatum_i_vreme() {
-        return datum_i_vreme;
+    public LocalDateTime getDatumIVreme() {
+        return datumIVreme;
     }
 
-    public void setDatum_i_vreme(LocalDateTime datum_i_vreme) {
-        this.datum_i_vreme = datum_i_vreme;
+    public void setDatumIVreme(LocalDateTime datumIVreme) {
+        this.datumIVreme = datumIVreme;
     }
 
     public String getDetalji() {
@@ -75,20 +75,20 @@ public class Dogadjaj implements Model {
         this.detalji = detalji;
     }
 
-    public String getGlavna_slika_putanja() {
-        return glavna_slika_putanja;
+    public String getGlavnaSlikaPutanja() {
+        return glavnaSlikaPutanja;
     }
 
-    public void setGlavna_slika_putanja(String glavna_slika_putanja) {
-        this.glavna_slika_putanja = glavna_slika_putanja;
+    public void setGlavnaSlikaPutanja(String glavnaSlikaPutanja) {
+        this.glavnaSlikaPutanja = glavnaSlikaPutanja;
     }
 
-    public String getVideo_putanja() {
-        return video_putanja;
+    public String getVideoPutanja() {
+        return videoPutanja;
     }
 
-    public void setVideo_putanja(String video_putanja) {
-        this.video_putanja = video_putanja;
+    public void setVideoPutanja(String videoPutanja) {
+        this.videoPutanja = videoPutanja;
     }
 
     @Override

@@ -43,7 +43,7 @@
                     <td><%= ((Korisnik)korisnik).getTip()%></td>
                     <td><%= ((Korisnik)korisnik).getIme()%></td>
                    <td><%= ((Korisnik)korisnik).getPrezime() %></td>
-                    <td><%= ((Korisnik)korisnik).getKorisnicko_ime()%></td>
+                    <td><%= ((Korisnik)korisnik).getKorisnickoIme()%></td>
                 </tr>
                  <%   
                 }

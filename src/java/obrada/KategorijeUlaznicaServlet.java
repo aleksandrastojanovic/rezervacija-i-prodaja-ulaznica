@@ -39,20 +39,20 @@ public class KategorijeUlaznicaServlet extends HttpServlet {
             return;
         }
         if(Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))){
-            int dogadjaj_id = Integer.parseInt(request.getParameter("dogadjaj_id"));
+            int dogadjajId = Integer.parseInt(request.getParameter("dogadjaj_id"));
         
-        if (dogadjaj_id > 0){
+        if (dogadjajId > 0){
             RequestDispatcher rd = request.getRequestDispatcher("kategorije_ulaznica.jsp");
             StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
             ArrayList<StrukturaUlaznica> sveStrukture = strukturaUlaznicaBaza.all();
             ArrayList<StrukturaUlaznica> strukture = new ArrayList<>();
             for (StrukturaUlaznica strukturaUlaznica : sveStrukture){
-                if(strukturaUlaznica.getId_dogadjaja() == dogadjaj_id){
+                if(strukturaUlaznica.getIdDogadjaja() == dogadjajId){
                     strukture.add(strukturaUlaznica);
                 }
             }
             request.setAttribute("strukture", strukture);
-            request.setAttribute("dogadjaj_id", request.getParameter("dogadjaj_id"));
+            request.setAttribute("dogadjaj_id", dogadjajId);
             rd.forward(request, response);
         }
         

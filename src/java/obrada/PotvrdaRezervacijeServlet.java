@@ -39,21 +39,21 @@ public class PotvrdaRezervacijeServlet extends HttpServlet {
         }
 
         if (Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))) {
-            int rezervacija_id;
+            int rezervacijaId;
             if (request.getParameter("rezervacija_id") != null) {
-                rezervacija_id = Integer.parseInt(request.getParameter("rezervacija_id"));
+                rezervacijaId = Integer.parseInt(request.getParameter("rezervacija_id"));
             } else if (request.getAttribute("rezervacija_id") != null) {
-                rezervacija_id = (int) request.getAttribute("rezervacija_id");
+                rezervacijaId = (int) request.getAttribute("rezervacija_id");
             } else {
                 response.sendRedirect("prijavljenBlagajnik");
                 return;
             }
             RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
-            Rezervacija rezervacija = rezervacijaBaza.find(rezervacija_id);
+            Rezervacija rezervacija = rezervacijaBaza.find(rezervacijaId);
             StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
-            StrukturaUlaznica strukturaUlaznica = strukturaUlaznicaBaza.find(rezervacija.getStruktura_id());
+            StrukturaUlaznica strukturaUlaznica = strukturaUlaznicaBaza.find(rezervacija.getStrukturaId());
             DogadjajBaza dogadjajBaza = new DogadjajBaza();
-            Dogadjaj dogadjaj = dogadjajBaza.find(rezervacija.getDogadjaj_id());
+            Dogadjaj dogadjaj = dogadjajBaza.find(rezervacija.getDogadjajId());
 
             RequestDispatcher rd = request.getRequestDispatcher("potvrda_uplate.jsp");
             request.setAttribute("rezervacija", rezervacija);

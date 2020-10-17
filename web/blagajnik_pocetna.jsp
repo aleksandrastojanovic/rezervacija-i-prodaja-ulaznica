@@ -40,8 +40,8 @@
                 for(Dogadjaj dogadjaj: dogadjaji){%>
                 <tr>
                     <td><%= ((Dogadjaj)dogadjaj).getNaziv()%></td>
-                   <td><%= ((Dogadjaj)dogadjaj).getNaziv_lokacije() %></td>
-                    <td><%= ((Dogadjaj)dogadjaj).getDatum_i_vreme()%></td>
+                   <td><%= ((Dogadjaj)dogadjaj).getNazivLokacije() %></td>
+                    <td><%= ((Dogadjaj)dogadjaj).getDatumIVreme()%></td>
                     <td><%= ((Dogadjaj)dogadjaj).getDetalji()%></td>
                    
                     <td><a href="dogadjajPojedinacno?dogadjaj_id=<%=String.valueOf(dogadjaj.getId())%>">

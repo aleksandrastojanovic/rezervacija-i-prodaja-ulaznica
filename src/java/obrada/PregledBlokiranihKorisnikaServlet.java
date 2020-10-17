@@ -61,10 +61,10 @@ public class PregledBlokiranihKorisnikaServlet extends HttpServlet {
 
             HashMap<Integer, ArrayList<Rezervacija>> korisniciRezervacije = new HashMap<>();
             for (Rezervacija rezervacija : sveRezervacije) {
-                ArrayList<Rezervacija> korisnikRezervacije = korisniciRezervacije.get(rezervacija.getKorisnik_id());
+                ArrayList<Rezervacija> korisnikRezervacije = korisniciRezervacije.get(rezervacija.getKorisnikId());
                 if (korisnikRezervacije == null) {
                     korisnikRezervacije = new ArrayList<>();
-                    korisniciRezervacije.put(rezervacija.getKorisnik_id(), korisnikRezervacije);
+                    korisniciRezervacije.put(rezervacija.getKorisnikId(), korisnikRezervacije);
                 }
                 korisnikRezervacije.add(rezervacija);
             }

@@ -50,8 +50,8 @@ public class PretragaDogadjajaServlet extends HttpServlet {
 
         String naziv = request.getParameter("naziv").toLowerCase();
         naziv = naziv.trim();
-        LocalDateTime vreme_od = LocalDateTime.parse(request.getParameter("vreme_od"));
-        LocalDateTime vreme_do = LocalDateTime.parse(request.getParameter("vreme_do"));
+        LocalDateTime vremeOd = LocalDateTime.parse(request.getParameter("vreme_od"));
+        LocalDateTime vremeDo = LocalDateTime.parse(request.getParameter("vreme_do"));
         String mesto = request.getParameter("mesto").toLowerCase();
         mesto = mesto.trim();
 
@@ -60,19 +60,19 @@ public class PretragaDogadjajaServlet extends HttpServlet {
             if (prosaoSveFiltere && naziv != null) {
                 prosaoSveFiltere = dogadjaj.getNaziv().toLowerCase().contains(naziv);
             }
-            if (prosaoSveFiltere && !LocalDateTime.of(2001, Month.JANUARY, 1, 0, 0).equals(vreme_od)) {
-                prosaoSveFiltere = vreme_od.isAfter(LocalDateTime.now())
-                        && (dogadjaj.getDatum_i_vreme().isAfter(vreme_od)
-                        || dogadjaj.getDatum_i_vreme().isEqual(vreme_od));
+            if (prosaoSveFiltere && !LocalDateTime.of(2001, Month.JANUARY, 1, 0, 0).equals(vremeOd)) {
+                prosaoSveFiltere = vremeOd.isAfter(LocalDateTime.now())
+                        && (dogadjaj.getDatumIVreme().isAfter(vremeOd)
+                        || dogadjaj.getDatumIVreme().isEqual(vremeOd));
             }
-            if (prosaoSveFiltere && !LocalDateTime.of(2001, Month.JANUARY, 1, 0, 0).equals(vreme_do)) {
+            if (prosaoSveFiltere && !LocalDateTime.of(2001, Month.JANUARY, 1, 0, 0).equals(vremeDo)) {
 
-                prosaoSveFiltere = vreme_do.isAfter(LocalDateTime.now())
-                        && (dogadjaj.getDatum_i_vreme().isBefore(vreme_do)
-                        || dogadjaj.getDatum_i_vreme().isEqual(vreme_do));
+                prosaoSveFiltere = vremeDo.isAfter(LocalDateTime.now())
+                        && (dogadjaj.getDatumIVreme().isBefore(vremeDo)
+                        || dogadjaj.getDatumIVreme().isEqual(vremeDo));
             }
             if (prosaoSveFiltere && mesto != null) {
-                prosaoSveFiltere = dogadjaj.getNaziv_lokacije().toLowerCase().contains(mesto);
+                prosaoSveFiltere = dogadjaj.getNazivLokacije().toLowerCase().contains(mesto);
             }
 
             if (prosaoSveFiltere) {

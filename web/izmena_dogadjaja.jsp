@@ -22,7 +22,7 @@
             <form action="sacuvajDogadjaj">
                 
                 <label>Mesto odrzavanja</label>
-                <%= blagajnik.getNaziv_lokacije() %><br>
+                <%= blagajnik.getNazivLokacije() %><br>
                 
                 <label for="naziv">Naziv:</label>
                 <input type='text' id='naziv' name='naziv' value="<%= dogadjaj.getNaziv() %>"><br>
@@ -37,21 +37,21 @@
                 -->
                 
                 <label for="vreme_odrzavanja">Vreme odrzavanja:</label>
-                <input type="datetime-local" id="vreme_odrzavanja" name="vreme_odrzavanja" value="<%= dogadjaj.getDatum_i_vreme()%>"><br>
+                <input type="datetime-local" id="vreme_odrzavanja" name="vreme_odrzavanja" value="<%= dogadjaj.getDatumIVreme()%>"><br>
                 
                 <label for="detalji">Detalji dogadjaja</label>
                 <input type="text" id='detalji' name="detalji" value="<%= dogadjaj.getDetalji()%>"><br>
                 
                 <label for="slika_glavna">Glavna fotografija:</label>
-                <input type="file" id="slika_glavna" name="slika_glavna" accept="image/*" value="<%= dogadjaj.getGlavna_slika_putanja()%>"><br>
+                <input type="file" id="slika_glavna" name="slika_glavna" accept="image/*" value="<%= dogadjaj.getGlavnaSlikaPutanja()%>"><br>
                 
                 <label for="slike">Dodaj ostale fotografije:</label>
                 <input type="file" id="slike" name="slike" accept="image/*" multiple><br>
 
-                <% if(dogadjaj.getVideo_putanja() != null) { %>
+                <% if(dogadjaj.getVideoPutanja()!= null) { %>
                 
                 <label for="video">Dodaj video zapis</label>
-                <input type="file" id="video" name="video" accept="video/*" value="<%= dogadjaj.getVideo_putanja()%>"><br>
+                <input type="file" id="video" name="video" accept="video/*" value="<%= dogadjaj.getVideoPutanja()%>"><br>
                 <% } %>
                 <!--Preko js bi trebalo da napravim da bude required cena i limit ako je cekirano -->
                 

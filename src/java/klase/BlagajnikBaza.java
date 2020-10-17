@@ -31,7 +31,7 @@ public class BlagajnikBaza implements Baza<Blagajnik> {
         vrednosti.add(blagajnik.getTip());
         vrednosti.add(blagajnik.getIme());
         vrednosti.add(blagajnik.getPrezime());
-        vrednosti.add(blagajnik.getKorisnicko_ime());
+        vrednosti.add(blagajnik.getKorisnickoIme());
         vrednosti.add(blagajnik.getLozinka());
 
         Database db = Database.getInstance();
@@ -43,9 +43,9 @@ public class BlagajnikBaza implements Baza<Blagajnik> {
                     + " VALUES(?,?,?,?)";
             ArrayList<Object> vrednosti2 = new ArrayList();
             vrednosti2.add(id);
-            vrednosti2.add(blagajnik.getNaziv_lokacije());
-            vrednosti2.add(blagajnik.getGrad_lokacije());
-            vrednosti2.add(blagajnik.getAdresa_lokacije());
+            vrednosti2.add(blagajnik.getNazivLokacije());
+            vrednosti2.add(blagajnik.getGradLokacije());
+            vrednosti2.add(blagajnik.getAdresaLokacije());
 
             int id2 = db.insert(query2, vrednosti2);
             if (id2 <= 0) {
@@ -65,7 +65,7 @@ public class BlagajnikBaza implements Baza<Blagajnik> {
         vrednosti.add(blagajnik.getTip());
         vrednosti.add(blagajnik.getIme());
         vrednosti.add(blagajnik.getPrezime());
-        vrednosti.add(blagajnik.getKorisnicko_ime());
+        vrednosti.add(blagajnik.getKorisnickoIme());
         vrednosti.add(blagajnik.getLozinka());
         vrednosti.add(blagajnik.getId());
 
@@ -77,9 +77,9 @@ public class BlagajnikBaza implements Baza<Blagajnik> {
                     + " adresa_lokacije = ? WHERE korisnik_id = ?";
             ArrayList<Object> vrednosti2 = new ArrayList();
 
-            vrednosti2.add(blagajnik.getNaziv_lokacije());
-            vrednosti2.add(blagajnik.getGrad_lokacije());
-            vrednosti2.add(blagajnik.getAdresa_lokacije());
+            vrednosti2.add(blagajnik.getNazivLokacije());
+            vrednosti2.add(blagajnik.getGradLokacije());
+            vrednosti2.add(blagajnik.getAdresaLokacije());
             vrednosti2.add(blagajnik.getId());
             uspesno = uspesno && db.update(query2, vrednosti2);
 
@@ -102,11 +102,11 @@ public class BlagajnikBaza implements Baza<Blagajnik> {
                 blagajnik.setId(rs.getInt("id"));
                 blagajnik.setIme(rs.getString("ime"));
                 blagajnik.setPrezime(rs.getString("prezime"));
-                blagajnik.setKorisnicko_ime(rs.getString("korisnicko_ime"));
+                blagajnik.setKorisnickoIme(rs.getString("korisnicko_ime"));
                 blagajnik.setLozinka(rs.getString("lozinka"));
-                blagajnik.setNaziv_lokacije(rs.getString("naziv_lokacije"));
-                blagajnik.setGrad_lokacije(rs.getString("grad_lokacije"));
-                blagajnik.setAdresa_lokacije(rs.getString("adresa_lokacije"));
+                blagajnik.setNazivLokacije(rs.getString("naziv_lokacije"));
+                blagajnik.setGradLokacije(rs.getString("grad_lokacije"));
+                blagajnik.setAdresaLokacije(rs.getString("adresa_lokacije"));
 
             }
         } catch (SQLException ex) {
@@ -171,7 +171,7 @@ public class BlagajnikBaza implements Baza<Blagajnik> {
                 blagajnik.setId(rs.getInt("id"));
                 blagajnik.setIme(rs.getString("ime"));
                 blagajnik.setPrezime(rs.getString("prezime"));
-                blagajnik.setKorisnicko_ime(rs.getString("korisnicko_ime"));
+                blagajnik.setKorisnickoIme(rs.getString("korisnicko_ime"));
                 blagajnik.setLozinka(rs.getString("lozinka"));
 
                 korisnici.add(blagajnik);
