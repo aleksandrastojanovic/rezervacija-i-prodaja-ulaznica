@@ -53,7 +53,7 @@ public class SacuvajKategorijuServlet extends HttpServlet {
 
             struktura = strukturaUlaznicaBaza.save(struktura);
             if (struktura.getId() > 0) {
-                response.sendRedirect("prijavljenBlagajnik");
+                response.sendRedirect("dogadjajPojedinacno?dogadjaj_id=" + struktura.getIdDogadjaja());
             } else {
                 //poruka da nije uspesno
             }

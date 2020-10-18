@@ -5,26 +5,24 @@
  */
 package obrada;
 
-import klase.MediaBaza;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import klase.*;
 
 /**
  *
  * @author iq skola
  */
-public class DogadjajPojedinacnoServlet extends HttpServlet {
+public class UcitajMediaServlet extends HttpServlet {
 
-    private final StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
-    private final DogadjajBaza dogadjajBaza = new DogadjajBaza();
-    private final MediaBaza mediaBaza = new MediaBaza();
+private final String putanjaFoldera = "D:/sandra/_Baza slika/";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,40 +35,28 @@ public class DogadjajPojedinacnoServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession sesija = request.getSession();
-        if (sesija.getAttribute("korisnik_id") == null) {
-            response.sendRedirect("proveraPrijavljen");
-            //poruka
-            return;
-        }
-        int korisnikId = (Integer) sesija.getAttribute("korisnik_id");
-        if (korisnikId <= 0 && (!Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))
-                || !Korisnik.TIP_REGISTROVANI_KORISNIK.equals(sesija.getAttribute("tip")))) {
-            response.sendRedirect("proveraPrijavljen");
-            return;
-        }
-        RequestDispatcher rd = request.getRequestDispatcher("dogadjaj.jsp");
-        Dogadjaj dogadjaj = dogadjajBaza.find(Integer.parseInt(request.getParameter("dogadjaj_id")));
-
-        ArrayList<StrukturaUlaznica> sveStrukture = strukturaUlaznicaBaza.all();
-        ArrayList<StrukturaUlaznica> strukture = new ArrayList<>();
-        for (StrukturaUlaznica struktura : sveStrukture) {
-            if (struktura.getIdDogadjaja() == dogadjaj.getId()) {
-                strukture.add(struktura);
+        response.setContentType("image/jpeg");
+        File fajl = napraviFajl(request);
+        try (BufferedInputStream bin = new BufferedInputStream(new FileInputStream(fajl));
+                ServletOutputStream out = response.getOutputStream();
+                BufferedOutputStream bout = new BufferedOutputStream(out)) {
+            int ch;
+            while ((ch = bin.read()) != -1) {
+                bout.write(ch);
             }
+        } catch (Exception e) {
+            // ovda nista ne mozemo?
         }
+    }
 
-        ArrayList<String> ostaleFotografije = new ArrayList<>();
-        ArrayList<Media> medie = mediaBaza.allWhereDogadjajId(dogadjaj.getId());
-        for (Media media : medie) {
-            ostaleFotografije.add(media.getIme());
+    private File napraviFajl(HttpServletRequest request) {
+        String ime = request.getParameter("ime");
+        String dogadjajId = request.getParameter("dogadjaj_id");
+        File fajl = new File(putanjaFoldera + dogadjajId + "/" + ime);
+        if (!fajl.isFile()) {
+            fajl = new File(putanjaFoldera + "__praznaSlika__.jpg");
         }
-
-        request.setAttribute("strukture", strukture);
-        request.setAttribute("dogadjaj", dogadjaj);
-        request.setAttribute("ostaleFotografije", ostaleFotografije);
-        rd.forward(request, response);
+        return fajl;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

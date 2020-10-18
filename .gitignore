@@ -8,3 +8,6 @@ build/
 /build/web/blagajnik_novi_dogadjaj.jsp
 /build/web/blagajnik_novi_dogadjaj.jsp
 /build/web/blagajnik_novi_dogadjaj.jsp
+/jar/*
+/build/*
+/nbproject/*

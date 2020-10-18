@@ -38,6 +38,7 @@ public class IndexServlet extends HttpServlet {
         RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
         if (sesija.getAttribute("korisnik_id") == null) {
             sesija.setAttribute("korisnik_id", -1);
+            sesija.setAttribute("tip", Korisnik.TIP_NEREGISTROVANI_KORISNIK);
         }
         LocalDateTime pre48h = LocalDateTime.now().minusDays(2);
         RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();

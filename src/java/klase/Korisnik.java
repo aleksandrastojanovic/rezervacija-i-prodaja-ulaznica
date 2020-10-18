@@ -15,6 +15,7 @@ public class Korisnik implements Model{
     public static final String TIP_BLAGAJNIK = "Blagajnik";
     public static final String TIP_ADMINISTRATOR = "Administrator";
     public static final String TIP_BLOKIRANI_KORISNIK = "Blokirani korisnik";
+    public static final String TIP_NEREGISTROVANI_KORISNIK = "Neregistrovani korisnik";
     
     protected int id = -1;
     protected String table;

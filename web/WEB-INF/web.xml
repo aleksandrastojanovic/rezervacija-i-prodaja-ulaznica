@@ -112,6 +112,14 @@
         <servlet-name>SacuvajKorisnikaServlet</servlet-name>
         <servlet-class>obrada.SacuvajKorisnikaServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>SacuvajMediaServlet</servlet-name>
+        <servlet-class>obrada.SacuvajMediaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UcitajMediaServlet</servlet-name>
+        <servlet-class>obrada.UcitajMediaServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegistracijaServlet</servlet-name>
         <url-pattern>/registracija</url-pattern>
@@ -226,6 +234,14 @@
     <servlet-mapping>
         <servlet-name>SacuvajKorisnikaServlet</servlet-name>
         <url-pattern>/sacuvajKorisnika</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SacuvajMediaServlet</servlet-name>
+        <url-pattern>/sacuvajMedia</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UcitajMediaServlet</servlet-name>
+        <url-pattern>/ucitajMedia</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
