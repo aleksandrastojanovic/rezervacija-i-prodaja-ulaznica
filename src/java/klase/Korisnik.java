@@ -9,14 +9,14 @@ package klase;
  *
  * @author iq skola
  */
-public class Korisnik implements Model{
-         
+public class Korisnik implements Model {
+
     public static final String TIP_REGISTROVANI_KORISNIK = "Registrovani korisnik";
     public static final String TIP_BLAGAJNIK = "Blagajnik";
     public static final String TIP_ADMINISTRATOR = "Administrator";
     public static final String TIP_BLOKIRANI_KORISNIK = "Blokirani korisnik";
     public static final String TIP_NEREGISTROVANI_KORISNIK = "Neregistrovani korisnik";
-    
+
     protected int id = -1;
     protected String table;
     protected String tip;
@@ -24,27 +24,25 @@ public class Korisnik implements Model{
     protected String prezime;
     protected String korisnickoIme;
     protected String lozinka;
-    
+
     // mozda treba da imaju status i timestamp
     public Korisnik(String tip, String ime, String prezime, String korisnickoIme,
-                    String lozinka, String table) {
-        
+            String lozinka, String table) {
+
         this.tip = tip;
         this.ime = ime;
         this.prezime = prezime;
         this.korisnickoIme = korisnickoIme;
         this.lozinka = lozinka;
         this.table = table;
-        
+
     }
-    
-    
+
     public Korisnik(String table, String tip) {
         this.table = table;
         this.tip = tip;
     }
-    
-        
+
     public String getTip() {
         return tip;
     }
@@ -52,9 +50,7 @@ public class Korisnik implements Model{
     public void setTip(String tip) {
         this.tip = tip;
     }
-    
-    
-    
+
     public String getIme() {
         return ime;
     }
@@ -96,8 +92,7 @@ public class Korisnik implements Model{
     public void setId(int id) {
         this.id = id;
     }
-       
-        
+
     @Override
     public String toString() {
         return id + " " + ime + " " + prezime;

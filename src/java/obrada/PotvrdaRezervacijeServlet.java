@@ -6,6 +6,8 @@
 package obrada;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -32,45 +34,50 @@ public class PotvrdaRezervacijeServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession sesija = request.getSession();
-        int korisnikId = (int) sesija.getAttribute("korisnik_id");
-        if (sesija.getAttribute("korisnik_id") == null || korisnikId < 0) {
-            response.sendRedirect("proveraPrijavljen");
-            return;
-        }
+        try {
+            if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
+                response.sendRedirect("proveraPrijavljen");
+                return;
+            }
 
-        if (Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))) {
-            int rezervacijaId;
-            if (request.getParameter("rezervacija_id") != null) {
-                rezervacijaId = Integer.parseInt(request.getParameter("rezervacija_id"));
-            } else if (request.getAttribute("rezervacija_id") != null) {
-                rezervacijaId = (int) request.getAttribute("rezervacija_id");
+            HttpSession sesija = request.getSession();
+            int korisnikId = (int) sesija.getAttribute("korisnik_id");
+            if (Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))) {
+                int rezervacijaId;
+                if (request.getParameter("rezervacija_id") != null) {
+                    rezervacijaId = Integer.parseInt(request.getParameter("rezervacija_id"));
+                } else if (request.getAttribute("rezervacija_id") != null) {
+                    rezervacijaId = (int) request.getAttribute("rezervacija_id");
+                } else {
+                    response.sendRedirect("prijavljenBlagajnik");
+                    return;
+                }
+                RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
+                Rezervacija rezervacija = rezervacijaBaza.find(rezervacijaId);
+                StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
+                StrukturaUlaznica strukturaUlaznica = strukturaUlaznicaBaza.find(rezervacija.getStrukturaId());
+                DogadjajBaza dogadjajBaza = new DogadjajBaza();
+                Dogadjaj dogadjaj = dogadjajBaza.find(rezervacija.getDogadjajId());
+                BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
+                Blagajnik blagajnik = blagajnikBaza.find(korisnikId);
+                if (!dogadjaj.getNazivLokacije().equals(blagajnik.getNazivLokacije())) {
+                    response.sendRedirect("blagajni_pocetna.jsp");
+                    //poruka nije pronadjena rezervacija
+                    return;
+                }
+
+                RequestDispatcher rd = request.getRequestDispatcher("potvrda_uplate.jsp");
+                request.setAttribute("rezervacija", rezervacija);
+                request.setAttribute("struktura", strukturaUlaznica);
+                request.setAttribute("dogadjaj", dogadjaj);
+                rd.forward(request, response);
+
             } else {
-                response.sendRedirect("prijavljenBlagajnik");
-                return;
+                response.sendRedirect("proveraPrijavljen");
             }
-            RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
-            Rezervacija rezervacija = rezervacijaBaza.find(rezervacijaId);
-            StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
-            StrukturaUlaznica strukturaUlaznica = strukturaUlaznicaBaza.find(rezervacija.getStrukturaId());
-            DogadjajBaza dogadjajBaza = new DogadjajBaza();
-            Dogadjaj dogadjaj = dogadjajBaza.find(rezervacija.getDogadjajId());
-            BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
-            Blagajnik blagajnik = blagajnikBaza.find(korisnikId);
-            if(!dogadjaj.getNazivLokacije().equals(blagajnik.getNazivLokacije())){
-                response.sendRedirect("blagajni_pocetna.jsp");
-                //poruka nije pronadjena rezervacija
-                return;
-            }
-
-            RequestDispatcher rd = request.getRequestDispatcher("potvrda_uplate.jsp");
-            request.setAttribute("rezervacija", rezervacija);
-            request.setAttribute("struktura", strukturaUlaznica);
-            request.setAttribute("dogadjaj", dogadjaj);
-            rd.forward(request, response);
-
-        } else {
-            response.sendRedirect("proveraPrijavljen");
+        } catch (Exception ex) {
+            Logger.getLogger(PotvrdaRezervacijeServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("errorPage.jsp");
         }
 
     }

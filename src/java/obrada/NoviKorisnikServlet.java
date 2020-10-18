@@ -8,6 +8,9 @@ package obrada;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,19 +36,18 @@ public class NoviKorisnikServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        /*
-        -Prima podatke iz admin_novi_korisnik
-        -Pravi objekat odgovarajuce klase
-        -Smesta ga u bazu*/
-        //private metode x3
-        
-        
-
+        try {
+            if (!ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_ADMINISTRATOR)) {
+                response.sendRedirect("proveraPrijavljen");
+                return;
+            }
+            RequestDispatcher rd = request.getRequestDispatcher("admin_novi_korisnik.jsp");
+            rd.forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(NoviDogadjajServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("errorPage.jsp");
+        }
     }
-    
-    //private void noviRegistrovaniKorisnik(){
-        
-    //}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

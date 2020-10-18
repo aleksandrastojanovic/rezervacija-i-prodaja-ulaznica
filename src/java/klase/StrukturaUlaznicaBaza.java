@@ -81,7 +81,7 @@ public class StrukturaUlaznicaBaza implements Baza<StrukturaUlaznica>{
                                 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(RegistrovaniKorisnikBaza.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StrukturaUlaznicaBaza.class.getName()).log(Level.SEVERE, null, ex);
         }
         return strukturaUlaznica;
         

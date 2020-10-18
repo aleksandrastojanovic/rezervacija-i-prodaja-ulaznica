@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class UcitajMediaServlet extends HttpServlet {
 
-private final String putanjaFoldera = "D:/sandra/_Baza slika/";
+    private final String putanjaFoldera = "D:/sandra/_Baza slika/";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,7 +35,7 @@ private final String putanjaFoldera = "D:/sandra/_Baza slika/";
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("image/jpeg");
+        response.setContentType("image/*");
         File fajl = napraviFajl(request);
         try (BufferedInputStream bin = new BufferedInputStream(new FileInputStream(fajl));
                 ServletOutputStream out = response.getOutputStream();

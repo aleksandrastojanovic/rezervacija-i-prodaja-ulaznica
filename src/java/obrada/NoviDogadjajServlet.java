@@ -7,10 +7,17 @@ package obrada;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.jms.Session;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import klase.Korisnik;
+import klase.ProvereKorisnik;
 
 /**
  *
@@ -30,7 +37,17 @@ public class NoviDogadjajServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+        try {
+            if (!ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {
+                response.sendRedirect("proveraPrijavljen");
+                return;
+            }
+            RequestDispatcher rd = request.getRequestDispatcher("blagajnik_novi_dogadjaj.jsp");
+            rd.forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(NoviDogadjajServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("errorPage.jsp");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
