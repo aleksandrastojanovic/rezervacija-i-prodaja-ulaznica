@@ -9,21 +9,21 @@
 <%@page import="klase.Rezervacija"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% ArrayList<Rezervacija> rezervacije = (ArrayList<Rezervacija>)request.getAttribute("rezervacije");
-%>
+
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Moje ulaznice</title>
+    <head>        
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <title>Moje ulaznice</title>
     </head>
-    
+
     <body>
-        <header>
-        <!-- Meni -->
-        <jsp:include page="parts/meni.jsp"></jsp:include>
-    </header>
+        <jsp:include page="parts/header.jsp"></jsp:include>
+        <%
+            ArrayList<Rezervacija> rezervacije = (ArrayList<Rezervacija>) request.getAttribute("rezervacije");
+        %>
         <div>
             <table>
                 <thead>
@@ -34,31 +34,28 @@
                 <th>Status</th>
                 </thead>
                 <%
-                for(Rezervacija rezervacija: rezervacije){%>
+                    for (Rezervacija rezervacija : rezervacije) {%>
                 <tr>
-                    <td><%= ((Rezervacija)rezervacija).getId()%></td>
+                    <td><%= ((Rezervacija) rezervacija).getId()%></td>
                     <td><% DogadjajBaza db = new DogadjajBaza();
                         Dogadjaj d = db.find(rezervacija.getDogadjaj_id());%>
-                    <%= d.getNaziv() %></td>
-                    <td><%= ((Rezervacija)rezervacija).getBroj_ulaznica()%></td>
-                    <td><%= ((Rezervacija)rezervacija).getVreme()%></td>
-                    <td><%= ((Rezervacija)rezervacija).getStatus()%></td>
+                        <%= d.getNaziv()%></td>
+                    <td><%= ((Rezervacija) rezervacija).getBroj_ulaznica()%></td>
+                    <td><%= ((Rezervacija) rezervacija).getVreme()%></td>
+                    <td><%= ((Rezervacija) rezervacija).getStatus()%></td>
                     <td><a href='otkazivanjeRezervacije?rezervacija_id=<%= "" + rezervacija.getId()%>'><input type="button" value="Otkazi rezervaciju"></a></td>
                 </tr>
-                 <%   
-                }
+                <%
+                    }
                 %>
-                
+
             </table>
         </div>
         <div></div>
-        
-        <footer>
-        <!-- Povratak na vrh -->
-        
-    </footer>
+
+        <jsp:include page="parts/footer.jsp"></jsp:include>
     </body>
-    
+
 </html>
 
 

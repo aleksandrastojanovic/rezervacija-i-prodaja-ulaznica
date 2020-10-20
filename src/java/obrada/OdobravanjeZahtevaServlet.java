@@ -7,11 +7,12 @@ package obrada;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import klase.*;
 
 /**
@@ -19,6 +20,9 @@ import klase.*;
  * @author iq skola
  */
 public class OdobravanjeZahtevaServlet extends HttpServlet {
+    
+    private final KorisnikBaza korisnikBaza = new KorisnikBaza();
+    private final RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,49 +35,36 @@ public class OdobravanjeZahtevaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-
-        HttpSession sesija = request.getSession();
-        if (sesija.getAttribute("korisnik_id") == null) {
-            return;
-        }
-        if(Korisnik.TIP_ADMINISTRATOR.equals(sesija.getAttribute("tip"))){
-        KorisnikBaza korisnikBaza = new KorisnikBaza();
-        Korisnik korisnik = korisnikBaza.find((int) request.getAttribute("korisnik_id"));
-        if (Korisnik.TIP_BLOKIRANI_KORISNIK.equals(korisnik.getTip())) {
-            korisnik.setTip(Korisnik.TIP_REGISTROVANI_KORISNIK);
-            RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
-            ArrayList<Rezervacija> sveRezervacije = rezervacijaBaza.all();
-            for(Rezervacija rezervacija : sveRezervacije){
-                if(rezervacija.getKorisnikId() == korisnik.getId() 
-                        && Rezervacija.STATUS_ISTEKLO.equals(rezervacija.getStatus())){
-                    rezervacijaBaza.delete(rezervacija);
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            
+            if (ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
+                return;
+            }
+            if (ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_ADMINISTRATOR)) {
+                Korisnik korisnik = korisnikBaza.find((int) request.getAttribute("korisnik_id"));
+                if (Korisnik.TIP_BLOKIRANI_KORISNIK.equals(korisnik.getTip())) {
+                    korisnik.setTip(Korisnik.TIP_REGISTROVANI_KORISNIK);
+                    ArrayList<Rezervacija> sveRezervacije = rezervacijaBaza.all();
+                    for (Rezervacija rezervacija : sveRezervacije) {
+                        if (rezervacija.getKorisnikId() == korisnik.getId()
+                                && Rezervacija.STATUS_ISTEKLO.equals(rezervacija.getStatus())) {
+                            rezervacijaBaza.delete(rezervacija);
+                        }
+                    }
+                    
+                    korisnikBaza.save(korisnik);
+                    
+                }
+                if (korisnik.getId() > 0) {
+                    //poruka uspesno
+                    response.sendRedirect("prijavljenAdministrator");
                 }
             }
-            
-            korisnikBaza.save(korisnik);
-            
+        } catch (Exception ex) {
+            Logger.getLogger(OdobravanjeZahtevaServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
         }
-        if(korisnik.getId() > 0){
-            //poruka uspesno
-            response.sendRedirect("prijavljenAdministrator");
-        }
-        
-        /*
-        -Za admin korisnika
-        -Prima objekat iz RegistracijaServlet-a
-        -Smesta napravljeni objekat u bazu
-         */
-
- /*Ovaj deo se valjda izvrsava u OdobravanjeZahtevaServlet:
-        -Uz izmene klase na RegistrovaniKorisnik*/
- /*korisnik = (Korisnik)korisnik.save();
-        if (korisnik.getId() > 0) {
-            response.sendRedirect("proveraPrijavljen");
-        } else {
-            response.sendRedirect("proveraRegistrovan");
-        }*/
-    }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

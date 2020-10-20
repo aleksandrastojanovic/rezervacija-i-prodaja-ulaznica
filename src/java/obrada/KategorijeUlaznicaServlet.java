@@ -7,6 +7,8 @@ package obrada;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +22,8 @@ import klase.*;
  * @author iq skola
  */
 public class KategorijeUlaznicaServlet extends HttpServlet {
+    
+    private final StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,32 +36,35 @@ public class KategorijeUlaznicaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession sesija = request.getSession();
-        if(sesija.getAttribute("korisnik_id") == null || (int)sesija.getAttribute("korisnik_id") < 0){
-            response.sendRedirect("proveraPrijavljen");
-            return;
-        }
-        if(Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))){
-            int dogadjajId = Integer.parseInt(request.getParameter("dogadjaj_id"));
-        
-        if (dogadjajId > 0){
-            RequestDispatcher rd = request.getRequestDispatcher("kategorije_ulaznica.jsp");
-            StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
-            ArrayList<StrukturaUlaznica> sveStrukture = strukturaUlaznicaBaza.all();
-            ArrayList<StrukturaUlaznica> strukture = new ArrayList<>();
-            for (StrukturaUlaznica strukturaUlaznica : sveStrukture){
-                if(strukturaUlaznica.getIdDogadjaja() == dogadjajId){
-                    strukture.add(strukturaUlaznica);
-                }
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            HttpSession sesija = request.getSession();
+            if (ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
+                response.sendRedirect("proveraPrijavljen");
+                return;
             }
-            request.setAttribute("strukture", strukture);
-            request.setAttribute("dogadjaj_id", dogadjajId);
-            rd.forward(request, response);
-        }
-        
-        } else{
-            response.sendRedirect("proveraPrijavljen");
+            if (ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {
+                int dogadjajId = Integer.parseInt(request.getParameter("dogadjaj_id"));
+                
+                if (dogadjajId > 0) {
+                    RequestDispatcher rd = request.getRequestDispatcher("kategorije_ulaznica.jsp");
+                    ArrayList<StrukturaUlaznica> sveStrukture = strukturaUlaznicaBaza.all();
+                    ArrayList<StrukturaUlaznica> strukture = new ArrayList<>();
+                    for (StrukturaUlaznica strukturaUlaznica : sveStrukture) {
+                        if (strukturaUlaznica.getIdDogadjaja() == dogadjajId) {
+                            strukture.add(strukturaUlaznica);
+                        }
+                    }
+                    request.setAttribute("strukture", strukture);
+                    request.setAttribute("dogadjaj_id", dogadjajId);
+                    rd.forward(request, response);
+                }
+                
+            } else {
+                response.sendRedirect("proveraPrijavljen");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(KategorijeUlaznicaServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

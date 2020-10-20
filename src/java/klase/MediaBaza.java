@@ -42,17 +42,17 @@ public class MediaBaza implements Baza<Media> {
         // ako je uspesno snimljeno u bazu, snimi fajl
         if (id > 0) {
             media.setId(id);
-        } else {
-            try {
-                snimiFajl(media.getFajl(), media.getPutanja());
-            } catch (Exception e) {
-                // ako nije snimljen fajl, izbrisi iz baze
-                System.err.println(e);
-                delete(id);
-                id = -1;
-                media.setId(id);
-            }
         }
+        try {
+            snimiFajl(media.getFajl(), media.getPutanja());
+        } catch (Exception e) {
+            // ako nije snimljen fajl, izbrisi iz baze
+            System.err.println(e);
+            delete(id);
+            id = -1;
+            media.setId(id);
+        }
+
         return id;
     }
 
@@ -179,4 +179,3 @@ public class MediaBaza implements Baza<Media> {
     }
 
 }
-

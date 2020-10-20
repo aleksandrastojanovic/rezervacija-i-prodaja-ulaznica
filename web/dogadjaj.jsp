@@ -11,16 +11,18 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="klase.Dogadjaj"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% Dogadjaj dogadjaj = (Dogadjaj) request.getAttribute("dogadjaj");
-    ArrayList<StrukturaUlaznica> strukture = (ArrayList<StrukturaUlaznica>) request.getAttribute("strukture");%>
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title><%= "" + dogadjaj.getNaziv()%></title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <title></title>
     </head>
     <body>
-        <jsp:include page="parts/meni.jsp"></jsp:include>
+        <jsp:include page="parts/header.jsp"></jsp:include>
+        <% Dogadjaj dogadjaj = (Dogadjaj) request.getAttribute("dogadjaj");
+            ArrayList<StrukturaUlaznica> strukture = (ArrayList<StrukturaUlaznica>) request.getAttribute("strukture");%>
         <h1><%= "" + dogadjaj.getNaziv()%></h1>
         <div>
             Mesto odrzavanja: <%= dogadjaj.getNazivLokacije()%><br>
@@ -44,7 +46,7 @@
 
         <% if (Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))
                     || (Korisnik.TIP_REGISTROVANI_KORISNIK.equals(sesija.getAttribute("tip"))
-                    && LocalDateTime.now().isBefore(dogadjaj.getDatumIVreme().minusDays(2)))){ %>
+                    && LocalDateTime.now().isBefore(dogadjaj.getDatumIVreme().minusDays(2)))) { %>
         <div>
             <form action='sacuvajRezervaciju'>
                 <h3>Rezervisi ulaznice:</h3><br>
@@ -73,7 +75,8 @@
                 </table>
                 <input type="submit" value='Rezervisi'>
             </form>
-                <% } %>
-        </div>        
+            <% }%>
+        </div> 
+        <jsp:include page="parts/footer.jsp"></jsp:include>
     </body>
 </html>

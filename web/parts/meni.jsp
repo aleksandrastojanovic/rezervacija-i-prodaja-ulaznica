@@ -12,63 +12,49 @@
             && sesija.getAttribute("tip") != null && Integer.parseInt(sesija.getAttribute("korisnik_id").toString()) > 0;
 %>
 <!DOCTYPE html>
-<nav>
-    <ul>
+<!--<div class="container-fluid pt-3">-->
+<div class="container-fluid p-3 my-3 border">
+    <nav class="navbar p-3 my-3 fixed-top navbar-expand-sm bg-light navbar-light justify-content-end">
         <% if (sesija.getAttribute("tip") != null) {
-                            String tip = sesija.getAttribute("tip").toString();
-                            if (Korisnik.TIP_REGISTROVANI_KORISNIK.equals(tip)) { %>
-        <li><a href="index">Pocetna stranica</a></li>
-        <li><ul>
-                <li><a href="mojeUlaznice">Moje ulaznice</a></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
-        </li>
-        <% } else if (Korisnik.TIP_BLAGAJNIK.equals(tip)) { %>
-        <li><a href="prijavljenBlagajnik">Pocetna stranica</a></li>
-        <li><ul>
-                <li><a href="noviDogadjaj">Novi Dogadjaj</a></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
-        </li> 
-        <% } else if (Korisnik.TIP_ADMINISTRATOR.equals(tip)) { %>
-        <li><a href="prijavljenAdministrator">Pocetna stranica</a></li>
-        <li><ul>
-                <li><a href="pregledBlokiranihKorisnika">Pregled blokiranih korisnika:</a></li>
-                <li><a href="noviKorisnik">Novi korisnik</a></li>
-                <li></li>
-                <li></li>
-                <li></li>
-                <li></li>
-            </ul>
-        </li>
-        <% }
-                    } else { %>
-        <li><a href="index">Pocetna stranica</a></li>
-            <% } %>
-            <% if (uslov) {%>
-        <li><a href="promena_lozinke.jsp">Promena lozinke</a></li>
-        <li><a href="proveraPrijavljen">Odjava</a></li>
-            <%} else {%>
-        <li><a href="proveraRegistrovan">Registruj se</a></li>
-        <li><a href="proveraPrijavljen">Prijavi se</a></li>
-            <% } %>
+                String tip = sesija.getAttribute("tip").toString();%>
+        <!--<ul class="nav nav-tabs">-->
+        <ul class="nav nav-tabs justify-content-end">
+            <% if (Korisnik.TIP_REGISTROVANI_KORISNIK.equals(tip)) { %>
+            <li class="nav-items" role="presentation"><a class="nav-link active"  href="index">Pocetna stranica</a></li>
+            <li class="nav-items" role="presentation" class="dropdown"><a class="nav-link"  href="mojeUlaznice">Moje ulaznice</a></li>
 
-        <% if (uslov) {%>
-        <li><a href="promena_lozinke.jsp">Promena lozinke</a></li>
-        <li><a href="proveraPrijavljen">Odjava</a></li>
-            <%} else {%>
-        <li><a href="proveraRegistrovan">Registruj se</a></li>
-        <li><a href="proveraPrijavljen">Prijavi se</a></li>
-            <% }%>
+            <% } else if (Korisnik.TIP_BLAGAJNIK.equals(tip)) { %>
+            <li class="nav-items" role="presentation"><a class="nav-link"  href="prijavljenBlagajnik">Pocetna stranica</a></li>
+            <li class="nav-items" role="presentation"><a class="nav-link"  href="noviDogadjaj">Novi Dogadjaj</a></li>
+
+            <% } else if (Korisnik.TIP_ADMINISTRATOR.equals(tip)) { %>
+            <li class="nav-items" role="presentation"><a class="nav-link"  href="prijavljenAdministrator">Pocetna stranica</a></li>
+            <li class="nav-items" role="presentation"><a class="nav-link"  href="pregledBlokiranihKorisnika">Pregled blokiranih korisnika:</a></li>
+            <li class="nav-items" role="presentation"><a class="nav-link"  href="noviKorisnik">Novi korisnik</a></li>
+                <% } else { %>
+            <li class="nav-items" role="presentation"><a class="nav-link"  href="index">Pocetna stranica</a></li>
+                <% } %>
 
 
-    </ul>
-</nav>
+            <li class="nav-items"role="presentation" class="dropdown">
+                <a class="nav-link"   class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    Opcije
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right justify-content-end">
+                    <% if (uslov) {%>
+                    <li class="nav-items" ><a class="dropdown-item"  href="promena_lozinke.jsp">Promena lozinke</a></li>
+                    <li class="nav-items" ><a class="dropdown-item"  href="proveraPrijavljen">Odjava</a></li>
+                        <%} else {%>
+                    <li class="nav-items" ><a class="dropdown-item"  href="proveraRegistrovan">Registruj se</a></li>
+                    <li class="nav-items" ><a class="dropdown-item"  href="proveraPrijavljen">Prijavi se</a></li>
+                        <% }%>
+                </ul>
+            </li>
+
+
+
+        </ul>
+        <% }%>
+    </nav>
+</div>

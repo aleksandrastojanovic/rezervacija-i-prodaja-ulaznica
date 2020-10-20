@@ -24,7 +24,7 @@ public class BlagajnikBaza implements Baza<Blagajnik> {
         return find(id);
     }
 
-    private static int insert(Blagajnik blagajnik) {
+    private int insert(Blagajnik blagajnik) {
         String query = "INSERT INTO korisnici (tip,ime,prezime,korisnicko_ime,lozinka) VALUES(?,?,?,?,?)";
         ArrayList<Object> vrednosti = new ArrayList();
 
@@ -57,7 +57,7 @@ public class BlagajnikBaza implements Baza<Blagajnik> {
         return id;
     }
 
-    private static int update(Blagajnik blagajnik) {
+    private int update(Blagajnik blagajnik) {
 
         String query = "UPDATE korisnici SET tip = ?, ime = ?, prezime = ?,"
                 + " korisnicko_ime = ?, lozinka = ? WHERE id = ?";
@@ -110,7 +110,7 @@ public class BlagajnikBaza implements Baza<Blagajnik> {
 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(RegistrovaniKorisnikBaza.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BlagajnikBaza.class.getName()).log(Level.SEVERE, null, ex);
         }
         return blagajnik;
 
@@ -136,7 +136,7 @@ public class BlagajnikBaza implements Baza<Blagajnik> {
         return uspesno;
     }
 
-    public static boolean delete(int id) {
+    public boolean delete(int id) {
         String query = "DELETE FROM korisnici WHERE id = ?";
         ArrayList<Object> vrednosti = new ArrayList();
 
@@ -177,8 +177,8 @@ public class BlagajnikBaza implements Baza<Blagajnik> {
                 korisnici.add(blagajnik);
 
             }
-        } catch (Exception e) {
-            System.out.println(e.toString());
+        } catch (SQLException ex) {
+            Logger.getLogger(BlagajnikBaza.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return korisnici;

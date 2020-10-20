@@ -8,24 +8,20 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Pocetna stranica</title>
+
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <title>Pocetna stranica</title>
     </head>
-    
+
     <body>
-        <header>
-        <!-- Meni -->
-        <jsp:include page="parts/meni.jsp"></jsp:include>
-    </header>
-        <div></div>
-        
-        <footer>
-        <!-- Povratak na vrh -->
-        
-    </footer>
+        <jsp:include page="parts/header.jsp"></jsp:include>
+            <div></div>
+
+        <jsp:include page="parts/footer.jsp"></jsp:include>
     </body>
-    
+
 </html>
 
 

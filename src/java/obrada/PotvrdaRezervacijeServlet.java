@@ -22,6 +22,11 @@ import klase.*;
  */
 public class PotvrdaRezervacijeServlet extends HttpServlet {
 
+    private final RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
+    private final StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
+    private final DogadjajBaza dogadjajBaza = new DogadjajBaza();
+    private final BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -42,7 +47,7 @@ public class PotvrdaRezervacijeServlet extends HttpServlet {
 
             HttpSession sesija = request.getSession();
             int korisnikId = (int) sesija.getAttribute("korisnik_id");
-            if (Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))) {
+            if (ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {
                 int rezervacijaId;
                 if (request.getParameter("rezervacija_id") != null) {
                     rezervacijaId = Integer.parseInt(request.getParameter("rezervacija_id"));
@@ -52,13 +57,11 @@ public class PotvrdaRezervacijeServlet extends HttpServlet {
                     response.sendRedirect("prijavljenBlagajnik");
                     return;
                 }
-                RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
                 Rezervacija rezervacija = rezervacijaBaza.find(rezervacijaId);
-                StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
+
                 StrukturaUlaznica strukturaUlaznica = strukturaUlaznicaBaza.find(rezervacija.getStrukturaId());
-                DogadjajBaza dogadjajBaza = new DogadjajBaza();
+
                 Dogadjaj dogadjaj = dogadjajBaza.find(rezervacija.getDogadjajId());
-                BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
                 Blagajnik blagajnik = blagajnikBaza.find(korisnikId);
                 if (!dogadjaj.getNazivLokacije().equals(blagajnik.getNazivLokacije())) {
                     response.sendRedirect("blagajni_pocetna.jsp");
@@ -77,7 +80,7 @@ public class PotvrdaRezervacijeServlet extends HttpServlet {
             }
         } catch (Exception ex) {
             Logger.getLogger(PotvrdaRezervacijeServlet.class.getName()).log(Level.SEVERE, null, ex);
-            response.sendRedirect("errorPage.jsp");
+            response.sendRedirect("error.jsp");
         }
 
     }

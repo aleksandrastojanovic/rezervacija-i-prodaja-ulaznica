@@ -5,9 +5,7 @@
  */
 package obrada;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -15,7 +13,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import klase.*;
 
 /**
@@ -44,8 +41,8 @@ public class NoviKorisnikServlet extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("admin_novi_korisnik.jsp");
             rd.forward(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(NoviDogadjajServlet.class.getName()).log(Level.SEVERE, null, ex);
-            response.sendRedirect("errorPage.jsp");
+            Logger.getLogger(NoviKorisnikServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
         }
     }
 

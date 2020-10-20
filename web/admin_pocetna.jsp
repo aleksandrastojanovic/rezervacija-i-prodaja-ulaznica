@@ -6,28 +6,29 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="klase.Korisnik"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%             
-    ArrayList<Korisnik> korisnici = (ArrayList<Korisnik>)request.getAttribute("korisnici");
- %>
+
 
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Pocetna stranica/admin</title>
+
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+        <title>Pocetna stranica/admin</title>
     </head>
-    
+
     <body>
-        <header>
-        <!-- Meni -->
-        <jsp:include page="parts/meni.jsp"></jsp:include>
-    </header>
+        <jsp:include page="parts/header.jsp"></jsp:include>
+        <%
+            ArrayList<Korisnik> korisnici = (ArrayList<Korisnik>) request.getAttribute("korisnici");
+        %>
         <div>
             <a href="pregledBlokiranihKorisnika"><input type="button" value="Pregled blokiranih korisnika"></a>
         </div>
 
-<div>
+        <div>
             <table>
                 <thead>
                 <th>Id</th>
@@ -37,25 +38,22 @@
                 <th>Korisnicko ime</th>
                 </thead>
                 <%
-                for(Korisnik korisnik: korisnici){%>
+                    for (Korisnik korisnik : korisnici) {%>
                 <tr>
-                    <td><%= ((Korisnik)korisnik).getId()%></td>
-                    <td><%= ((Korisnik)korisnik).getTip()%></td>
-                    <td><%= ((Korisnik)korisnik).getIme()%></td>
-                   <td><%= ((Korisnik)korisnik).getPrezime() %></td>
-                    <td><%= ((Korisnik)korisnik).getKorisnickoIme()%></td>
+                    <td><%= ((Korisnik) korisnik).getId()%></td>
+                    <td><%= ((Korisnik) korisnik).getTip()%></td>
+                    <td><%= ((Korisnik) korisnik).getIme()%></td>
+                    <td><%= ((Korisnik) korisnik).getPrezime()%></td>
+                    <td><%= ((Korisnik) korisnik).getKorisnickoIme()%></td>
                 </tr>
-                 <%   
-                }
+                <%
+                    }
                 %>
             </table>
-</div>
-        <footer>
-        <!-- Povratak na vrh -->
-        
-    </footer>
+        </div>
+        <jsp:include page="parts/footer.jsp"></jsp:include>
     </body>
-    
+
 </html>
 
 

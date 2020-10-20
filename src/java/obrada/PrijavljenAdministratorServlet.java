@@ -7,12 +7,13 @@ package obrada;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import klase.*;
 
 /**
@@ -20,6 +21,8 @@ import klase.*;
  * @author iq skola
  */
 public class PrijavljenAdministratorServlet extends HttpServlet {
+
+    private final KorisnikBaza korisnikBaza = new KorisnikBaza();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,18 +35,21 @@ public class PrijavljenAdministratorServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession sesija = request.getSession();
-        if (sesija.getAttribute("korisnik_id") != null && Korisnik.TIP_ADMINISTRATOR.equals(sesija.getAttribute("tip"))) {
-            RequestDispatcher rd = request.getRequestDispatcher("admin_pocetna.jsp");
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            if (ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_ADMINISTRATOR)) {
+                RequestDispatcher rd = request.getRequestDispatcher("admin_pocetna.jsp");
 
-            KorisnikBaza korisnikBaza = new KorisnikBaza();
-            ArrayList<Korisnik> korisnici = korisnikBaza.all();
-            request.setAttribute("korisnici", korisnici);
-            rd.forward(request, response);
+                ArrayList<Korisnik> korisnici = korisnikBaza.all();
+                request.setAttribute("korisnici", korisnici);
+                rd.forward(request, response);
 
-        } else {
-            response.sendRedirect("proveraPrijavljen");
+            } else {
+                response.sendRedirect("proveraPrijavljen");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(PrijavljenAdministratorServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
         }
     }
 

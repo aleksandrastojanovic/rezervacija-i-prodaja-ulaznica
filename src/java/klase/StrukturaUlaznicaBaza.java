@@ -23,7 +23,7 @@ public class StrukturaUlaznicaBaza implements Baza<StrukturaUlaznica>{
         return find(id);
     }
     
-    private static int insert(StrukturaUlaznica strukturaUlaznica){
+    private int insert(StrukturaUlaznica strukturaUlaznica){
         String query = "INSERT INTO strukture (id_dogadjaja,kategorija,cena,broj_dostupnih_ulaznica,preostalo_ulaznica,granica_po_korisniku) VALUES(?,?,?,?,?,?)";        
         ArrayList<Object> vrednosti = new ArrayList();
         
@@ -40,7 +40,7 @@ public class StrukturaUlaznicaBaza implements Baza<StrukturaUlaznica>{
         return id;
     }
 
-    private static int update(StrukturaUlaznica strukturaUlaznica) {
+    private int update(StrukturaUlaznica strukturaUlaznica) {
         
         String query = "UPDATE strukture SET id_dogadjaja = ?, kategorija = ?, cena = ?,"
                 + " broj_dostupnih_ulaznica = ?, preostalo_ulaznica = ?, granica_po_korisniku = ? WHERE id = ?";
@@ -100,7 +100,7 @@ public class StrukturaUlaznicaBaza implements Baza<StrukturaUlaznica>{
         return uspesno;
     }
     
-    public static boolean delete(int id){
+    public boolean delete(int id){
         String query = "DELETE FROM strukture WHERE id = ?";
         ArrayList<Object> vrednosti = new ArrayList();
         
@@ -137,8 +137,8 @@ public class StrukturaUlaznicaBaza implements Baza<StrukturaUlaznica>{
                     strukture.add(strukturaUlaznica); 
                 
             }
-        } catch(Exception e) {
-            System.out.println(e.toString());
+        } catch (SQLException ex) {
+            Logger.getLogger(StrukturaUlaznicaBaza.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return strukture;

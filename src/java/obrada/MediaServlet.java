@@ -8,6 +8,7 @@ package obrada;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,9 +19,7 @@ import klase.*;
  *
  * @author iq skola
  */
-public class SacuvajKategorijuServlet extends HttpServlet {
-
-    private final StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
+public class MediaServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,36 +32,18 @@ public class SacuvajKategorijuServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         try {
-            response.setContentType("text/html;charset=UTF-8");
             if (!ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {
                 response.sendRedirect("proveraPrijavljen");
                 return;
             }
-
-            StrukturaUlaznica struktura = new StrukturaUlaznica();
-            if (request.getParameter("struktura_id") != null) {
-                struktura = strukturaUlaznicaBaza.find(Integer.parseInt(request.getParameter("struktura_id")));
-                struktura.setId(Integer.parseInt(request.getParameter("struktura_id")));
-            }
-
-            struktura.setIdDogadjaja(Integer.parseInt(request.getParameter("dogadjaj_id")));
-            struktura.setKategorija(request.getParameter("kategorija"));
-            struktura.setCena(Double.parseDouble(request.getParameter("cena")));
-            struktura.setBrojDostupnihUlaznica(Integer.parseInt(request.getParameter("broj_ulaznica")));
-            struktura.setPreostaloUlaznica(struktura.getBrojDostupnihUlaznica());
-
-            struktura = strukturaUlaznicaBaza.save(struktura);
-            if (struktura.getId() > 0) {
-                response.sendRedirect("dogadjajPojedinacno?dogadjaj_id=" + struktura.getIdDogadjaja());
-            } else {
-                //poruka da nije uspesno
-            }
+            RequestDispatcher rd = request.getRequestDispatcher("blagajnik_media.jsp");
+            rd.forward(request, response);
         } catch (Exception ex) {
-            Logger.getLogger(SacuvajKategorijuServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Media.class.getName()).log(Level.SEVERE, null, ex);
             response.sendRedirect("error.jsp");
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

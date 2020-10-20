@@ -6,6 +6,8 @@
 package obrada;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +22,8 @@ import klase.*;
  */
 public class BrisanjeStruktureServlet extends HttpServlet {
 
+    private final StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -31,19 +35,22 @@ public class BrisanjeStruktureServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession sesija = request.getSession();
+        try {
+            response.setContentType("text/html;charset=UTF-8");
 
-        if (sesija.getAttribute("korisnik_id") != null
-                && Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))) {
-            RequestDispatcher rd = request.getRequestDispatcher("prijavljenBlagajnik");
-            StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
-            StrukturaUlaznica struktura = strukturaUlaznicaBaza.find(Integer.parseInt(request.getParameter("struktura_id")));
-            strukturaUlaznicaBaza.delete(struktura);
-            rd.forward(request, response);
-        } else {
-            response.sendRedirect("proveraPrijavljen");
-            //poruka nije prepoznat blagajnik
+            if (ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {
+                RequestDispatcher rd = request.getRequestDispatcher("prijavljenBlagajnik");
+
+                StrukturaUlaznica struktura = strukturaUlaznicaBaza.find(Integer.parseInt(request.getParameter("struktura_id")));
+                strukturaUlaznicaBaza.delete(struktura);
+                rd.forward(request, response);
+            } else {
+                response.sendRedirect("proveraPrijavljen");
+                //poruka nije prepoznat blagajnik
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(BrisanjeStruktureServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
         }
 
     }

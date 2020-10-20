@@ -9,6 +9,8 @@ import baza.Database;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -22,7 +24,7 @@ public class DogadjajBaza implements Baza<Dogadjaj> {
         return find(id);
     }
 
-    private static int insert(Dogadjaj dogadjaj) {
+    private int insert(Dogadjaj dogadjaj) {
         String query = "INSERT INTO dogadjaji (naziv,naziv_lokacije,datum_i_vreme,detalji,"
                 + "glavna_slika_putanja,video_putanja) VALUES(?,?,?,?,?,?)";
         ArrayList<Object> vrednosti = new ArrayList();
@@ -40,7 +42,7 @@ public class DogadjajBaza implements Baza<Dogadjaj> {
         return id;
     }
 
-    private static int update(Dogadjaj dogadjaj) {
+    private int update(Dogadjaj dogadjaj) {
 
         String query = "UPDATE dogadjaji SET naziv = ?, naziv_lokacije = ?, datum_i_vreme = ?,"
                 + " detalji = ?, glavna_slika_putanja = ?, video_putanja = ?"
@@ -82,7 +84,7 @@ public class DogadjajBaza implements Baza<Dogadjaj> {
 
             }
         } catch (SQLException ex) {
-            System.out.println(ex.toString());
+            Logger.getLogger(DogadjajBaza.class.getName()).log(Level.SEVERE, null, ex);
         }
         return dogadjaj;
 
@@ -101,7 +103,7 @@ public class DogadjajBaza implements Baza<Dogadjaj> {
         return uspesno;
     }
 
-    public static boolean delete(int id) {
+    public boolean delete(int id) {
         String query = "DELETE FROM dogadjaji WHERE id = ?";
         ArrayList<Object> vrednosti = new ArrayList();
 
@@ -139,8 +141,39 @@ public class DogadjajBaza implements Baza<Dogadjaj> {
                 dogadjaji.add(dogadjaj);
 
             }
-        } catch (SQLException e) {
-            System.out.println(e.toString());
+        } catch (SQLException ex) {
+            Logger.getLogger(DogadjajBaza.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return dogadjaji;
+    }
+    
+    public ArrayList<Dogadjaj> allForPage(int strana) {
+        ArrayList<Dogadjaj> dogadjaji = new ArrayList<>();
+        try {
+
+            String query = "SELECT * "
+                    + "FROM dogadjaji limit " + (strana-1) + "," + 9;
+
+            Database db = Database.getInstance();
+            ResultSet rs = db.select(query);
+
+            while (rs.next()) {
+                Dogadjaj dogadjaj = new Dogadjaj();
+
+                dogadjaj.setId(rs.getInt("dogadjaj_id"));
+                dogadjaj.setNaziv(rs.getString("naziv"));
+                dogadjaj.setNazivLokacije(rs.getString("naziv_lokacije"));
+                dogadjaj.setDatumIVreme(rs.getTimestamp("datum_i_vreme").toLocalDateTime());
+                dogadjaj.setDetalji(rs.getString("detalji"));
+                dogadjaj.setGlavnaSlikaPutanja(rs.getString("glavna_slika_putanja"));
+                dogadjaj.setVideoPutanja(rs.getString("video_putanja"));
+
+                dogadjaji.add(dogadjaj);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DogadjajBaza.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return dogadjaji;

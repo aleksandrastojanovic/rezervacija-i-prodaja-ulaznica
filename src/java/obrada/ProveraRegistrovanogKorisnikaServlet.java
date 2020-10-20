@@ -6,25 +6,26 @@
 package obrada;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import klase.Korisnik;
 import klase.*;
-import klase.Rezervacija;
-import klase.RezervacijaBaza;
 
 /**
  *
  * @author iq skola
  */
 public class ProveraRegistrovanogKorisnikaServlet extends HttpServlet {
+
+    private final RegistrovaniKorisnikBaza korisnikBaza = new RegistrovaniKorisnikBaza();
+    private final RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,41 +38,44 @@ public class ProveraRegistrovanogKorisnikaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession sesija = request.getSession();
-        RequestDispatcher rd = request.getRequestDispatcher("index");
-        if (sesija.getAttribute("korisnik_id") == null) {
-            response.sendRedirect("index");
-            return;
-        }
-        int korisnikId = (int)sesija.getAttribute("korisnik_id");
-        RegistrovaniKorisnikBaza korisnikBaza = new RegistrovaniKorisnikBaza();
-        RegistrovaniKorisnik korisnik = korisnikBaza.find(korisnikId);
-        LocalDateTime pre48h = LocalDateTime.now().minusDays(2);
-        
-        RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
-        ArrayList<Rezervacija> sveRezervacije = rezervacijaBaza.all();
-        ArrayList<Rezervacija> istekleRezervacije = new ArrayList<>();
-        for(Rezervacija rezervacija : sveRezervacije){
-            if(pre48h.isEqual(rezervacija.getVreme().toLocalDateTime()) 
-                    || pre48h.isBefore(rezervacija.getVreme().toLocalDateTime())){
-                rezervacija.setStatus(Rezervacija.STATUS_ISTEKLO);
-                rezervacija = rezervacijaBaza.save(rezervacija);
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            HttpSession sesija = request.getSession();
+            RequestDispatcher rd = request.getRequestDispatcher("index");
+            if (ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
+                response.sendRedirect("index");
+                return;
             }
-            if(rezervacija.getKorisnikId() == (int)sesija.getAttribute("korisnik_id")
-                    && rezervacija.getStatus().equals(Rezervacija.STATUS_ISTEKLO)){
-                istekleRezervacije.add(rezervacija);
+            int korisnikId = (int) sesija.getAttribute("korisnik_id");
+            RegistrovaniKorisnik korisnik = korisnikBaza.find(korisnikId);
+            LocalDateTime pre48h = LocalDateTime.now().minusDays(2);
+
+            ArrayList<Rezervacija> sveRezervacije = rezervacijaBaza.all();
+            ArrayList<Rezervacija> istekleRezervacije = new ArrayList<>();
+            for (Rezervacija rezervacija : sveRezervacije) {
+                if (pre48h.isEqual(rezervacija.getVreme().toLocalDateTime())
+                        || pre48h.isBefore(rezervacija.getVreme().toLocalDateTime())) {
+                    rezervacija.setStatus(Rezervacija.STATUS_ISTEKLO);
+                    rezervacija = rezervacijaBaza.save(rezervacija);
+                }
+                if (rezervacija.getKorisnikId() == (int) sesija.getAttribute("korisnik_id")
+                        && rezervacija.getStatus().equals(Rezervacija.STATUS_ISTEKLO)) {
+                    istekleRezervacije.add(rezervacija);
+                }
             }
+            if (istekleRezervacije.size() >= 3) {
+                korisnik.setTip(Korisnik.TIP_BLOKIRANI_KORISNIK);
+                korisnik = korisnikBaza.save(korisnik);
+            }
+            if (!korisnik.getTip().equals(Korisnik.TIP_REGISTROVANI_KORISNIK)) {
+                sesija.setAttribute("korisnik_id", -1);
+            }
+            rd.forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(ProveraRegistrovanogKorisnikaServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
         }
-        if(istekleRezervacije.size() >= 3){
-            korisnik.setTip(Korisnik.TIP_BLOKIRANI_KORISNIK);
-            korisnik = korisnikBaza.save(korisnik);
-        }
-        if(!korisnik.getTip().equals(Korisnik.TIP_REGISTROVANI_KORISNIK)){
-            sesija.setAttribute("korisnik_id", -1);
-        } 
-        rd.forward(request, response);
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

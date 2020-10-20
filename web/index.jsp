@@ -8,59 +8,240 @@
 <%@page import="klase.Dogadjaj"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% 
-    ArrayList<Dogadjaj> dogadjaji = (ArrayList<Dogadjaj>) request.getAttribute("dogadjaji");
-%><!DOCTYPE html>
+<!DOCTYPE html>
 <html>
     <head>
-        <title>Pocetna stranica</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <title>Pocetna stranica</title>
     </head>
-
+    <style>
+        .card-img-top {
+            width: 100%;
+            height: 13vw;
+            object-fit: cover;
+        }
+    </style>
     <body>
-        <header>
-            <!-- Meni -->
-            <jsp:include page="parts/meni.jsp"></jsp:include>
-            </header>
+        <jsp:include page="parts/header.jsp"></jsp:include>
+        <%
+            ArrayList<Dogadjaj> dogadjaji = (ArrayList<Dogadjaj>) request.getAttribute("dogadjaji");
+            int ukupnoStrana = (Integer) request.getAttribute("ukupnoStrana");
+        %>
+
+        <div class="container-fluid pt-3" >
             <jsp:include page="parts/pretraga_dogadjaja.jsp"></jsp:include>
+
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <div class="row">
+
+                        <%
+                            for (Dogadjaj dogadjaj : dogadjaji) {%>
+                        <div class="col-md-4 pt-2">
+                            <div class="card border rounded">
+                                <% if (request.getSession().getAttribute("korisnik_id") != null && request.getSession().getAttribute("tip") != null) {%>
+                                <a href="dogadjajPojedinacno?dogadjaj_id=<%= "" + dogadjaj.getId()%>" >
+                                    <% } else { %>
+                                    <a href="proveraRegistrovan" class="btn btn-primary">Detaljnije</a>    
+                                    <% }%>
+                                    <div class="card-img-top">
+                                        <img class="card-img-top" src="ucitajMediu?dogadjaj_id=1&ime=prva.jpg" alt="Glavna slika">
+                                    </div>
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title"><%= ((Dogadjaj) dogadjaj).getNaziv()%></h5>
+                                    <p class="card-text">
+                                        <%= ((Dogadjaj) dogadjaj).getNazivLokacije()%>
+                                        <br>
+                                        <%= ((Dogadjaj) dogadjaj).getDatumIVreme()%>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <% }%>
+                        <hr>
+                       <nav aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <% for (int i = 0; i < ukupnoStrana; i++) {%>
+                                <li class="page-item"><a class="page-link" href="index?trenutniBrojStrane="<%= (i + 1) %>>1</a></li>
+                                    <% } %>
+                            </ul>
+                        </nav>
+
+                        <!-- odavde brisi -->
+
+                        <%
+                            for (Dogadjaj dogadjaj : dogadjaji) {%>
+                        <div class="col-md-4 pt-2">
+                            <div class="card border rounded">
+                                <% if (request.getSession().getAttribute("korisnik_id") != null && request.getSession().getAttribute("tip") != null) {%>
+                                <a href="dogadjajPojedinacno?dogadjaj_id=<%= "" + dogadjaj.getId()%>" >
+                                    <% } else { %>
+                                    <a href="proveraRegistrovan" class="btn btn-primary">Detaljnije</a>    
+                                    <% }%>
+                                    <div class="card-img-top">
+                                        <img class="card-img-top" src="ucitajMediu?dogadjaj_id=1&ime=prva.jpg" alt="Glavna slika">
+                                    </div>
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title"><%= ((Dogadjaj) dogadjaj).getNaziv()%></h5>
+                                    <p class="card-text">
+                                        <%= ((Dogadjaj) dogadjaj).getNazivLokacije()%>
+                                        <br>
+                                        <%= ((Dogadjaj) dogadjaj).getDatumIVreme()%>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <% }%>  <%
+                            for (Dogadjaj dogadjaj : dogadjaji) {%>
+                        <div class="col-md-4 pt-2">
+                            <div class="card border rounded">
+                                <% if (request.getSession().getAttribute("korisnik_id") != null && request.getSession().getAttribute("tip") != null) {%>
+                                <a href="dogadjajPojedinacno?dogadjaj_id=<%= "" + dogadjaj.getId()%>" >
+                                    <% } else { %>
+                                    <a href="proveraRegistrovan" class="btn btn-primary">Detaljnije</a>    
+                                    <% }%>
+                                    <div class="card-img-top">
+                                        <img class="card-img-top" src="ucitajMediu?dogadjaj_id=1&ime=prva.jpg" alt="Glavna slika">
+                                    </div>
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title"><%= ((Dogadjaj) dogadjaj).getNaziv()%></h5>
+                                    <p class="card-text">
+                                        <%= ((Dogadjaj) dogadjaj).getNazivLokacije()%>
+                                        <br>
+                                        <%= ((Dogadjaj) dogadjaj).getDatumIVreme()%>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <% }%>
+
+                        <%
+                            for (Dogadjaj dogadjaj : dogadjaji) {%>
+                        <div class="col-md-4 pt-2">
+                            <div class="card border rounded">
+                                <% if (request.getSession().getAttribute("korisnik_id") != null && request.getSession().getAttribute("tip") != null) {%>
+                                <a href="dogadjajPojedinacno?dogadjaj_id=<%= "" + dogadjaj.getId()%>" >
+                                    <% } else { %>
+                                    <a href="proveraRegistrovan" class="btn btn-primary">Detaljnije</a>    
+                                    <% }%>
+                                    <div class="card-img-top">
+                                        <img class="card-img-top" src="ucitajMediu?dogadjaj_id=1&ime=prva.jpg" alt="Glavna slika">
+                                    </div>
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title"><%= ((Dogadjaj) dogadjaj).getNaziv()%></h5>
+                                    <p class="card-text">
+                                        <%= ((Dogadjaj) dogadjaj).getNazivLokacije()%>
+                                        <br>
+                                        <%= ((Dogadjaj) dogadjaj).getDatumIVreme()%>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <% }%>  <%
+                            for (Dogadjaj dogadjaj : dogadjaji) {%>
+                        <div class="col-md-4 pt-2">
+                            <div class="card border rounded">
+                                <% if (request.getSession().getAttribute("korisnik_id") != null && request.getSession().getAttribute("tip") != null) {%>
+                                <a href="dogadjajPojedinacno?dogadjaj_id=<%= "" + dogadjaj.getId()%>" >
+                                    <% } else { %>
+                                    <a href="proveraRegistrovan" class="btn btn-primary">Detaljnije</a>    
+                                    <% }%>
+                                    <div class="card-img-top">
+                                        <img class="card-img-top" src="ucitajMediu?dogadjaj_id=1&ime=prva.jpg" alt="Glavna slika">
+                                    </div>
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title"><%= ((Dogadjaj) dogadjaj).getNaziv()%></h5>
+                                    <p class="card-text">
+                                        <%= ((Dogadjaj) dogadjaj).getNazivLokacije()%>
+                                        <br>
+                                        <%= ((Dogadjaj) dogadjaj).getDatumIVreme()%>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <% }%>  <%
+                            for (Dogadjaj dogadjaj : dogadjaji) {%>
+                        <div class="col-md-4 pt-2">
+                            <div class="card border rounded">
+                                <% if (request.getSession().getAttribute("korisnik_id") != null && request.getSession().getAttribute("tip") != null) {%>
+                                <a href="dogadjajPojedinacno?dogadjaj_id=<%= "" + dogadjaj.getId()%>" >
+                                    <% } else { %>
+                                    <a href="proveraRegistrovan" class="btn btn-primary">Detaljnije</a>    
+                                    <% }%>
+                                    <div class="card-img-top">
+                                        <img class="card-img-top" src="ucitajMediu?dogadjaj_id=1&ime=prva.jpg" alt="Glavna slika">
+                                    </div>
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title"><%= ((Dogadjaj) dogadjaj).getNaziv()%></h5>
+                                    <p class="card-text">
+                                        <%= ((Dogadjaj) dogadjaj).getNazivLokacije()%>
+                                        <br>
+                                        <%= ((Dogadjaj) dogadjaj).getDatumIVreme()%>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <% }%>  <%
+                            for (Dogadjaj dogadjaj : dogadjaji) {%>
+                        <div class="col-md-4 pt-2">
+                            <div class="card border rounded">
+                                <% if (request.getSession().getAttribute("korisnik_id") != null && request.getSession().getAttribute("tip") != null) {%>
+                                <a href="dogadjajPojedinacno?dogadjaj_id=<%= "" + dogadjaj.getId()%>" >
+                                    <% } else { %>
+                                    <a href="proveraRegistrovan" class="btn btn-primary">Detaljnije</a>    
+                                    <% }%>
+                                    <div class="card-img-top">
+                                        <img class="card-img-top" src="ucitajMediu?dogadjaj_id=1&ime=prva.jpg" alt="Glavna slika">
+                                    </div>
+                                </a>
+                                <div class="card-body">
+                                    <h5 class="card-title"><%= ((Dogadjaj) dogadjaj).getNaziv()%></h5>
+                                    <p class="card-text">
+                                        <%= ((Dogadjaj) dogadjaj).getNazivLokacije()%>
+                                        <br>
+                                        <%= ((Dogadjaj) dogadjaj).getDatumIVreme()%>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <% }%>
+
+                        <!-- dovde brisi -->
+
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+            <hr>
             <div>
-                <table>
-                    <thead>
-                    <th>Naziv dogadjaja</th>
-                    <th>Naziv lokacije</th>
-                    <th>Datum i vreme</th>
-                    <th>Detalji</th>
-                    </thead>
-                <%
-                    for (Dogadjaj dogadjaj : dogadjaji) {%>
-                <tr>
-                    <td><%= ((Dogadjaj) dogadjaj).getNaziv()%></td>
-                    <td><%= ((Dogadjaj) dogadjaj).getNazivLokacije()%></td>
-                    <td><%= ((Dogadjaj) dogadjaj).getDatumIVreme()%></td>
-                    <% if (request.getSession().getAttribute("korisnik_id") != null && request.getSession().getAttribute("tip") != null) {%>                    
-                    <td><a href="dogadjajPojedinacno?dogadjaj_id=<%= "" + dogadjaj.getId()%>">
-                            <input type="button" name="dogadjaj_pojedinacno" value="Detaljnije"></a></td>
-                            <% } else { %>
-                    <td><a href="proveraRegistrovan">
-                            <input type="button" name="registracija" value="Detaljnije"></a></td>    
-                            <% } %>
-                </tr>
-                <%
-                    }
-                %>
-                <!-- <tr>
-                    <td></td>
-                </tr> -->
-            </table>
+                <a href="mojeUlaznice">Moje ulaznice</a>
+            </div>
+
         </div>
-        <hr>
-        <div><a href="mojeUlaznice">Moje ulaznice</a></div>
-
-        <footer>
-            <!-- Povratak na vrh -->
-
-        </footer>
+        <jsp:include page="parts/footer.jsp"></jsp:include>
     </body>
 
 </html>

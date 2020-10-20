@@ -7,6 +7,8 @@ package obrada;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -21,6 +23,9 @@ import klase.*;
  */
 public class PrijavljenBlagajnikServlet extends HttpServlet {
 
+    private final BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
+    private final DogadjajBaza dogadjajBaza = new DogadjajBaza();
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -32,27 +37,30 @@ public class PrijavljenBlagajnikServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession sesija = request.getSession();
-        if (sesija.getAttribute("korisnik_id") != null && Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))) {
-            RequestDispatcher rd = request.getRequestDispatcher("blagajnik_pocetna.jsp");
-            BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
-            Blagajnik blagajnik = (Blagajnik) blagajnikBaza.find((Integer) sesija.getAttribute("korisnik_id"));
-            request.setAttribute("korisnik", blagajnik);
-
-            DogadjajBaza dogadjajBaza = new DogadjajBaza();
-            ArrayList<Dogadjaj> sviDogadjaji = dogadjajBaza.all();
-            ArrayList<Dogadjaj> dogadjaji = new ArrayList<>();
-            for (Dogadjaj dogadjaj : sviDogadjaji) {
-                if (dogadjaj.getNazivLokacije().equals(blagajnik.getNazivLokacije())) {
-                    dogadjaji.add(dogadjaj);
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            HttpSession sesija = request.getSession();
+            if (ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {
+                RequestDispatcher rd = request.getRequestDispatcher("blagajnik_pocetna.jsp");
+                Blagajnik blagajnik = (Blagajnik) blagajnikBaza.find((Integer) sesija.getAttribute("korisnik_id"));
+                request.setAttribute("korisnik", blagajnik);
+                
+                ArrayList<Dogadjaj> sviDogadjaji = dogadjajBaza.all();
+                ArrayList<Dogadjaj> dogadjaji = new ArrayList<>();
+                for (Dogadjaj dogadjaj : sviDogadjaji) {
+                    if (dogadjaj.getNazivLokacije().equals(blagajnik.getNazivLokacije())) {
+                        dogadjaji.add(dogadjaj);
+                    }
                 }
+                request.setAttribute("dogadjaji", dogadjaji);
+                
+                rd.forward(request, response);
+            } else {
+                response.sendRedirect("proveraPrijavljen");
             }
-            request.setAttribute("dogadjaji", dogadjaji);
-
-            rd.forward(request, response);
-        } else {
-            response.sendRedirect("proveraPrijavljen");
+        } catch (Exception ex) {
+            Logger.getLogger(PrijavljenBlagajnikServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
         }
     }
 

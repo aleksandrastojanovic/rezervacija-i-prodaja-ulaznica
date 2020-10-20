@@ -24,7 +24,7 @@ public class RegistrovaniKorisnikBaza implements Baza<RegistrovaniKorisnik> {
         return find(id);
     }
 
-    private static int insert(RegistrovaniKorisnik registrovaniKorisnik) {
+    private int insert(RegistrovaniKorisnik registrovaniKorisnik) {
         String query = "INSERT INTO korisnici (tip,ime,prezime,korisnicko_ime,lozinka) VALUES(?,?,?,?,?)";
         ArrayList<Object> vrednosti = new ArrayList();
 
@@ -58,7 +58,7 @@ public class RegistrovaniKorisnikBaza implements Baza<RegistrovaniKorisnik> {
         return id;
     }
 
-    private static int update(RegistrovaniKorisnik registrovaniKorisnik) {
+    private int update(RegistrovaniKorisnik registrovaniKorisnik) {
 
         String query = "UPDATE korisnici SET tip = ?, ime = ?, prezime = ?,"
                 + " korisnicko_ime = ?, lozinka = ? WHERE id = ?";
@@ -138,7 +138,7 @@ public class RegistrovaniKorisnikBaza implements Baza<RegistrovaniKorisnik> {
         return uspesno;
     }
 
-    public static boolean delete(int id) {
+    public boolean delete(int id) {
         String query = "DELETE FROM korisnici WHERE id = ?";
         ArrayList<Object> vrednosti = new ArrayList();
 
@@ -179,8 +179,8 @@ public class RegistrovaniKorisnikBaza implements Baza<RegistrovaniKorisnik> {
                 korisnici.add(registrovaniKorisnik);
 
             }
-        } catch (Exception e) {
-            System.out.println(e.toString());
+        } catch (SQLException ex) {
+            Logger.getLogger(RegistrovaniKorisnikBaza.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return korisnici;

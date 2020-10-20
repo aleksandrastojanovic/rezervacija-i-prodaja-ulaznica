@@ -11,23 +11,22 @@
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<% Blagajnik blagajnik = (Blagajnik) request.getAttribute("korisnik");
-    ArrayList<StrukturaUlaznica> strukture = (ArrayList<StrukturaUlaznica>) request.getAttribute("strukture");
-%>
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Kategorije ulaznica</title>
+    <head>        
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <title>Kategorije ulaznica</title>
     </head>
 
     <body>
-        <header>
-            <!-- Meni -->
-            <jsp:include page="parts/meni.jsp"></jsp:include>
-        </header>
+        <jsp:include page="parts/header.jsp"></jsp:include>
 
+        <%
+            Blagajnik blagajnik = (Blagajnik) request.getAttribute("korisnik");
+            ArrayList<StrukturaUlaznica> strukture = (ArrayList<StrukturaUlaznica>) request.getAttribute("strukture");
+        %>
         <div>
 
             <table>
@@ -38,7 +37,7 @@
                 <th></th>
                 </thead>
                 <%
-                            for (StrukturaUlaznica struktura : strukture) {%>
+                    for (StrukturaUlaznica struktura : strukture) {%>
                 <tr>
                     <td><%= ((StrukturaUlaznica) struktura).getKategorija()%></td>
                     <td><%= ((StrukturaUlaznica) struktura).getCena()%></td>
@@ -53,12 +52,12 @@
                 %>
             </table>
         </div>
-            
+
         <div>
             <form action="sacuvajKategoriju">
 
                 <h3>Dodaj novu kategoriju ulaznica: </h3><br>
-                <input type="hidden" name="dogadjaj_id" value="<%= request.getAttribute("dogadjaj_id") %>" />
+                <input type="hidden" name="dogadjaj_id" value="<%= request.getAttribute("dogadjaj_id")%>" />
                 <label for='kategorija'>Nova kategorija ulaznica:</label>
                 <input type='text' id='kategorija' name="kategorija" placeholder="Unesite naziv kategorije">
                 <label for='cena'>| Cena:</label>
@@ -69,10 +68,7 @@
             </form>
         </div>
 
-        <footer>
-            <!-- Povratak na vrh -->
-
-        </footer>
+        <jsp:include page="parts/footer.jsp"></jsp:include>
     </body>
 
 </html>

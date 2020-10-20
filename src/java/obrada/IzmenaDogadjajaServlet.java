@@ -7,13 +7,14 @@ package obrada;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import klase.*;
 
 /**
@@ -22,6 +23,8 @@ import klase.*;
  */
 @WebServlet(name = "IzmenaDogadjajaServlet", urlPatterns = {"/izmenaDogadjaja"})
 public class IzmenaDogadjajaServlet extends HttpServlet {
+
+    private final DogadjajBaza dogadjajBaza = new DogadjajBaza();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,35 +37,31 @@ public class IzmenaDogadjajaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession sesija = request.getSession();
-        if(sesija.getAttribute("korisnik_id") == null || (int)sesija.getAttribute("korisnik_id") < 0){
-            response.sendRedirect("proveraPrijavljen");
-            return;
-        }
-        if(Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))){
-            RequestDispatcher rd = request.getRequestDispatcher("prijavljenBlagajnik");
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
+                response.sendRedirect("proveraPrijavljen");
+                return;
+            }
+            if (ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {
+                RequestDispatcher rd = request.getRequestDispatcher("prijavljenBlagajnik");
                 
-            DogadjajBaza dogadjajBaza = new DogadjajBaza();        
-            Dogadjaj dogadjaj = dogadjajBaza.find(Integer.parseInt(request.getParameter("dogadjaj_id")));
-            
-            dogadjaj.setNaziv(request.getParameter("naziv"));
-            dogadjaj.setNazivLokacije(request.getParameter("naziv_lokacije"));
-            dogadjaj.setDatumIVreme(LocalDateTime.parse(request.getParameter("vreme_odrzavanja")));
-            dogadjaj.setDetalji(request.getParameter("detalji"));
-            dogadjajBaza.save(dogadjaj);
-
-            request.setAttribute("dogadjaj",dogadjaj);
-            rd.forward(request, response);
+                Dogadjaj dogadjaj = dogadjajBaza.find(Integer.parseInt(request.getParameter("dogadjaj_id")));
+                
+                dogadjaj.setNaziv(request.getParameter("naziv"));
+                dogadjaj.setNazivLokacije(request.getParameter("naziv_lokacije"));
+                dogadjaj.setDatumIVreme(LocalDateTime.parse(request.getParameter("vreme_odrzavanja")));
+                dogadjaj.setDetalji(request.getParameter("detalji"));
+                dogadjajBaza.save(dogadjaj);
+                
+                request.setAttribute("dogadjaj", dogadjaj);
+                rd.forward(request, response);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(IzmenaDogadjajaServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
         }
-        
-        
-        
-        
-        
-        
-        
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

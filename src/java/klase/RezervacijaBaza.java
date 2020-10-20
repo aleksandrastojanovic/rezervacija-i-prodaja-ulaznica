@@ -23,7 +23,7 @@ public class RezervacijaBaza implements Baza<Rezervacija>{
         return find(id);
     }
     
-    private static int insert(Rezervacija rezervacija){
+    private int insert(Rezervacija rezervacija){
         String query = "INSERT INTO rezervacije (korisnik_id,dogadjaj_id,broj_ulaznica,struktura_id,status) VALUES(?,?,?,?,?)";        
         ArrayList<Object> vrednosti = new ArrayList();
         
@@ -40,7 +40,7 @@ public class RezervacijaBaza implements Baza<Rezervacija>{
         return id;
     }
 
-    private static int update(Rezervacija rezervacija) {
+    private int update(Rezervacija rezervacija) {
         
         String query = "UPDATE rezervacije SET korisnik_id = ?, dogadjaj_id = ?,"
                 + " broj_ulaznica = ?, struktura_id = ?, status = ? WHERE id = ?";
@@ -81,7 +81,7 @@ public class RezervacijaBaza implements Baza<Rezervacija>{
                                 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(RegistrovaniKorisnikBaza.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RezervacijaBaza.class.getName()).log(Level.SEVERE, null, ex);
         }
         return rezervacija;
         
@@ -100,7 +100,7 @@ public class RezervacijaBaza implements Baza<Rezervacija>{
         return uspesno;
     }
     
-    public static boolean delete(int id){
+    public boolean delete(int id){
         String query = "DELETE FROM rezervacije WHERE id = ?";
         ArrayList<Object> vrednosti = new ArrayList();
         
@@ -138,8 +138,8 @@ public class RezervacijaBaza implements Baza<Rezervacija>{
                     rezervacije.add(rezervacija); 
                 
             }
-        } catch(Exception e) {
-            System.out.println(e.toString());
+        } catch (SQLException ex) {
+            Logger.getLogger(RezervacijaBaza.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return rezervacije;

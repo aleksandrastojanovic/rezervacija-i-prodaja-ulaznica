@@ -5,16 +5,17 @@
  */
 package obrada;
 
-import klase.MediaBaza;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import klase.Media;
+import klase.*;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -42,39 +43,48 @@ public class SacuvajMediaServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        if (!ServletFileUpload.isMultipartContent(request)) {
-            // poruka: greska pri snimanju
-            // da ga salje na pravljenje novog dogadjaja ispocetka?
-            response.sendRedirect("");
-        }
-        int dogadjajId = Integer.parseInt(request.getParameter("dogadjaj_id"));
-        String putanjaZaDogadjaj = putanjaFoldera + dogadjajId;
         try {
-            List<FileItem> fileItems = ucitaj(request);
-            int brojacMedia = 0;
-            for (FileItem fileItem : fileItems) {
-                if (!fileItem.isFormField()) {
-                    if (brojacMedia++ >= maksimalanBrojMedia) {
-                        break;
-                    }
-                    Media media = napraviMedia(fileItem, putanjaZaDogadjaj, dogadjajId);
-                    media = mediaBaza.save(media);
-                    if (media.getId() < 0) {
-                        // greska, nije snimio fajl
-                        // ali imamo ih vise, sta ako ne snimi jedan samo?
+            if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
+                response.sendRedirect("");
+                return;
+            }
+
+            if (!ServletFileUpload.isMultipartContent(request)) {
+                // poruka: greska pri snimanju
+                // da ga salje na pravljenje novog dogadjaja ispocetka?
+                response.sendRedirect("");
+            }
+            int dogadjajId = Integer.parseInt(request.getParameter("dogadjaj_id"));
+            String putanjaZaDogadjaj = putanjaFoldera + dogadjajId;
+            try {
+                List<FileItem> fileItems = ucitaj(request);
+                int brojacMedia = 0;
+                for (FileItem fileItem : fileItems) {
+                    if (!fileItem.isFormField()) {
+                        if (brojacMedia++ >= maksimalanBrojMedia) {
+                            break;
+                        }
+                        Media media = napraviMedia(fileItem, putanjaZaDogadjaj, dogadjajId);
+                        media = mediaBaza.save(media);
+                        if (media.getId() < 0) {
+                            // greska, nije snimio fajl
+                            // ali imamo ih vise, sta ako ne snimi jedan samo?
+                        }
                     }
                 }
+            } catch (Exception ex) {
+                System.out.println(ex);
+                // da ga salje na pravljenje novog dogadjaja ispocetka?
+                response.sendRedirect("");
             }
+
+            // treba da se salje na strukture, da bi se snimale strukture
+            RequestDispatcher rd = request.getRequestDispatcher("novaStruktura");
+            rd.forward(request, response);
         } catch (Exception ex) {
-            System.out.println(ex);
-            // da ga salje na pravljenje novog dogadjaja ispocetka?
-            response.sendRedirect("");
+            Logger.getLogger(SacuvajMediaServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
         }
-        
-        // treba da se salje na strukture, da bi se snimale strukture
-        RequestDispatcher rd = request.getRequestDispatcher("");
-        rd.forward(request, response);
     }
 
     private Media napraviMedia(FileItem fajl, String putanjaZaDogadjaj, int dogadjajId) {
@@ -133,4 +143,3 @@ public class SacuvajMediaServlet extends HttpServlet {
     }// </editor-fold>
 
 }
-

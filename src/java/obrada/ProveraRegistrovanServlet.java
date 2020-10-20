@@ -6,11 +6,13 @@
 package obrada;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import klase.ProvereKorisnik;
 
 /**
  *
@@ -30,13 +32,15 @@ public class ProveraRegistrovanServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession sesija = request.getSession();
-        if(sesija.getAttribute("korisnik_id") != null && (sesija.getAttribute("tip") != null)
-                || (int) sesija.getAttribute("korisnik_id") > 0){
-            response.sendRedirect("prijavljenProvera");
-        }
-        else {
-            response.sendRedirect("registracija.jsp");
+        try {
+            if (ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
+                response.sendRedirect("prijavljenProvera");
+            } else {
+                response.sendRedirect("registracija.jsp");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ProveraRegistrovanServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
         }
     }
 

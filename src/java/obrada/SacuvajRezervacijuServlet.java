@@ -8,6 +8,8 @@ package obrada;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +24,10 @@ import klase.*;
  */
 public class SacuvajRezervacijuServlet extends HttpServlet {
 
+    private final DogadjajBaza dogadjajBaza = new DogadjajBaza();
+    private final RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
+    private final StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -33,86 +39,88 @@ public class SacuvajRezervacijuServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession sesija = request.getSession();
-        int korisnikId = (Integer) sesija.getAttribute("korisnik_id");
-        if (korisnikId == -1) {
-            response.sendRedirect("proveraPrijavljen");
-            return;
-        }
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            HttpSession sesija = request.getSession();
+            int korisnikId = (Integer) sesija.getAttribute("korisnik_id");
+            if (ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
+                response.sendRedirect("proveraPrijavljen");
+                return;
+            }
 
-        String tip = sesija.getAttribute("tip").toString();
-        String putanja;
+            String tip = sesija.getAttribute("tip").toString();
+            String putanja;
 
-        DogadjajBaza dogadjajBaza = new DogadjajBaza();
-        Dogadjaj dogadjaj = dogadjajBaza.find(Integer.parseInt(request.getParameter("dogadjaj_id")));
-        RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
-        ArrayList<Rezervacija> rezervacije = rezervacijaBaza.all();
+            Dogadjaj dogadjaj = dogadjajBaza.find(Integer.parseInt(request.getParameter("dogadjaj_id")));
+            ArrayList<Rezervacija> rezervacije = rezervacijaBaza.all();
 
-        Rezervacija rezervacija = napraviRezervaciju(sesija, request);
-        StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
-        StrukturaUlaznica struktura = strukturaUlaznicaBaza.find(rezervacija.getStrukturaId());
-        
-        int brojUlaznica = Integer.parseInt(request.getParameter("broj_ulaznica"));
-        switch (tip) {
-            case Korisnik.TIP_REGISTROVANI_KORISNIK:
-                if (LocalDateTime.now().isAfter(dogadjaj.getDatumIVreme().minusDays(2))) {
-                    //poruka ulaznice je moguce kupiti samo na blagajni
-                    response.sendRedirect("index");
-                    return;
-                }
-                putanja = "mojeUlaznice";
-                //prodjem kroz sve rezervacije za tog korisnika i nadjem po strukturi id, i onda sabiram broj_ulaznica
-                //i poredim sa granicomPoKorisniku
-                //i rezervacija vazi dva dana, nakon cega registrovani korisnik ne moze da rezervise za taj dogadjaj, ako nije placeno
-                
-                for (Rezervacija rezervacijaKorisnika : rezervacije) {
-                    int ukupanBrojUlaznica = brojUlaznica;
-                    if (rezervacijaKorisnika.getKorisnikId() == korisnikId) {
-                        if (rezervacijaKorisnika.getDogadjajId() == dogadjaj.getId()
-                                && !Rezervacija.STATUS_PLACENO.equals(rezervacijaKorisnika.getStatus())) {
-                            putanja = "dogadjajPojedinacno"; //greska ne moze da rezervise za taj dogadjaj dok ne plati
-                            request.setAttribute("dogadjajId", dogadjaj.getId());
-                        }
-                        if (rezervacijaKorisnika.getStrukturaId() == struktura.getId()) {
-                            ukupanBrojUlaznica += rezervacijaKorisnika.getBrojUlaznica();
-                            if (struktura.getGranicaPoKorisniku() - ukupanBrojUlaznica < 0) {
-                                response.sendRedirect("index"); //greska ne moze da rezervise vise od granicaPoKorisniku karata
+            Rezervacija rezervacija = napraviRezervaciju(sesija, request);
+            StrukturaUlaznica struktura = strukturaUlaznicaBaza.find(rezervacija.getStrukturaId());
+
+            int brojUlaznica = Integer.parseInt(request.getParameter("broj_ulaznica"));
+            switch (tip) {
+                case Korisnik.TIP_REGISTROVANI_KORISNIK:
+                    if (LocalDateTime.now().isAfter(dogadjaj.getDatumIVreme().minusDays(2))) {
+                        //poruka ulaznice je moguce kupiti samo na blagajni
+                        response.sendRedirect("index");
+                        return;
+                    }
+                    putanja = "mojeUlaznice";
+                    //prodjem kroz sve rezervacije za tog korisnika i nadjem po strukturi id, i onda sabiram broj_ulaznica
+                    //i poredim sa granicomPoKorisniku
+                    //i rezervacija vazi dva dana, nakon cega registrovani korisnik ne moze da rezervise za taj dogadjaj, ako nije placeno
+
+                    for (Rezervacija rezervacijaKorisnika : rezervacije) {
+                        int ukupanBrojUlaznica = brojUlaznica;
+                        if (rezervacijaKorisnika.getKorisnikId() == korisnikId) {
+                            if (rezervacijaKorisnika.getDogadjajId() == dogadjaj.getId()
+                                    && !Rezervacija.STATUS_PLACENO.equals(rezervacijaKorisnika.getStatus())) {
+                                putanja = "dogadjajPojedinacno"; //greska ne moze da rezervise za taj dogadjaj dok ne plati
+                                request.setAttribute("dogadjajId", dogadjaj.getId());
+                            }
+                            if (rezervacijaKorisnika.getStrukturaId() == struktura.getId()) {
+                                ukupanBrojUlaznica += rezervacijaKorisnika.getBrojUlaznica();
+                                if (struktura.getGranicaPoKorisniku() - ukupanBrojUlaznica < 0) {
+                                    response.sendRedirect("index"); //greska ne moze da rezervise vise od granicaPoKorisniku karata
+                                }
                             }
                         }
                     }
-                }
-                break;
-            case Korisnik.TIP_BLAGAJNIK:
-                putanja = "potvrdaRezervacije";
-                break;
-            default:
-                response.sendRedirect("proveraPrijavljen");
-                return;
-        }
-
-        if (struktura.getPreostaloUlaznica() - brojUlaznica >= 0) {
-            rezervacija.setBrojUlaznica(brojUlaznica);
-            struktura.setPreostaloUlaznica(struktura.getPreostaloUlaznica() - rezervacija.getBrojUlaznica());
-            strukturaUlaznicaBaza.save(struktura);
-            rezervacija = rezervacijaBaza.save(rezervacija);
-
-            if (rezervacija.getId() > 0) {
-                request.setAttribute("rezervacija_id", rezervacija.getId());
-            } else {
-                //poruka da nije uspesno
-//                response.sendRedirect("dogadjajPojedinacno");
-                putanja = "dogadjajPojedinacno";
-                request.setAttribute("dogadjajId", dogadjaj.getId());
+                    break;
+                case Korisnik.TIP_BLAGAJNIK:
+                    putanja = "potvrdaRezervacije";
+                    break;
+                default:
+                    response.sendRedirect("proveraPrijavljen");
+                    return;
             }
-        } else {
-            //nema vise dostupnih ulaznica, molimo izaberite drugu kategoriju.
-            //ili jos bolje, da se prikazuje odmah poruka cim ide na submit, ali
-            //mislim da svakako ostaje i ovde provera
-            response.sendRedirect("index");
+
+            if (struktura.getPreostaloUlaznica() - brojUlaznica >= 0) {
+                rezervacija.setBrojUlaznica(brojUlaznica);
+                struktura.setPreostaloUlaznica(struktura.getPreostaloUlaznica() - rezervacija.getBrojUlaznica());
+                strukturaUlaznicaBaza.save(struktura);
+                rezervacija = rezervacijaBaza.save(rezervacija);
+
+                if (rezervacija.getId() > 0) {
+                    request.setAttribute("rezervacija_id", rezervacija.getId());
+                } else {
+                    //poruka da nije uspesno
+//                response.sendRedirect("dogadjajPojedinacno");
+                    putanja = "dogadjajPojedinacno";
+                    request.setAttribute("dogadjajId", dogadjaj.getId());
+                }
+            } else {
+                //nema vise dostupnih ulaznica, molimo izaberite drugu kategoriju.
+                //ili jos bolje, da se prikazuje odmah poruka cim ide na submit, ali
+                //mislim da svakako ostaje i ovde provera
+                response.sendRedirect("index");
+            }
+            RequestDispatcher rd = request.getRequestDispatcher(putanja);
+            rd.forward(request, response);
+        } catch (Exception ex) {
+            Logger.getLogger(SacuvajRezervacijuServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
         }
-        RequestDispatcher rd = request.getRequestDispatcher(putanja);
-        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

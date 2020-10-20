@@ -10,6 +10,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
@@ -44,8 +46,9 @@ public class UcitajMediaServlet extends HttpServlet {
             while ((ch = bin.read()) != -1) {
                 bout.write(ch);
             }
-        } catch (Exception e) {
-            // ovda nista ne mozemo?
+        } catch (Exception ex) {
+            Logger.getLogger(UcitajMediaServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
         }
     }
 

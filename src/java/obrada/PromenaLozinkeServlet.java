@@ -7,6 +7,8 @@ package obrada;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +22,10 @@ import klase.*;
  */
 public class PromenaLozinkeServlet extends HttpServlet {
 
+    private final RegistrovaniKorisnikBaza registrovaniKorisnikBaza = new RegistrovaniKorisnikBaza();
+    private final BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
+    private final AdministratorBaza administratorBaza = new AdministratorBaza();
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -31,66 +37,59 @@ public class PromenaLozinkeServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession sesija = request.getSession();
-        if (sesija.getAttribute("korisnik_id") == null || sesija.getAttribute("tip") == null) {
-            response.sendRedirect("proveraPrijavljen");
-            return;
-        }
-
-        String lozinka = request.getParameter("lozinka");
-        String novaLozinka = request.getParameter("nova_lozinka");
-        String novaLozinkaPotvrda = request.getParameter("nova_lozinka_potvrda");
-
-        if (novaLozinka.equals(novaLozinkaPotvrda)) {
-            String tip = sesija.getAttribute("tip").toString();
-            int korisnikId = (int) sesija.getAttribute("korisnik_id");
-            switch (tip) {
-                case Korisnik.TIP_REGISTROVANI_KORISNIK:
-                    RegistrovaniKorisnikBaza registrovaniKorisnikBaza = new RegistrovaniKorisnikBaza();
-                    RegistrovaniKorisnik korisnik = registrovaniKorisnikBaza.find(korisnikId);
-                    if(verifikujIIzmeniLozinku(korisnik, lozinka, novaLozinka)){
-                        registrovaniKorisnikBaza.save(korisnik);                      
-                        
-                    } else {
-                        //nije dobra stara lozinka
-                    } 
-                    response.sendRedirect("index");
-                    break;
-                case Korisnik.TIP_BLAGAJNIK:
-                    BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
-                    Blagajnik blagajnik = blagajnikBaza.find(korisnikId);
-                    if(verifikujIIzmeniLozinku(blagajnik, lozinka, novaLozinka)){
-                        blagajnikBaza.save(blagajnik);                      
-                        
-                    }
-                    response.sendRedirect("prijavljenBlagajnik");
-                    break;
-                case Korisnik.TIP_ADMINISTRATOR:
-                    AdministratorBaza administratorBaza = new AdministratorBaza();
-                    Administrator administrator = administratorBaza.find(korisnikId);
-                    if(verifikujIIzmeniLozinku(administrator, lozinka, novaLozinka)){
-                        administratorBaza.save(administrator);                      
-                        
-                    }
-                    response.sendRedirect("prijavljenAdministrator");
-                    break;
-                default:
-                    response.sendRedirect("proveraPrijavljen");
-                    return;
-
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            HttpSession sesija = request.getSession();
+            if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
+                response.sendRedirect("proveraPrijavljen");
+                return;
             }
-           /* String lozinka = request.getParameter("lozinka");
-            if (BCrypt.verifyer().verify(lozinka.toCharArray(), korisnik.getLozinka()).verified) {
-                String sifrovanaLozinka = BCrypt.withDefaults().hashToString(BCrypt.MIN_COST, novaLozinka.toCharArray());
-                korisnik.setLozinka(sifrovanaLozinka);
-                korisnikBaza.save(korisnik);
-                response.sendRedirect("index");
+
+            String lozinka = request.getParameter("lozinka");
+            String novaLozinka = request.getParameter("nova_lozinka");
+            String novaLozinkaPotvrda = request.getParameter("nova_lozinka_potvrda");
+
+            if (novaLozinka.equals(novaLozinkaPotvrda)) {
+                String tip = sesija.getAttribute("tip").toString();
+                int korisnikId = (int) sesija.getAttribute("korisnik_id");
+                switch (tip) {
+                    case Korisnik.TIP_REGISTROVANI_KORISNIK:
+                        RegistrovaniKorisnik korisnik = registrovaniKorisnikBaza.find(korisnikId);
+                        if (verifikujIIzmeniLozinku(korisnik, lozinka, novaLozinka)) {
+                            registrovaniKorisnikBaza.save(korisnik);
+
+                        } else {
+                            //nije dobra stara lozinka
+                        }
+                        response.sendRedirect("index");
+                        break;
+                    case Korisnik.TIP_BLAGAJNIK:
+                        Blagajnik blagajnik = blagajnikBaza.find(korisnikId);
+                        if (verifikujIIzmeniLozinku(blagajnik, lozinka, novaLozinka)) {
+                            blagajnikBaza.save(blagajnik);
+                        }
+                        response.sendRedirect("prijavljenBlagajnik");
+                        break;
+                    case Korisnik.TIP_ADMINISTRATOR:
+                        Administrator administrator = administratorBaza.find(korisnikId);
+                        if (verifikujIIzmeniLozinku(administrator, lozinka, novaLozinka)) {
+                            administratorBaza.save(administrator);
+
+                        }
+                        response.sendRedirect("prijavljenAdministrator");
+                        break;
+                    default:
+                        response.sendRedirect("proveraPrijavljen");
+                        break;
+
+                }
+
             } else {
-                //poruka da se ne poklapaju sifre
-            }*/
-        } else {
-            //poruka greska ne poklapa se nova lozinka i potvrda nove lozinke
+                //poruka greska ne poklapa se nova lozinka i potvrda nove lozinke
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(PromenaLozinkeServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
         }
 
     }

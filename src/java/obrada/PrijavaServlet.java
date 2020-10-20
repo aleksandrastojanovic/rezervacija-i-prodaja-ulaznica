@@ -8,6 +8,8 @@ package obrada;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,6 +24,8 @@ import klase.*;
  */
 public class PrijavaServlet extends HttpServlet {
 
+    private final KorisnikBaza korisnikBaza = new KorisnikBaza();
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -33,48 +37,51 @@ public class PrijavaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        /* Prolazi redom kroz korisnike, 
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            /* Prolazi redom kroz korisnike, 
         i u zavisnosti od tipa korisnika prosledjuje na odgovarajuci prijavljenServlet.*/
 
-        KorisnikBaza korisnikBaza = new KorisnikBaza();
-        ArrayList<Korisnik> korisnici = korisnikBaza.all();
+            ArrayList<Korisnik> korisnici = korisnikBaza.all();
 
-        for (Korisnik korisnik : korisnici) {
-            String lozinka = request.getParameter("password");
-            if (korisnik.getKorisnickoIme().equals(request.getParameter("username"))
-                    && BCrypt.verifyer().verify(lozinka.toCharArray(), korisnik.getLozinka()).verified) {
-                HttpSession sesija = request.getSession();
-                String putanja = "";
-                String tip = korisnik.getTip();
-                sesija.setAttribute("tip", tip);
-                int korisnikId = korisnik.getId();
+            for (Korisnik korisnik : korisnici) {
+                String lozinka = request.getParameter("password");
+                if (korisnik.getKorisnickoIme().equals(request.getParameter("username"))
+                        && BCrypt.verifyer().verify(lozinka.toCharArray(), korisnik.getLozinka()).verified) {
+                    HttpSession sesija = request.getSession();
+                    String putanja = "";
+                    String tip = korisnik.getTip();
+                    sesija.setAttribute("tip", tip);
+                    int korisnikId = korisnik.getId();
 
-                switch (tip) {
-                    case Korisnik.TIP_REGISTROVANI_KORISNIK:
-                        sesija.setAttribute("korisnik_id", korisnikId);
-                        putanja = "proveraRegistrovanogKorisnika";
-                        break;
-                    case Korisnik.TIP_BLAGAJNIK:
-                        sesija.setAttribute("korisnik_id", korisnikId);
-                        putanja = "prijavljenBlagajnik";
-                        break;
-                    case Korisnik.TIP_ADMINISTRATOR:
-                        sesija.setAttribute("korisnik_id", korisnikId);
-                        putanja = "prijavljenAdministrator";
-                        break;
-                    case Korisnik.TIP_BLOKIRANI_KORISNIK:
-                        sesija.setAttribute("korisnik_id", -1);
-                        putanja = "index";
-                        break;
-                    //poruka da je blokiran ili drugi  jsp
+                    switch (tip) {
+                        case Korisnik.TIP_REGISTROVANI_KORISNIK:
+                            sesija.setAttribute("korisnik_id", korisnikId);
+                            putanja = "proveraRegistrovanogKorisnika";
+                            break;
+                        case Korisnik.TIP_BLAGAJNIK:
+                            sesija.setAttribute("korisnik_id", korisnikId);
+                            putanja = "prijavljenBlagajnik";
+                            break;
+                        case Korisnik.TIP_ADMINISTRATOR:
+                            sesija.setAttribute("korisnik_id", korisnikId);
+                            putanja = "prijavljenAdministrator";
+                            break;
+                        case Korisnik.TIP_BLOKIRANI_KORISNIK:
+                            sesija.setAttribute("korisnik_id", -1);
+                            putanja = "index";
+                            break;
+                        //poruka da je blokiran ili drugi  jsp
+                    }
+                    RequestDispatcher rd = request.getRequestDispatcher(putanja);
+                    rd.forward(request, response);
+
                 }
-                RequestDispatcher rd = request.getRequestDispatcher(putanja);
-                rd.forward(request, response);
-
             }
+        } catch (IOException | ServletException ex) {
+            Logger.getLogger(PrijavaServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
         }
-        response.sendRedirect("proveraPrijavljen");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

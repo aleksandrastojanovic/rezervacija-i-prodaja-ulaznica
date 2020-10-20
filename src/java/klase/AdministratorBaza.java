@@ -24,7 +24,7 @@ public class AdministratorBaza implements Baza<Administrator> {
         return find(id);
     }
 
-    private static int insert(Administrator administrator) {
+    private int insert(Administrator administrator) {
         String query = "INSERT INTO korisnici (tip,ime,prezime,korisnicko_ime,lozinka) VALUES(?,?,?,?,?)";
         ArrayList<Object> vrednosti = new ArrayList();
 
@@ -40,7 +40,7 @@ public class AdministratorBaza implements Baza<Administrator> {
         return id;
     }
 
-    private static int update(Administrator administrator) {
+    private int update(Administrator administrator) {
 
         String query = "UPDATE korisnici SET tip = ?, ime = ?, prezime = ?,"
                 + " korisnicko_ime = ?, lozinka = ? WHERE id = ?";
@@ -77,7 +77,7 @@ public class AdministratorBaza implements Baza<Administrator> {
 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(RegistrovaniKorisnikBaza.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Administrator.class.getName()).log(Level.SEVERE, null, ex);
         }
         return administrator;
 

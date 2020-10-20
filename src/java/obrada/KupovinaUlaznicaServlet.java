@@ -6,6 +6,8 @@
 package obrada;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +22,9 @@ import klase.*;
  */
 public class KupovinaUlaznicaServlet extends HttpServlet {
 
+    private final RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
+    private final StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -31,36 +36,37 @@ public class KupovinaUlaznicaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession sesija = request.getSession();
-        RequestDispatcher rd = request.getRequestDispatcher("blagajnik_prodaja.jsp");
-        /*
-        -Ocitava podatke iz blagajnik_prodaja
-        -Proverava vrstu kupovine - ovo u jspu bira, i svakako dolazi na ovaj servlet
-        -Na osnovu kategorije ulaznica, skida sa 'stanja'
-        -Ako je bila rezervisana, menja status u njegovim ulaznicama
-        */
-        if(sesija.getAttribute("korisnik_id") == null || (int)sesija.getAttribute("korisnik_id") < 0){
-            response.sendRedirect("proveraPrijavljen");
-            return;
-        }
-        if(Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))){ 
-//        DogadjajBaza dogadjajBaza = new DogadjajBaza();        
-//        Dogadjaj dogadjaj = dogadjajBaza.find(Integer.parseInt(request.getParameter("dogadjaj_id")));
-        
-        RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
-        Rezervacija rezervacija = rezervacijaBaza.find(Integer.parseInt(request.getParameter("rezervacija_id")));
-        if(!rezervacija.getStatus().equals(Rezervacija.STATUS_ISTEKLO)){
-            rezervacija.setStatus(Rezervacija.STATUS_PLACENO);
-            StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
-            StrukturaUlaznica struktura = strukturaUlaznicaBaza.find(rezervacija.getStrukturaId());
-            struktura.setPreostaloUlaznica(struktura.getPreostaloUlaznica() - rezervacija.getBrojUlaznica());
-
-            strukturaUlaznicaBaza.save(struktura);
-            rezervacijaBaza.save(rezervacija);
-        }
-        response.sendRedirect("prijavljenBlagajnik");
-        //salje na novi jsp uspesna kupovina+dugme za povratak/nije moguca kupovina
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            HttpSession sesija = request.getSession();
+            RequestDispatcher rd = request.getRequestDispatcher("blagajnik_prodaja.jsp");
+            /*
+            -Ocitava podatke iz blagajnik_prodaja
+            -Proverava vrstu kupovine - ovo u jspu bira, i svakako dolazi na ovaj servlet
+            -Na osnovu kategorije ulaznica, skida sa 'stanja'
+            -Ako je bila rezervisana, menja status u njegovim ulaznicama
+            */
+            if (ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
+                response.sendRedirect("proveraPrijavljen");
+                return;
+            }
+            if (ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {
+                
+                Rezervacija rezervacija = rezervacijaBaza.find(Integer.parseInt(request.getParameter("rezervacija_id")));
+                if (!rezervacija.getStatus().equals(Rezervacija.STATUS_ISTEKLO)) {
+                    rezervacija.setStatus(Rezervacija.STATUS_PLACENO);
+                    StrukturaUlaznica struktura = strukturaUlaznicaBaza.find(rezervacija.getStrukturaId());
+                    struktura.setPreostaloUlaznica(struktura.getPreostaloUlaznica() - rezervacija.getBrojUlaznica());
+                    
+                    strukturaUlaznicaBaza.save(struktura);
+                    rezervacijaBaza.save(rezervacija);
+                }
+                response.sendRedirect("prijavljenBlagajnik");
+                //salje na novi jsp uspesna kupovina+dugme za povratak/nije moguca kupovina
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(KupovinaUlaznicaServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
         }
     }
 

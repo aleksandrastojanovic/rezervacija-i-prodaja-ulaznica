@@ -6,21 +6,26 @@
 package obrada;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import klase.*;
 
 /**
  *
  * @author iq skola
  */
-public class SacuvajKategorijuServlet extends HttpServlet {
+public class KontrolaServlet extends HttpServlet {
 
-    private final StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
+    private final RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
+    private final RegistrovaniKorisnikBaza registrovaniKorisnikBaza = new RegistrovaniKorisnikBaza();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,34 +40,39 @@ public class SacuvajKategorijuServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             response.setContentType("text/html;charset=UTF-8");
-            if (!ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {
-                response.sendRedirect("proveraPrijavljen");
-                return;
+            HttpSession sesija = request.getSession();
+            if (sesija.getAttribute("korisnik_id") == null) {
+                sesija.setAttribute("korisnik_id", -1);
+                sesija.setAttribute("tip", Korisnik.TIP_NEREGISTROVANI_KORISNIK);
             }
+            LocalDateTime pre48h = LocalDateTime.now().minusDays(2);
+            ArrayList<Rezervacija> sveRezervacije = rezervacijaBaza.all();
+            HashMap<Integer, Integer> korisnikIstekleRezervacije = new HashMap<>();
+            for (Rezervacija rezervacija : sveRezervacije) {
+                if (!Rezervacija.STATUS_PLACENO.equals(rezervacija.getStatus()) && (pre48h.isEqual(rezervacija.getVreme().toLocalDateTime())
+                        || pre48h.isBefore(rezervacija.getVreme().toLocalDateTime()))) {
 
-            StrukturaUlaznica struktura = new StrukturaUlaznica();
-            if (request.getParameter("struktura_id") != null) {
-                struktura = strukturaUlaznicaBaza.find(Integer.parseInt(request.getParameter("struktura_id")));
-                struktura.setId(Integer.parseInt(request.getParameter("struktura_id")));
+                    rezervacija.setStatus(Rezervacija.STATUS_ISTEKLO);
+                    rezervacija = rezervacijaBaza.save(rezervacija);
+                    Integer brojISteklihRezervacija = korisnikIstekleRezervacije.get(rezervacija.getKorisnikId());
+                    if (brojISteklihRezervacija == null) {
+                        brojISteklihRezervacija = 0;
+                    }
+                    korisnikIstekleRezervacije.put(rezervacija.getKorisnikId(), ++brojISteklihRezervacija);
+                }
             }
-
-            struktura.setIdDogadjaja(Integer.parseInt(request.getParameter("dogadjaj_id")));
-            struktura.setKategorija(request.getParameter("kategorija"));
-            struktura.setCena(Double.parseDouble(request.getParameter("cena")));
-            struktura.setBrojDostupnihUlaznica(Integer.parseInt(request.getParameter("broj_ulaznica")));
-            struktura.setPreostaloUlaznica(struktura.getBrojDostupnihUlaznica());
-
-            struktura = strukturaUlaznicaBaza.save(struktura);
-            if (struktura.getId() > 0) {
-                response.sendRedirect("dogadjajPojedinacno?dogadjaj_id=" + struktura.getIdDogadjaja());
-            } else {
-                //poruka da nije uspesno
+            ArrayList<RegistrovaniKorisnik> registrovaniKorisnici = registrovaniKorisnikBaza.all();
+            for (RegistrovaniKorisnik registrovaniKorisnik : registrovaniKorisnici) {
+                Integer brojISteklihRezervacija = korisnikIstekleRezervacije.get(registrovaniKorisnik.getId());
+                if (brojISteklihRezervacija != null && brojISteklihRezervacija >= 3) {
+                    registrovaniKorisnik.setTip(Korisnik.TIP_BLOKIRANI_KORISNIK);
+                    registrovaniKorisnikBaza.save(registrovaniKorisnik);
+                }
             }
         } catch (Exception ex) {
-            Logger.getLogger(SacuvajKategorijuServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(KontrolaServlet.class.getName()).log(Level.SEVERE, null, ex);
             response.sendRedirect("error.jsp");
         }
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

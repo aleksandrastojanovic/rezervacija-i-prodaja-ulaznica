@@ -7,20 +7,21 @@
 <%@page import="klase.RegistrovaniKorisnik"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% ArrayList<RegistrovaniKorisnik> korisnici = (ArrayList<RegistrovaniKorisnik>)request.getAttribute("korisnici");%>
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Pregled korisnika</title>
+    <head>        
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <title>Pregled korisnika</title>
     </head>
-    
+
     <body>
-        <header>
-        <!-- Meni -->
-        <jsp:include page="parts/meni.jsp"></jsp:include>
-    </header>
+        <jsp:include page="parts/header.jsp"></jsp:include>
+        <%
+            ArrayList<RegistrovaniKorisnik> korisnici = (ArrayList<RegistrovaniKorisnik>) request.getAttribute("korisnici");
+        %>
+
         <div></div>
         <div>
             <table>
@@ -32,28 +33,25 @@
                 <th>Korisnicko ime</th>
                 </thead>
                 <%
-                for(RegistrovaniKorisnik korisnik: korisnici){%>
+                    for (RegistrovaniKorisnik korisnik : korisnici) {%>
                 <tr>
-                    <td><%= ((RegistrovaniKorisnik)korisnik).getId()%></td>
-                    <td><%= ((RegistrovaniKorisnik)korisnik).getTip()%></td>
-                    <td><%= ((RegistrovaniKorisnik)korisnik).getIme()%></td>
-                   <td><%= ((RegistrovaniKorisnik)korisnik).getPrezime() %></td>
-                    <td><%= ((RegistrovaniKorisnik)korisnik).getKorisnickoIme()%></td>
-                    <td><a href='odobravanjeZahteva?korisnik_id=<%= korisnik.getId() %>'>
+                    <td><%= ((RegistrovaniKorisnik) korisnik).getId()%></td>
+                    <td><%= ((RegistrovaniKorisnik) korisnik).getTip()%></td>
+                    <td><%= ((RegistrovaniKorisnik) korisnik).getIme()%></td>
+                    <td><%= ((RegistrovaniKorisnik) korisnik).getPrezime()%></td>
+                    <td><%= ((RegistrovaniKorisnik) korisnik).getKorisnickoIme()%></td>
+                    <td><a href='odobravanjeZahteva?korisnik_id=<%= korisnik.getId()%>'>
                             <input type="button" value="Odblokiraj korisnika"></a></td>
                 </tr>
-                 <%   
-                }
+                <%
+                    }
                 %>
             </table>
-</div>
-        
-        <footer>
-        <!-- Povratak na vrh -->
-        
-    </footer>
+        </div>
+
+        <jsp:include page="parts/footer.jsp"></jsp:include>
     </body>
-    
+
 </html>
 
 

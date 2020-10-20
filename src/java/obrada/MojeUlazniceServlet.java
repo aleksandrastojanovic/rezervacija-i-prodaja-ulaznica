@@ -7,6 +7,8 @@ package obrada;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +22,8 @@ import klase.*;
  * @author iq skola
  */
 public class MojeUlazniceServlet extends HttpServlet {
+    
+    RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,30 +36,27 @@ public class MojeUlazniceServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession sesija = request.getSession();
-        if (sesija.getAttribute("korisnik_id") != null 
-                && Korisnik.TIP_REGISTROVANI_KORISNIK.equals(sesija.getAttribute("tip"))){
-            RequestDispatcher rd = request.getRequestDispatcher("moje_ulaznice.jsp");
-            
-            RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
-            ArrayList<Rezervacija> sveRezervacije = rezervacijaBaza.all();
-            ArrayList<Rezervacija> rezervacije = new ArrayList<>();
-            for(Rezervacija rezervacija : sveRezervacije){
-                if(rezervacija.getKorisnikId() == (int)sesija.getAttribute("korisnik_id")){
-                    rezervacije.add(rezervacija);
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            HttpSession sesija = request.getSession();
+            if (ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_REGISTROVANI_KORISNIK)) {
+                RequestDispatcher rd = request.getRequestDispatcher("moje_ulaznice.jsp");
+                
+                ArrayList<Rezervacija> sveRezervacije = rezervacijaBaza.all();
+                ArrayList<Rezervacija> rezervacije = new ArrayList<>();
+                for (Rezervacija rezervacija : sveRezervacije) {
+                    if (rezervacija.getKorisnikId() == (int) sesija.getAttribute("korisnik_id")) {
+                        rezervacije.add(rezervacija);
+                    }
                 }
+                request.setAttribute("rezervacije", rezervacije);
+                rd.forward(request, response);
+            } else {
+                response.sendRedirect("proveraPrijavljen");
             }
-            request.setAttribute("rezervacije", rezervacije);
-            rd.forward(request, response);
-            
-            /*DogadjajBaza dogadjajBaza = new DogadjajBaza();
-            ArrayList<Dogadjaj> dogadjaji = dogadjajBaza.all();
-            request.setAttribute("dogadjaji", dogadjaji);
-            rd.forward(request, response);*/
-        }
-        else {
-            response.sendRedirect("proveraPrijavljen");
+        } catch (Exception ex) {
+            Logger.getLogger(MojeUlazniceServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
         }
     }
 

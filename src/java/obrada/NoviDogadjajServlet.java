@@ -6,18 +6,14 @@
 package obrada;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.jms.Session;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import klase.Korisnik;
-import klase.ProvereKorisnik;
+import klase.*;
 
 /**
  *
@@ -46,7 +42,7 @@ public class NoviDogadjajServlet extends HttpServlet {
             rd.forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(NoviDogadjajServlet.class.getName()).log(Level.SEVERE, null, ex);
-            response.sendRedirect("errorPage.jsp");
+            response.sendRedirect("error.jsp");
         }
     }
 

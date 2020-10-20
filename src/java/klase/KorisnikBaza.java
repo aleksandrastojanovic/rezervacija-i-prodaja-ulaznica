@@ -7,7 +7,10 @@ package klase;
 
 import baza.Database;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -53,8 +56,8 @@ public class KorisnikBaza implements Baza<Korisnik> {
                 korisnici.add(korisnik);
 
             }
-        } catch (Exception e) {
-            System.out.println(e.toString());
+        } catch (SQLException ex) {
+            Logger.getLogger(KorisnikBaza.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return korisnici;

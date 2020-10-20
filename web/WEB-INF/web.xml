@@ -120,6 +120,18 @@
         <servlet-name>UcitajMediaServlet</servlet-name>
         <servlet-class>obrada.UcitajMediaServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MediaServlet</servlet-name>
+        <servlet-class>obrada.MediaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>NovaStrukturaServlet</servlet-name>
+        <servlet-class>obrada.NovaStrukturaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>KontrolaServlet</servlet-name>
+        <servlet-class>obrada.KontrolaServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegistracijaServlet</servlet-name>
         <url-pattern>/registracija</url-pattern>
@@ -242,6 +254,18 @@
     <servlet-mapping>
         <servlet-name>UcitajMediaServlet</servlet-name>
         <url-pattern>/ucitajMedia</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MediaServlet</servlet-name>
+        <url-pattern>/media</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NovaStrukturaServlet</servlet-name>
+        <url-pattern>/novaStruktura</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>KontrolaServlet</servlet-name>
+        <url-pattern>/kontrola</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

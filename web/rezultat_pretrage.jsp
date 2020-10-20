@@ -8,26 +8,25 @@
 <%@page import="klase.Dogadjaj"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% 
-    ArrayList<Dogadjaj> dogadjaji = (ArrayList<Dogadjaj>)request.getAttribute("dogadjaji");
-    HttpSession sesija = request.getSession();
-    
-%>
+
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Rezultat pretrage</title>
+    <head>        
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <title>Rezultat pretrage</title>
     </head>
-    
+
     <body>
-        <header>
-        <!-- Meni -->
-        <jsp:include page="parts/meni.jsp"></jsp:include>
-    </header>
+        <jsp:include page="parts/header.jsp"></jsp:include>
+        <%
+            ArrayList<Dogadjaj> dogadjaji = (ArrayList<Dogadjaj>) request.getAttribute("dogadjaji");
+            HttpSession sesija = request.getSession();
+
+        %>
         <h1>Rezultat pretrage: </h1>        
-        
+
         <div>
             <table>
                 <thead>
@@ -36,14 +35,13 @@
                 <th>Datum i vreme</th>
                 <th>Detalji</th>
                 </thead>
-                <%
-                    for (Dogadjaj dogadjaj : dogadjaji) {%>
+                <%                    for (Dogadjaj dogadjaj : dogadjaji) {%>
                 <tr>
                     <td><%= ((Dogadjaj) dogadjaj).getNaziv()%></td>
                     <td><%= ((Dogadjaj) dogadjaj).getNazivLokacije()%></td>
                     <td><%= ((Dogadjaj) dogadjaj).getDatumIVreme()%></td>
-                    <% if (sesija.getAttribute("korisnik_id") != null 
-                            && Korisnik.TIP_REGISTROVANI_KORISNIK.equals(sesija.getAttribute("tip"))) {%>                    
+                    <% if (sesija.getAttribute("korisnik_id") != null
+                                && Korisnik.TIP_REGISTROVANI_KORISNIK.equals(sesija.getAttribute("tip"))) {%>                    
                     <td><a href="dogadjajPojedinacno?dogadjaj_id=<%= "" + dogadjaj.getId()%>">
                             <input type="button" name="dogadjaj_pojedinacno" value="Detaljnije"></a></td>
                             <% } else { %>
@@ -59,13 +57,10 @@
                 </tr> -->
             </table>
         </div>
-        
-        <footer>
-        <!-- Povratak na vrh -->
-        
-    </footer>
+
+        <jsp:include page="parts/footer.jsp"></jsp:include>
     </body>
-    
+
 </html>
 
 

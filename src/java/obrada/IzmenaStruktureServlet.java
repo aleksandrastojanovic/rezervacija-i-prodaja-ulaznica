@@ -6,12 +6,13 @@
 package obrada;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import klase.*;
 
 /**
@@ -19,6 +20,8 @@ import klase.*;
  * @author iq skola
  */
 public class IzmenaStruktureServlet extends HttpServlet {
+
+    private final StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,22 +34,25 @@ public class IzmenaStruktureServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        HttpSession sesija = request.getSession();
-        
-        if(sesija.getAttribute("korisnik_id") == null || (int)sesija.getAttribute("korisnik_id") < 0){
-            response.sendRedirect("proveraPrijavljen");
-            return;
-        }
-        if(Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))){
-            RequestDispatcher rd = request.getRequestDispatcher("izmena_strukture.jsp");
-            StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();        
-            StrukturaUlaznica struktura = strukturaUlaznicaBaza.find(Integer.parseInt(request.getParameter("struktura_id")));
+        try {
+            response.setContentType("text/html;charset=UTF-8");
 
-            request.setAttribute("struktura", struktura);
-            rd.forward(request, response);
+            if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
+                response.sendRedirect("proveraPrijavljen");
+                return;
             }
-        
+            if (ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {
+                RequestDispatcher rd = request.getRequestDispatcher("izmena_strukture.jsp");
+                StrukturaUlaznica struktura = strukturaUlaznicaBaza.find(Integer.parseInt(request.getParameter("struktura_id")));
+
+                request.setAttribute("struktura", struktura);
+                rd.forward(request, response);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(IzmenaStruktureServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

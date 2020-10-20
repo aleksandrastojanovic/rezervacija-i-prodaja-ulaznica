@@ -8,25 +8,25 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="klase.Dogadjaj"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<% Dogadjaj dogadjaj = (Dogadjaj) request.getAttribute("dogadjaj");
-    ArrayList<StrukturaUlaznica> strukture = (ArrayList<StrukturaUlaznica>) request.getAttribute("strukture");%>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Blagajnik - Update</title>
+
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <title>Blagajnik - Update</title>
     </head>
 
     <body>
-        <header>
-            <!-- Meni -->
-            <jsp:include page="parts/meni.jsp"></jsp:include>
-        </header>
+        <jsp:include page="parts/header.jsp"></jsp:include>
+
+        <% Dogadjaj dogadjaj = (Dogadjaj) request.getAttribute("dogadjaj");
+            ArrayList<StrukturaUlaznica> strukture = (ArrayList<StrukturaUlaznica>) request.getAttribute("strukture");%>
 
         <div>
             <form action="sacuvajDogadjaj" method="post">
-                <input type="hidden" name="dogadjaj_id" value="<%= String.valueOf(dogadjaj.getId()) %>" />
+                <input type="hidden" name="dogadjaj_id" value="<%= String.valueOf(dogadjaj.getId())%>" />
                 <label for="naziv">Naziv:</label>
                 <input type='text' id='naziv' name="naziv" value="<%= dogadjaj.getNaziv()%>"><br>
 
@@ -43,21 +43,6 @@
                 <label for="detalji">Detalji dogadjaja</label>
                 <input type="text" id='detalji' name="detalji" placeholder='Unesite detalje dogadjaja' value="<%= dogadjaj.getDetalji()%>"><br>
 
-                <label for="slika_glavna">Dodaj glavnu fotografiju:</label>
-                <input type="file" id="slika_glavna" name="slika_glavna" accept="image/*" ><br>
-
-                <label for="slike">Dodaj ostale fotografije:</label>
-                <input type="file" id="slike" name="slike" accept="image/*" multiple><br>                
-
-                <label for="video">Dodaj video zapis</label>
-                <input type="file" id="video" name="video" accept="video/*"><br>
-
-                <!--Preko js bi trebalo da napravim da bude required cena i limit ako je cekirano -->
-                
-
-                <!-- Ne znam da li ovde sme multiple input, 
-                posto treba da ostanu uvezane informacije koje unosi, 
-                nisam sigurna kako se posle pristupa-->
                 <label for='nova_kategorija'>Dodaj novu kategoriju ulaznica:</label>
                 <input type='text' id='nova_kategorija' name="nova_kategorija" placeholder='Unesite novu kateoriju ulaznica'>
                 <label for='nova_kategorija_cena'>| Cena:</label>
@@ -67,8 +52,8 @@
                 <input type="submit" value="Sacuvaj izmene">
 
             </form>
-                <form action="izmenaStruktura">
-                    <div>
+            <form action="izmenaStruktura">
+                <div>
                     <table>
                         <thead>
                         <th>Kategorija: </th>
@@ -77,28 +62,24 @@
                         <th></th>
                         </thead>
                         <%
-                    for (StrukturaUlaznica struktura : strukture) {%>
+                            for (StrukturaUlaznica struktura : strukture) {%>
                         <tr>
                             <td><%= ((StrukturaUlaznica) struktura).getKategorija()%></td>
                             <td><%= ((StrukturaUlaznica) struktura).getCena()%></td>
                             <td><%= ((StrukturaUlaznica) struktura).getBrojDostupnihUlaznica()%></td>
                             <td><a href=""><input type="button" name="izmeniStrukture" value="Izmeni Strukturu"></a></td>
-                            
+
                         </tr>
                         <%
                             }
                         %>
                     </table>
                 </div>
-                </form>
+            </form>
         </div>
         <div></div>
 
-        <footer>
-            <!-- Povratak na vrh -->
-
-        </footer>
-    </body>
+        <jsp:include page="parts/footer.jsp"></jsp:include>
 
 </html>
 
