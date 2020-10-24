@@ -4,6 +4,7 @@
     Author     : iq skola
 --%>
 
+<%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="klase.Blagajnik"%>
 <%@page import="klase.Dogadjaj"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -41,7 +42,9 @@
                 -->
 
                 <label for="vreme_odrzavanja">Vreme odrzavanja:</label>
-                <input type="datetime-local" id="vreme_odrzavanja" name="vreme_odrzavanja" value="<%= dogadjaj.getDatumIVreme()%>"><br>
+                <%DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+                    String datumIVreme = dogadjaj.getDatumIVreme().format(formatter);%>
+                <input type="datetime-local" id="vreme_odrzavanja" name="vreme_odrzavanja" value="<%= datumIVreme%>"><br>
 
                 <label for="detalji">Detalji dogadjaja</label>
                 <input type="text" id='detalji' name="detalji" value="<%= dogadjaj.getDetalji()%>"><br>

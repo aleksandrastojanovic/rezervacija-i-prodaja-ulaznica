@@ -19,7 +19,7 @@
         <jsp:include page="parts/header.jsp"></jsp:include>
             <div>
                 <h1>Kreiranje novog korisnika:</h1>
-                <form action="noviKorisnik" method="post">
+                <form action="sacuvajKorisnika" method="post">
 
                     <input type="radio" name='korisnik' id="reg_korisnik" value="Registrovani korisnik">
                     <label for='reg_korisnik'>Novi registrovani korisnik:</label><br>

@@ -143,4 +143,35 @@ public class StrukturaUlaznicaBaza implements Baza<StrukturaUlaznica>{
 
         return strukture;
     }
+    
+    public ArrayList<StrukturaUlaznica> allForDogadjajId(int dogadjajId) {
+        ArrayList<StrukturaUlaznica> strukture = new ArrayList<>();
+        try {
+             
+            String query = "SELECT * " +
+                    "FROM strukture WHERE id_dogadjaja = " + dogadjajId;
+            
+            Database db = Database.getInstance();
+            ResultSet rs = db.select(query);            
+            
+            while(rs.next()) {
+                StrukturaUlaznica strukturaUlaznica = new StrukturaUlaznica();                            
+                                               
+                    strukturaUlaznica.setId(rs.getInt("id"));
+                    strukturaUlaznica.setIdDogadjaja(rs.getInt("id_dogadjaja"));
+                    strukturaUlaznica.setKategorija(rs.getString("kategorija"));
+                    strukturaUlaznica.setCena(rs.getDouble("cena"));
+                    strukturaUlaznica.setBrojDostupnihUlaznica(rs.getInt("broj_dostupnih_ulaznica"));
+                    strukturaUlaznica.setPreostaloUlaznica(rs.getInt("preostalo_ulaznica"));
+                    strukturaUlaznica.setGranicaPoKorisniku(rs.getInt("granica_po_korisniku"));
+                    
+                    strukture.add(strukturaUlaznica); 
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StrukturaUlaznicaBaza.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return strukture;
+    }
 }

@@ -132,6 +132,10 @@
         <servlet-name>KontrolaServlet</servlet-name>
         <servlet-class>obrada.KontrolaServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>NovaIzmenaDogadjajaServlet</servlet-name>
+        <servlet-class>obrada.NovaIzmenaDogadjajaServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegistracijaServlet</servlet-name>
         <url-pattern>/registracija</url-pattern>
@@ -266,6 +270,10 @@
     <servlet-mapping>
         <servlet-name>KontrolaServlet</servlet-name>
         <url-pattern>/kontrola</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NovaIzmenaDogadjajaServlet</servlet-name>
+        <url-pattern>/novaIzmenaDogadjaja</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

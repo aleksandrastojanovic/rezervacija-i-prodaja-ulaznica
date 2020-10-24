@@ -18,9 +18,9 @@ public class ProvereKorisnik {
         Object korisnikId = request.getSession().getAttribute("korisnik_id");
         Object tip = request.getSession().getAttribute("tip");
         if(korisnikId == null || tip == null) {
-            throw new Exception("");
+            throw new Exception("Doslo je do greske. Molimo pokusajte ponovo.");
         }
-        return ((int) korisnikId) >= 0 && !((String) tip).equals(Korisnik.TIP_NEREGISTROVANI_KORISNIK);
+        return ((Integer) korisnikId) >= 0 && !((String) tip).equals(Korisnik.TIP_NEREGISTROVANI_KORISNIK);
     }
 
     public static boolean postojiPrijavljenKorisnikOdredjenogTipa(HttpServletRequest request, String tip) throws Exception {

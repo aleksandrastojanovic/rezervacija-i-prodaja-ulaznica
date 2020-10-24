@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import klase.*;
 
 /**
@@ -39,6 +40,9 @@ public class NoviDogadjajServlet extends HttpServlet {
                 return;
             }
             RequestDispatcher rd = request.getRequestDispatcher("blagajnik_novi_dogadjaj.jsp");
+            BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
+            Blagajnik blagajnik = blagajnikBaza.find((Integer)request.getSession().getAttribute("korisnik_id"));
+            request.setAttribute("blagajnik", blagajnik);
             rd.forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(NoviDogadjajServlet.class.getName()).log(Level.SEVERE, null, ex);

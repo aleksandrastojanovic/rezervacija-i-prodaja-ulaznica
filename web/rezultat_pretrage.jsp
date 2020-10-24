@@ -4,6 +4,7 @@
     Author     : iq skola
 --%>
 
+<%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="klase.Korisnik"%>
 <%@page import="klase.Dogadjaj"%>
 <%@page import="java.util.ArrayList"%>
@@ -39,7 +40,9 @@
                 <tr>
                     <td><%= ((Dogadjaj) dogadjaj).getNaziv()%></td>
                     <td><%= ((Dogadjaj) dogadjaj).getNazivLokacije()%></td>
-                    <td><%= ((Dogadjaj) dogadjaj).getDatumIVreme()%></td>
+                    <%DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+                        String datumIVreme = dogadjaj.getDatumIVreme().format(formatter);%>
+                    <td><%= datumIVreme%></td>
                     <% if (sesija.getAttribute("korisnik_id") != null
                                 && Korisnik.TIP_REGISTROVANI_KORISNIK.equals(sesija.getAttribute("tip"))) {%>                    
                     <td><a href="dogadjajPojedinacno?dogadjaj_id=<%= "" + dogadjaj.getId()%>">

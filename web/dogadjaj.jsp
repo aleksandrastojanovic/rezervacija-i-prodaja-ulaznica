@@ -22,7 +22,9 @@
     <body>
         <jsp:include page="parts/header.jsp"></jsp:include>
         <% Dogadjaj dogadjaj = (Dogadjaj) request.getAttribute("dogadjaj");
-            ArrayList<StrukturaUlaznica> strukture = (ArrayList<StrukturaUlaznica>) request.getAttribute("strukture");%>
+            ArrayList<StrukturaUlaznica> strukture = (ArrayList<StrukturaUlaznica>) request.getAttribute("strukture");
+            String blagajnik = "Blagajnik";
+        %>
         <h1><%= "" + dogadjaj.getNaziv()%></h1>
         <div>
             Mesto odrzavanja: <%= dogadjaj.getNazivLokacije()%><br>
@@ -33,10 +35,10 @@
             <!--fotografije i video kad bude front, za sad bez, plan da bude galerija -->
         </div>
         <%  HttpSession sesija = request.getSession();
-            if (sesija.getAttribute("tip").equals(Korisnik.TIP_BLAGAJNIK)) {
+            if (blagajnik.equals(sesija.getAttribute("tip"))) {
         %>
         <div>
-            <form aciton="potvrdaRezervacije">
+            <form action="potvrdaRezervacije">
                 <label>ID rezervacije</label>
                 <input type="number" placeholder="Unesi ID rezervacije" name="rezervacija_id">
                 <input type="submit" value="Placanje">

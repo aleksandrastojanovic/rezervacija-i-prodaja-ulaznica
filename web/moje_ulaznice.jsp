@@ -38,9 +38,9 @@
                 <tr>
                     <td><%= ((Rezervacija) rezervacija).getId()%></td>
                     <td><% DogadjajBaza db = new DogadjajBaza();
-                        Dogadjaj d = db.find(rezervacija.getDogadjaj_id());%>
+                        Dogadjaj d = db.find(rezervacija.getDogadjajId());%>
                         <%= d.getNaziv()%></td>
-                    <td><%= ((Rezervacija) rezervacija).getBroj_ulaznica()%></td>
+                    <td><%= ((Rezervacija) rezervacija).getBrojUlaznica()%></td>
                     <td><%= ((Rezervacija) rezervacija).getVreme()%></td>
                     <td><%= ((Rezervacija) rezervacija).getStatus()%></td>
                     <td><a href='otkazivanjeRezervacije?rezervacija_id=<%= "" + rezervacija.getId()%>'><input type="button" value="Otkazi rezervaciju"></a></td>

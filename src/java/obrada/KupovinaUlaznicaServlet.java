@@ -46,14 +46,14 @@ public class KupovinaUlaznicaServlet extends HttpServlet {
             -Na osnovu kategorije ulaznica, skida sa 'stanja'
             -Ako je bila rezervisana, menja status u njegovim ulaznicama
             */
-            if (ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
+            if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
                 response.sendRedirect("proveraPrijavljen");
                 return;
             }
             if (ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {
                 
                 Rezervacija rezervacija = rezervacijaBaza.find(Integer.parseInt(request.getParameter("rezervacija_id")));
-                if (!rezervacija.getStatus().equals(Rezervacija.STATUS_ISTEKLO)) {
+                if (Rezervacija.STATUS_REZERVISANO.equals(rezervacija.getStatus())) {
                     rezervacija.setStatus(Rezervacija.STATUS_PLACENO);
                     StrukturaUlaznica struktura = strukturaUlaznicaBaza.find(rezervacija.getStrukturaId());
                     struktura.setPreostaloUlaznica(struktura.getPreostaloUlaznica() - rezervacija.getBrojUlaznica());

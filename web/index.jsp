@@ -4,6 +4,7 @@
     Author     : iq skola
 --%>
 
+<%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDateTime"%>
 <%@page import="klase.Dogadjaj"%>
 <%@page import="java.util.ArrayList"%>
@@ -56,7 +57,9 @@
                                     <p class="card-text">
                                         <%= ((Dogadjaj) dogadjaj).getNazivLokacije()%>
                                         <br>
-                                        <%= ((Dogadjaj) dogadjaj).getDatumIVreme()%>
+                                        <%DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+                                            String datumIVreme = dogadjaj.getDatumIVreme().format(formatter);%>
+                                        <%= datumIVreme %>
                                     </p>
                                 </div>
                             </div>
@@ -65,169 +68,17 @@
 
                         <% }%>
                         <hr>
-                       <nav aria-label="Page navigation example">
+                        <nav aria-label="Page navigation example">
                             <ul class="pagination">
-                                <% for (int i = 0; i < ukupnoStrana; i++) {%>
-                                <li class="page-item"><a class="page-link" href="index?trenutniBrojStrane="<%= (i + 1) %>>1</a></li>
+                                <% for (int i = 1; i <= ukupnoStrana; i++) {%>
+                                <li class="page-item"><a class="page-link" href="index?trenutniBrojStrane=<%= i%>"> <%= i%> </a></li>
                                     <% } %>
                             </ul>
                         </nav>
 
                         <!-- odavde brisi -->
 
-                        <%
-                            for (Dogadjaj dogadjaj : dogadjaji) {%>
-                        <div class="col-md-4 pt-2">
-                            <div class="card border rounded">
-                                <% if (request.getSession().getAttribute("korisnik_id") != null && request.getSession().getAttribute("tip") != null) {%>
-                                <a href="dogadjajPojedinacno?dogadjaj_id=<%= "" + dogadjaj.getId()%>" >
-                                    <% } else { %>
-                                    <a href="proveraRegistrovan" class="btn btn-primary">Detaljnije</a>    
-                                    <% }%>
-                                    <div class="card-img-top">
-                                        <img class="card-img-top" src="ucitajMediu?dogadjaj_id=1&ime=prva.jpg" alt="Glavna slika">
-                                    </div>
-                                </a>
-                                <div class="card-body">
-                                    <h5 class="card-title"><%= ((Dogadjaj) dogadjaj).getNaziv()%></h5>
-                                    <p class="card-text">
-                                        <%= ((Dogadjaj) dogadjaj).getNazivLokacije()%>
-                                        <br>
-                                        <%= ((Dogadjaj) dogadjaj).getDatumIVreme()%>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <% }%>  <%
-                            for (Dogadjaj dogadjaj : dogadjaji) {%>
-                        <div class="col-md-4 pt-2">
-                            <div class="card border rounded">
-                                <% if (request.getSession().getAttribute("korisnik_id") != null && request.getSession().getAttribute("tip") != null) {%>
-                                <a href="dogadjajPojedinacno?dogadjaj_id=<%= "" + dogadjaj.getId()%>" >
-                                    <% } else { %>
-                                    <a href="proveraRegistrovan" class="btn btn-primary">Detaljnije</a>    
-                                    <% }%>
-                                    <div class="card-img-top">
-                                        <img class="card-img-top" src="ucitajMediu?dogadjaj_id=1&ime=prva.jpg" alt="Glavna slika">
-                                    </div>
-                                </a>
-                                <div class="card-body">
-                                    <h5 class="card-title"><%= ((Dogadjaj) dogadjaj).getNaziv()%></h5>
-                                    <p class="card-text">
-                                        <%= ((Dogadjaj) dogadjaj).getNazivLokacije()%>
-                                        <br>
-                                        <%= ((Dogadjaj) dogadjaj).getDatumIVreme()%>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <% }%>
-
-                        <%
-                            for (Dogadjaj dogadjaj : dogadjaji) {%>
-                        <div class="col-md-4 pt-2">
-                            <div class="card border rounded">
-                                <% if (request.getSession().getAttribute("korisnik_id") != null && request.getSession().getAttribute("tip") != null) {%>
-                                <a href="dogadjajPojedinacno?dogadjaj_id=<%= "" + dogadjaj.getId()%>" >
-                                    <% } else { %>
-                                    <a href="proveraRegistrovan" class="btn btn-primary">Detaljnije</a>    
-                                    <% }%>
-                                    <div class="card-img-top">
-                                        <img class="card-img-top" src="ucitajMediu?dogadjaj_id=1&ime=prva.jpg" alt="Glavna slika">
-                                    </div>
-                                </a>
-                                <div class="card-body">
-                                    <h5 class="card-title"><%= ((Dogadjaj) dogadjaj).getNaziv()%></h5>
-                                    <p class="card-text">
-                                        <%= ((Dogadjaj) dogadjaj).getNazivLokacije()%>
-                                        <br>
-                                        <%= ((Dogadjaj) dogadjaj).getDatumIVreme()%>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <% }%>  <%
-                            for (Dogadjaj dogadjaj : dogadjaji) {%>
-                        <div class="col-md-4 pt-2">
-                            <div class="card border rounded">
-                                <% if (request.getSession().getAttribute("korisnik_id") != null && request.getSession().getAttribute("tip") != null) {%>
-                                <a href="dogadjajPojedinacno?dogadjaj_id=<%= "" + dogadjaj.getId()%>" >
-                                    <% } else { %>
-                                    <a href="proveraRegistrovan" class="btn btn-primary">Detaljnije</a>    
-                                    <% }%>
-                                    <div class="card-img-top">
-                                        <img class="card-img-top" src="ucitajMediu?dogadjaj_id=1&ime=prva.jpg" alt="Glavna slika">
-                                    </div>
-                                </a>
-                                <div class="card-body">
-                                    <h5 class="card-title"><%= ((Dogadjaj) dogadjaj).getNaziv()%></h5>
-                                    <p class="card-text">
-                                        <%= ((Dogadjaj) dogadjaj).getNazivLokacije()%>
-                                        <br>
-                                        <%= ((Dogadjaj) dogadjaj).getDatumIVreme()%>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <% }%>  <%
-                            for (Dogadjaj dogadjaj : dogadjaji) {%>
-                        <div class="col-md-4 pt-2">
-                            <div class="card border rounded">
-                                <% if (request.getSession().getAttribute("korisnik_id") != null && request.getSession().getAttribute("tip") != null) {%>
-                                <a href="dogadjajPojedinacno?dogadjaj_id=<%= "" + dogadjaj.getId()%>" >
-                                    <% } else { %>
-                                    <a href="proveraRegistrovan" class="btn btn-primary">Detaljnije</a>    
-                                    <% }%>
-                                    <div class="card-img-top">
-                                        <img class="card-img-top" src="ucitajMediu?dogadjaj_id=1&ime=prva.jpg" alt="Glavna slika">
-                                    </div>
-                                </a>
-                                <div class="card-body">
-                                    <h5 class="card-title"><%= ((Dogadjaj) dogadjaj).getNaziv()%></h5>
-                                    <p class="card-text">
-                                        <%= ((Dogadjaj) dogadjaj).getNazivLokacije()%>
-                                        <br>
-                                        <%= ((Dogadjaj) dogadjaj).getDatumIVreme()%>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <% }%>  <%
-                            for (Dogadjaj dogadjaj : dogadjaji) {%>
-                        <div class="col-md-4 pt-2">
-                            <div class="card border rounded">
-                                <% if (request.getSession().getAttribute("korisnik_id") != null && request.getSession().getAttribute("tip") != null) {%>
-                                <a href="dogadjajPojedinacno?dogadjaj_id=<%= "" + dogadjaj.getId()%>" >
-                                    <% } else { %>
-                                    <a href="proveraRegistrovan" class="btn btn-primary">Detaljnije</a>    
-                                    <% }%>
-                                    <div class="card-img-top">
-                                        <img class="card-img-top" src="ucitajMediu?dogadjaj_id=1&ime=prva.jpg" alt="Glavna slika">
-                                    </div>
-                                </a>
-                                <div class="card-body">
-                                    <h5 class="card-title"><%= ((Dogadjaj) dogadjaj).getNaziv()%></h5>
-                                    <p class="card-text">
-                                        <%= ((Dogadjaj) dogadjaj).getNazivLokacije()%>
-                                        <br>
-                                        <%= ((Dogadjaj) dogadjaj).getDatumIVreme()%>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <% }%>
+                        
 
                         <!-- dovde brisi -->
 

@@ -4,6 +4,7 @@
     Author     : iq skola
 --%>
 
+<%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="klase.Korisnik"%>
 <%@page import="klase.Dogadjaj"%>
 <%@page import="java.util.ArrayList"%>
@@ -42,12 +43,14 @@
                 <tr>
                     <td><%= ((Dogadjaj) dogadjaj).getNaziv()%></td>
                     <td><%= ((Dogadjaj) dogadjaj).getNazivLokacije()%></td>
-                    <td><%= ((Dogadjaj) dogadjaj).getDatumIVreme()%></td>
+                    <%DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+                        String datumIVreme = dogadjaj.getDatumIVreme().format(formatter);%>
+                    <td><%= datumIVreme%></td>
                     <td><%= ((Dogadjaj) dogadjaj).getDetalji()%></td>
 
                     <td><a href="dogadjajPojedinacno?dogadjaj_id=<%=String.valueOf(dogadjaj.getId())%>">
                             <input type="button" name="dogadjajPojedinacno" value="Izaberi"></a></td>
-                    <td><a href="izmenaDogadjaja?dogadjaj_id=<%=String.valueOf(dogadjaj.getId())%>">
+                    <td><a href="novaIzmenaDogadjaja?dogadjaj_id=<%=String.valueOf(dogadjaj.getId())%>">
                             <input type="button" name="izmeni" value="Izmeni dogadjaj"></a></td>
                     <td><a href="kategorijeUlaznica?dogadjaj_id=<%=String.valueOf(dogadjaj.getId())%>">
                             <input type="button" name="kategorije" value="Kategorije ulaznica"></a></td>
@@ -62,7 +65,7 @@
             if (Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))) {
         %>
         <div>
-            <form aciton="potvrdaRezervacije">
+            <form action="potvrdaRezervacije">
                 <label>ID rezervacije</label>
                 <input type="number" placeholder="Unesi ID rezervacije" name="rezervacija_id">
                 <input type="submit" value="Placanje">

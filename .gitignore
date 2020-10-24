@@ -11,3 +11,6 @@ build/
 /jar/*
 /build/*
 /nbproject/*
+/nbproject/
+/dist/Rezervacija_i_prodaja_ulaznica.war
+/nbproject/*

@@ -49,8 +49,9 @@ public class RezervacijaBaza implements Baza<Rezervacija>{
         vrednosti.add(rezervacija.getDogadjajId());
         vrednosti.add(rezervacija.getBrojUlaznica());
         vrednosti.add(rezervacija.getStrukturaId());
-        vrednosti.add(rezervacija.getId());
         vrednosti.add(rezervacija.getStatus());
+        vrednosti.add(rezervacija.getId());
+        
         
         Database db = Database.getInstance();
         boolean uspesno = db.update(query, vrednosti);     

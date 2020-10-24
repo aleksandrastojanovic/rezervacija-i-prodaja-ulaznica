@@ -43,7 +43,7 @@ public class SacuvajRezervacijuServlet extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             HttpSession sesija = request.getSession();
             int korisnikId = (Integer) sesija.getAttribute("korisnik_id");
-            if (ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
+            if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
                 response.sendRedirect("proveraPrijavljen");
                 return;
             }

@@ -41,7 +41,7 @@ public class SacuvajKorisnikaServlet extends HttpServlet {
         try {
             response.setContentType("text/html;charset=UTF-8");
             HttpSession sesija = request.getSession();
-            if (ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
+            if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
                 response.sendRedirect("proveraPrijavljen");
                 return;
             }
@@ -79,7 +79,7 @@ public class SacuvajKorisnikaServlet extends HttpServlet {
                         korisnik = registrovaniKorisnikBaza.save(korisnik);
                         if (korisnik.getId() > 0) {
                             //poruka uspesno kreiran korisnik
-                            response.sendRedirect("index");
+                            response.sendRedirect("prijavljenAdministrator");
                         }
                         break;
                     }
@@ -103,14 +103,15 @@ public class SacuvajKorisnikaServlet extends HttpServlet {
                         korisnik.setPrezime(request.getParameter("prezime"));
                         korisnik.setKorisnickoIme(request.getParameter("username"));
                         if (request.getParameter("password").equals(request.getParameter("password_check"))) {
-                            korisnik.setLozinka(request.getParameter("password"));
+                            String sifrovanaLozinka = BCrypt.withDefaults().hashToString(BCrypt.MIN_COST, request.getParameter("password").toCharArray());
+                            korisnik.setLozinka(sifrovanaLozinka);
                         }
                         korisnik.setNazivLokacije(request.getParameter("naziv_lokacije"));
                         korisnik.setGradLokacije(request.getParameter("grad_lokacije"));
                         korisnik.setAdresaLokacije(request.getParameter("adresa_lokacije"));
                         korisnik = blagajnikBaza.save(korisnik);
                         if (korisnik.getId() > 0) {
-                            response.sendRedirect("blagajnik_pocetna.jsp");
+                            response.sendRedirect("prijavljenAdministrator");
                             //poruka uspesno kreiran korisnik
                         }
                         break;
@@ -135,11 +136,12 @@ public class SacuvajKorisnikaServlet extends HttpServlet {
                         korisnik.setPrezime(request.getParameter("prezime"));
                         korisnik.setKorisnickoIme(request.getParameter("username"));
                         if (request.getParameter("password").equals(request.getParameter("password_check"))) {
-                            korisnik.setLozinka(request.getParameter("password"));
+                            String sifrovanaLozinka = BCrypt.withDefaults().hashToString(BCrypt.MIN_COST, request.getParameter("password").toCharArray());
+                            korisnik.setLozinka(sifrovanaLozinka);
                         }
                         korisnik = administratorBaza.save(korisnik);
                         if (korisnik.getId() > 0) {
-                            response.sendRedirect("admin_pocetna.jsp");
+                            response.sendRedirect("prijavljenAdministrator");
 
                             //poruka uspesno kreiran korisnik
                         }

@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
-<div class="container-fluid p-1 my-3 border">
+<div class="container-fluid p-1 my-3 border ">
 
     <!--    <form class="form-inline">
             <div class="form-group">
@@ -26,8 +26,7 @@
             <button type="submit" class="btn btn-default">Sign in</button>
         </form>-->
 
-    <form class="form-inline justify-content-end" action="pretragaDogadjaja" method="post">
-
+    <form class="form-inline justify-content-center " action="pretragaDogadjaja" method="post">
 
         <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -55,7 +54,7 @@
         </div>
         <div class="input-group mb-3">
             <!--<div class="input-group-prepend">-->
-            <input class="form-control" type="submit" value="Pretrazi">
+            <input class="form-control btn btn-primary" type="submit" value="Pretrazi">
             <!--</div>-->
         </div>
     </form>

@@ -4,6 +4,7 @@
     Author     : iq skola
 --%>
 
+<%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="klase.StrukturaUlaznica"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="klase.Dogadjaj"%>
@@ -26,31 +27,31 @@
 
         <div>
             <form action="sacuvajDogadjaj" method="post">
-                <input type="hidden" name="dogadjaj_id" value="<%= String.valueOf(dogadjaj.getId())%>" />
+                <input type="hidden" name="dogadjaj_id" value="<%= String.valueOf(dogadjaj.getId())%>">
+                <input type="hidden" name="noviDogadjaj" value="ne">
+
                 <label for="naziv">Naziv:</label>
                 <input type='text' id='naziv' name="naziv" value="<%= dogadjaj.getNaziv()%>"><br>
 
-                <!--
-                Mislim da mi ovaj deo uopste ne treba, prikaz samo komplikuje zivot
-                <label for='mesto_odrzavanja'>Mesto odrzavanja:</label><br>
-                 automatski se popunjava, samo ne znam kako :D 
-                input polje value postavim na mesto blagajnika, i onda on ne moze da menja
-                -->
-
                 <label for="vreme_odrzavanja">Vreme odrzavanja:</label>
-                <input type="datetime-local" id="vreme_odrzavanja" name="vreme_odrzavanja" value="<%= dogadjaj.getDatumIVreme()%>"><br>
+                <%DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+                    String datumIVreme = dogadjaj.getDatumIVreme().format(formatter);%>
+                <input type="datetime-local" id="vreme_odrzavanja" name="vreme_odrzavanja" value="<%= datumIVreme%>"><br>
 
                 <label for="detalji">Detalji dogadjaja</label>
                 <input type="text" id='detalji' name="detalji" placeholder='Unesite detalje dogadjaja' value="<%= dogadjaj.getDetalji()%>"><br>
 
+                <input type="submit" value="Sacuvaj izmene">
+
+            </form>
+            <h2>Nova kategorija: </h2>
+            <form action="sacuvajKategoriju">
                 <label for='nova_kategorija'>Dodaj novu kategoriju ulaznica:</label>
                 <input type='text' id='nova_kategorija' name="nova_kategorija" placeholder='Unesite novu kateoriju ulaznica'>
                 <label for='nova_kategorija_cena'>| Cena:</label>
                 <input type='number' id="nova_kategorija_cena" name='nova_kategorija_cena'>
                 <label for="limit_nova_kategorija">| Limit:</label>
                 <input type="number" id="limit_nova_kategorija" name="limit_nova_kategorija"><br>
-                <input type="submit" value="Sacuvaj izmene">
-
             </form>
             <form action="izmenaStruktura">
                 <div>

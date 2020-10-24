@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import klase.Korisnik;
 import klase.ProvereKorisnik;
 
 /**
@@ -36,8 +37,8 @@ public class OdjavaServlet extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             HttpSession sesija = request.getSession();
             if (ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
-                sesija.setAttribute("korisnik_id", null);
-                sesija.setAttribute("tip", null);
+                sesija.setAttribute("korisnik_id", -1);
+                sesija.setAttribute("tip", Korisnik.TIP_NEREGISTROVANI_KORISNIK);
             }
             response.sendRedirect("index");
         } catch (Exception ex) {

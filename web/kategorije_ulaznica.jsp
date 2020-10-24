@@ -23,8 +23,7 @@
     <body>
         <jsp:include page="parts/header.jsp"></jsp:include>
 
-        <%
-            Blagajnik blagajnik = (Blagajnik) request.getAttribute("korisnik");
+        <%            
             ArrayList<StrukturaUlaznica> strukture = (ArrayList<StrukturaUlaznica>) request.getAttribute("strukture");
         %>
         <div>
@@ -62,8 +61,12 @@
                 <input type='text' id='kategorija' name="kategorija" placeholder="Unesite naziv kategorije">
                 <label for='cena'>| Cena:</label>
                 <input type='number' id="cena" name='cena'>
-                <label for="broj_ulaznica">| Limit:</label>
-                <input type="number" id="broj_ulaznica" name="broj_ulaznica"><br>
+                <label for="broj_ulaznica">Broj dostupnih ulaznica:</label>
+                <input type="number" id='broj_ulaznica' name="broj_ulaznica" ><br>
+
+                <label for="granica_po_korisniku">Granica po korisniku:</label>
+                <input type="number" id='granica_po_korisniku' name="granica_po_korisniku" ><br>
+
                 <input type="submit" value="Sacuvaj novu kategoriju">
             </form>
         </div>

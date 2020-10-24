@@ -40,19 +40,20 @@ public class IndexServlet extends HttpServlet {
 
             RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 
-            ArrayList<Dogadjaj> sviDogadjaji = dogadjajBaza.all();
-
-            int trenutniBrojStrane = 1;
+            int trenutniBrojStrane;
             if (request.getParameter("trenutniBrojStrane") != null) {
                 trenutniBrojStrane = Integer.parseInt(request.getParameter("trenutniBrojStrane"));
+            } else {
+                trenutniBrojStrane = 1;
             }
-            int ukupnoStrana = sviDogadjaji.size() / 9;
-            if (sviDogadjaji.size() % 9 != 0) {
-                ukupnoStrana++;
+            int grupa = (trenutniBrojStrane - 1) * 9 + 1;
+            int ukupnoStrana = dogadjajBaza.all().size() / 9;
+            if (dogadjajBaza.all().size() % 9 != 0) {
+                ukupnoStrana = ukupnoStrana + 1;
             }
             ArrayList<Dogadjaj> dogadjaji = new ArrayList<>();
             if (ukupnoStrana >= trenutniBrojStrane) {
-                dogadjaji = dogadjajBaza.allForPage(trenutniBrojStrane);
+                dogadjaji = dogadjajBaza.allForPage(grupa);
             } else {
                 response.sendRedirect("error.jsp");
             }

@@ -63,7 +63,7 @@ public class PotvrdaRezervacijeServlet extends HttpServlet {
 
                 Dogadjaj dogadjaj = dogadjajBaza.find(rezervacija.getDogadjajId());
                 Blagajnik blagajnik = blagajnikBaza.find(korisnikId);
-                if (!dogadjaj.getNazivLokacije().equals(blagajnik.getNazivLokacije())) {
+                if (!blagajnik.getNazivLokacije().equals(dogadjaj.getNazivLokacije())) {
                     response.sendRedirect("blagajni_pocetna.jsp");
                     //poruka nije pronadjena rezervacija
                     return;

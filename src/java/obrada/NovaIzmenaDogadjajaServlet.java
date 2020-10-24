@@ -20,9 +20,7 @@ import klase.*;
  *
  * @author iq skola
  */
-public class KategorijeUlaznicaServlet extends HttpServlet {
-    
-    private final StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
+public class NovaIzmenaDogadjajaServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,28 +33,25 @@ public class KategorijeUlaznicaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         try {
-            response.setContentType("text/html;charset=UTF-8");
-            if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
+            if (!ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {
                 response.sendRedirect("proveraPrijavljen");
                 return;
             }
-            if (ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {
-                int dogadjajId = Integer.parseInt(request.getParameter("dogadjaj_id"));
-                
-                if (dogadjajId > 0) {
-                    RequestDispatcher rd = request.getRequestDispatcher("kategorije_ulaznica.jsp");
-                    ArrayList<StrukturaUlaznica> strukture = strukturaUlaznicaBaza.allForDogadjajId(dogadjajId);
-                    request.setAttribute("strukture", strukture);
-                    request.setAttribute("dogadjaj_id", dogadjajId);
-                    rd.forward(request, response);
-                }
-                
-            } else {
-                response.sendRedirect("proveraPrijavljen");
-            }
+            int dogadjajId = Integer.parseInt(request.getParameter("dogadjaj_id"));
+            DogadjajBaza dogadjajBaza = new DogadjajBaza();
+            Dogadjaj dogadjaj = dogadjajBaza.find(dogadjajId);
+            RequestDispatcher rd = request.getRequestDispatcher("blagajnik_update.jsp");
+            request.setAttribute("dogadjaj", dogadjaj);
+            StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
+            ArrayList<StrukturaUlaznica> strukture = strukturaUlaznicaBaza.allForDogadjajId(dogadjajId);
+            request.setAttribute("strukture", strukture);
+            rd.forward(request, response);
+            
         } catch (Exception ex) {
-            Logger.getLogger(KategorijeUlaznicaServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(NovaIzmenaDogadjajaServlet.class.getName()).log(Level.SEVERE, null, ex);
+            response.sendRedirect("error.jsp");
         }
     }
 

@@ -17,17 +17,18 @@
 
     <body>
         <jsp:include page="parts/header.jsp"></jsp:include>
-        <% Blagajnik blagajnik = (Blagajnik) request.getAttribute("korisnik_id");%>
+        <% Blagajnik blagajnik = (Blagajnik) request.getAttribute("blagajnik");%>
 
         <h1>Kreiranje novog dogadjaja - 1/3</h1>
         <div>
             <form action="sacuvajDogadjaj" method="post">
+                <input type="hidden" name="noviDogadjaj" value="da">
 
                 <label>Mesto odrzavanja: </label>
                 <%= blagajnik.getNazivLokacije()%><br>
 
                 <label for="naziv">Naziv:</label>
-                <input type='text' id='naziv' placeholder="Unesite naziv" required><br>
+                <input type='text' name = 'naziv' id='naziv' placeholder="Unesite naziv" required><br>
 
                 <label for="vreme_odrzavanja">Vreme odrzavanja:</label>
                 <input type="datetime-local" id="vreme_odrzavanja" name="vreme_odrzavanja" required><br>

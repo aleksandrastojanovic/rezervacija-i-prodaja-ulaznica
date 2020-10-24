@@ -53,7 +53,7 @@ public class PregledBlokiranihKorisnikaServlet extends HttpServlet {
                     rezervacijaBaza.save(rezervacija);
                 }
             }
-            if (ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
+            if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
                 response.sendRedirect("proveraPrijavljen");
                 return;
             }

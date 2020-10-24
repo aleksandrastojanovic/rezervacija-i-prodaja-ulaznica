@@ -46,21 +46,11 @@ public class DogadjajPojedinacnoServlet extends HttpServlet {
                 return;
             }
 
-            if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
-                response.sendRedirect("proveraPrijavljen");
-                return;
-            }
 
             RequestDispatcher rd = request.getRequestDispatcher("dogadjaj.jsp");
             Dogadjaj dogadjaj = dogadjajBaza.find(Integer.parseInt(request.getParameter("dogadjaj_id")));
 
-            ArrayList<StrukturaUlaznica> sveStrukture = strukturaUlaznicaBaza.all();
-            ArrayList<StrukturaUlaznica> strukture = new ArrayList<>();
-            for (StrukturaUlaznica struktura : sveStrukture) {
-                if (struktura.getIdDogadjaja() == dogadjaj.getId()) {
-                    strukture.add(struktura);
-                }
-            }
+            ArrayList<StrukturaUlaznica> strukture = strukturaUlaznicaBaza.allForDogadjajId(dogadjaj.getId());
 
             ArrayList<String> ostaleFotografije = new ArrayList<>();
             ArrayList<Media> medie = mediaBaza.allWhereDogadjajId(dogadjaj.getId());
