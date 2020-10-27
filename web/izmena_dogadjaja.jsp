@@ -22,48 +22,40 @@
             Dogadjaj dogadjaj = (Dogadjaj) request.getAttribute("dogadjaj");
             Blagajnik blagajnik = (Blagajnik) request.getAttribute("blagajnik");
         %>
-        <h1>Izmena dogadjaja</h1>
-        <div>
+        <h1 class="text-primary">Izmena dogadjaja</h1>
+        <div class="container-fluid p-3">
             <form action="sacuvajDogadjaj">
 
-                <label>Mesto odrzavanja</label>
+                <label class="text-primary">Mesto odrzavanja</label>
                 <%= blagajnik.getNazivLokacije()%><br>
 
-                <label for="naziv">Naziv:</label>
+                <label class="text-primary" for="naziv">Naziv:</label>
                 <input type='text' id='naziv' name='naziv' value="<%= dogadjaj.getNaziv()%>"><br>
                 <input type="hidden" name="dogadjaj_id" value="<%= "" + dogadjaj.getId()%>" >
 
-
-                <!--
-                Mislim da mi ovaj deo uopste ne treba, prikaz samo komplikuje zivot
-                <label for='mesto_odrzavanja'>Mesto odrzavanja:</label><br>
-                 automatski se popunjava, samo ne znam kako :D 
-                input polje value postavim na mesto blagajnika, i onda on ne moze da menja
-                -->
-
-                <label for="vreme_odrzavanja">Vreme odrzavanja:</label>
-                <%DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+                <label class="text-primary" for="vreme_odrzavanja">Vreme odrzavanja:</label>
+                <%DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
                     String datumIVreme = dogadjaj.getDatumIVreme().format(formatter);%>
                 <input type="datetime-local" id="vreme_odrzavanja" name="vreme_odrzavanja" value="<%= datumIVreme%>"><br>
 
-                <label for="detalji">Detalji dogadjaja</label>
+                <label class="text-primary" for="detalji">Detalji dogadjaja</label>
                 <input type="text" id='detalji' name="detalji" value="<%= dogadjaj.getDetalji()%>"><br>
 
-                <label for="slika_glavna">Glavna fotografija:</label>
+                <label class="text-primary" for="slika_glavna">Glavna fotografija:</label>
                 <input type="file" id="slika_glavna" name="slika_glavna" accept="image/*" value="<%= dogadjaj.getGlavnaSlikaPutanja()%>"><br>
 
-                <label for="slike">Dodaj ostale fotografije:</label>
+                <label class="text-primary" for="slike">Dodaj ostale fotografije:</label>
                 <input type="file" id="slike" name="slike" accept="image/*" multiple><br>
 
                 <% if (dogadjaj.getVideoPutanja() != null) {%>
 
-                <label for="video">Dodaj video zapis</label>
+                <label class="text-primary" for="video">Dodaj video zapis</label>
                 <input type="file" id="video" name="video" accept="video/*" value="<%= dogadjaj.getVideoPutanja()%>"><br>
                 <% }%>
                 <!--Preko js bi trebalo da napravim da bude required cena i limit ako je cekirano -->
 
 
-                <input type="submit" value="Sacuvaj izmene">
+                <input type="submit" class="btn btn-primary" value="Sacuvaj izmene">
 
             </form>
         </div>

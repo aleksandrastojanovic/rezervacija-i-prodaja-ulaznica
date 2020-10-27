@@ -66,7 +66,7 @@ public class SacuvajDogadjajServlet extends HttpServlet {
             
             if (dogadjaj.getId() > 0) {
                 if(noviDogadjaj.equals("da")){
-                putanja = "media";
+                putanja = "media?dogadjaj_id=" + dogadjaj.getId();
             } else if (noviDogadjaj.equals("ne")){
                 putanja = "dogadjajPojedinacno?dogadjaj_id=" + dogadjaj.getId();
                 //poruka uspesno sacuvano

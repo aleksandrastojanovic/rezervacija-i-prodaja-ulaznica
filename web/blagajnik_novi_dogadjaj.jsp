@@ -17,35 +17,45 @@
 
     <body>
         <jsp:include page="parts/header.jsp"></jsp:include>
-        <% Blagajnik blagajnik = (Blagajnik) request.getAttribute("blagajnik");%>
+            <div class="container-fluid pt-3 my-3 border">
+            <% Blagajnik blagajnik = (Blagajnik) request.getAttribute("blagajnik");%>
 
-        <h1>Kreiranje novog dogadjaja - 1/3</h1>
-        <div>
-            <form action="sacuvajDogadjaj" method="post">
-                <input type="hidden" name="noviDogadjaj" value="da">
+            <h1 class="text-primary text-center">Kreiranje novog dogadjaja - 1/3</h1>
+            <div>
+                <form action="sacuvajDogadjaj" method="post">
+                    <input type="hidden" name="noviDogadjaj" value="da">
 
-                <label>Mesto odrzavanja: </label>
-                <%= blagajnik.getNazivLokacije()%><br>
+                    <div class="form-group text-secondary">
+                        <label  class="text-primary">Mesto odrzavanja: </label>
+                        <%= blagajnik.getNazivLokacije()%><br>
+                    </div>
 
-                <label for="naziv">Naziv:</label>
-                <input type='text' name = 'naziv' id='naziv' placeholder="Unesite naziv" required><br>
+                    <div class="form-group">
+                        <label class="text-primary" for="naziv">Naziv:</label>
+                        <input type='text' name = 'naziv' id='naziv' placeholder="Unesite naziv" required><br>
+                    </div>
 
-                <label for="vreme_odrzavanja">Vreme odrzavanja:</label>
-                <input type="datetime-local" id="vreme_odrzavanja" name="vreme_odrzavanja" required><br>
+                    <div class="form-group">
+                        <label class="text-primary" for="vreme_odrzavanja">Vreme odrzavanja:</label>
+                        <input type="datetime-local" id="vreme_odrzavanja" name="vreme_odrzavanja" required><br>
+                    </div>
 
-                <label for="detalji">Detalji dogadjaja</label>
-                <input type="text" id='detalji' name="detalji" placeholder='Unesite detalje dogadjaja' required><br>
+                    <div class="form-group">
+                        <label class="text-primary" for="detalji">Detalji dogadjaja:</label><br>
+                        <textarea type="text" id='detalji' name="detalji" rows="4" cols="50" placeholder='Unesite detalje dogadjaja' required></textarea><br>
+                    </div>
 
-                <input type="submit" value="Dalje">
+                    <input class="btn btn-primary" type="submit" value="Dalje">
 
-                <!--Preko js bi trebalo da napravim da bude required cena i limit ako je cekirano -->
+                    <!--Preko js bi trebalo da napravim da bude required cena i limit ako je cekirano -->
 
 
 
-            </form>
+                </form>
+            </div>
+
+            <jsp:include page="parts/footer.jsp"></jsp:include>
         </div>
-
-        <jsp:include page="parts/footer.jsp"></jsp:include>
     </body>
 
 </html>

@@ -30,9 +30,9 @@
             ArrayList<Dogadjaj> dogadjaji = (ArrayList<Dogadjaj>) request.getAttribute("dogadjaji");
             int ukupnoStrana = (Integer) request.getAttribute("ukupnoStrana");
         %>
-
-        <div class="container-fluid pt-3" >
-            <jsp:include page="parts/pretraga_dogadjaja.jsp"></jsp:include>
+<jsp:include page="parts/pretraga_dogadjaja.jsp"></jsp:include>
+        <div class="container-fluid pt-3 mt-0" >
+            
 
                 <div class="row">
                     <div class="col-md-2"></div>
@@ -41,7 +41,7 @@
 
                         <%
                             for (Dogadjaj dogadjaj : dogadjaji) {%>
-                        <div class="col-md-4 pt-2">
+                        <div class="col-md-4 p-3">
                             <div class="card border rounded">
                                 <% if (request.getSession().getAttribute("korisnik_id") != null && request.getSession().getAttribute("tip") != null) {%>
                                 <a href="dogadjajPojedinacno?dogadjaj_id=<%= "" + dogadjaj.getId()%>" >
@@ -49,17 +49,17 @@
                                     <a href="proveraRegistrovan" class="btn btn-primary">Detaljnije</a>    
                                     <% }%>
                                     <div class="card-img-top">
-                                        <img class="card-img-top" src="ucitajMediu?dogadjaj_id=1&ime=prva.jpg" alt="Glavna slika">
+                                        <img class="card-img-top" src="ucitajFoto?dogadjaj_id=1&ime=prva.jpg" alt="Glavna slika">
                                     </div>
                                 </a>
                                 <div class="card-body">
-                                    <h5 class="card-title"><%= ((Dogadjaj) dogadjaj).getNaziv()%></h5>
-                                    <p class="card-text">
+                                    <h5 class="card-title text-primary"><%= ((Dogadjaj) dogadjaj).getNaziv()%></h5>
+                                    <p class="card-text text-secondary">
                                         <%= ((Dogadjaj) dogadjaj).getNazivLokacije()%>
                                         <br>
-                                        <%DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+                                        <%DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
                                             String datumIVreme = dogadjaj.getDatumIVreme().format(formatter);%>
-                                        <%= datumIVreme %>
+                                        <%= datumIVreme%>
                                     </p>
                                 </div>
                             </div>
@@ -67,33 +67,23 @@
 
 
                         <% }%>
-                        <hr>
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination">
-                                <% for (int i = 1; i <= ukupnoStrana; i++) {%>
-                                <li class="page-item"><a class="page-link" href="index?trenutniBrojStrane=<%= i%>"> <%= i%> </a></li>
-                                    <% } %>
-                            </ul>
-                        </nav>
 
-                        <!-- odavde brisi -->
-
-                        
-
-                        <!-- dovde brisi -->
 
                     </div>
+                    <div>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center p-3">
+                                <% for (int i = 1; i <= ukupnoStrana; i++) {%>
+                                <li class="page-item"><a class="page-link" href="index?trenutniBrojStrane=<%= i%>"> <%= i%> </a></li>
+                                    <% }%>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
-                <div class="col-md-2"></div>
-            </div>
-            <hr>
-            <div>
-                <a href="mojeUlaznice">Moje ulaznice</a>
-            </div>
 
-        </div>
-        <jsp:include page="parts/footer.jsp"></jsp:include>
-    </body>
+                <hr>
+                <jsp:include page="parts/footer.jsp"></jsp:include>
+                </body>
 
-</html>
+                </html>
 

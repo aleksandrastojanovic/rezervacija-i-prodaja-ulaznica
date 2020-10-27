@@ -23,55 +23,58 @@
     <body>
         <jsp:include page="parts/header.jsp"></jsp:include>
 
-        <%            
+        <%
             ArrayList<StrukturaUlaznica> strukture = (ArrayList<StrukturaUlaznica>) request.getAttribute("strukture");
         %>
-        <div>
+        <div class="container-fluid pt-3 my-3">
+            <div class='container-fluid'>
 
-            <table>
-                <thead>
-                <th>Kategorija: </th>
-                <th>Cena:</th>
-                <th>Broj dotupnih ulaznica: </th>    
-                <th></th>
-                </thead>
-                <%
+                <table class="table">
+                    <thead class="text-primary">
+                    <th>Kategorija: </th>
+                    <th>Cena:</th>
+                    <th>Broj dotupnih ulaznica: </th>    
+                    <th></th>
+                    </thead>
+                    <%
                     for (StrukturaUlaznica struktura : strukture) {%>
-                <tr>
-                    <td><%= ((StrukturaUlaznica) struktura).getKategorija()%></td>
-                    <td><%= ((StrukturaUlaznica) struktura).getCena()%></td>
-                    <td><%= ((StrukturaUlaznica) struktura).getBrojDostupnihUlaznica()%></td>
-                    <td><a href="izmenaStrukture?struktura_id=<%=String.valueOf(struktura.getId())%>">
-                            <input type="button" name="izmeniStrukture" value="Izmeni Strukturu"></a></td>
-                    <td><a href="brisanjeStrukture?struktura_id=<%=String.valueOf(struktura.getId())%>">
-                            <input type="button" name="brisanjeStrukture" value="Obrisi Strukturu"></a></td>
-                </tr>
-                <%
-                    }
-                %>
-            </table>
+                    <tr class="text-secondary">
+                        <td><%= ((StrukturaUlaznica) struktura).getKategorija()%></td>
+                        <td><%= ((StrukturaUlaznica) struktura).getCena()%></td>
+                        <td><%= ((StrukturaUlaznica) struktura).getBrojDostupnihUlaznica()%></td>
+                        <td><a href="izmenaStrukture?struktura_id=<%=String.valueOf(struktura.getId())%>">
+                                <input type="button" class="btn btn-primary"name="izmeniStrukture" value="Izmeni Strukturu"></a></td>
+                        <td><a href="brisanjeStrukture?struktura_id=<%=String.valueOf(struktura.getId())%>">
+                                <input type="button" class="btn btn-primary" name="brisanjeStrukture" value="Obrisi Strukturu"></a></td>
+                    </tr>
+                    <%
+                        }
+                    %>
+                </table>
+            </div>
+
+            <div class="container-fluid">
+                <form action="sacuvajKategoriju">
+
+                    <h3>Dodaj novu kategoriju ulaznica: </h3><br>
+                    <input type="hidden" name="dogadjaj_id" value="<%= request.getAttribute("dogadjaj_id")%>" />
+                    <label class='text-primary' for='kategorija'>Nova kategorija ulaznica:</label>
+                    <input type='text' id='kategorija' name="kategorija" placeholder="Unesite naziv kategorije">
+                    <label class='text-primary' for='cena'>| Cena:</label>
+                    <input type='number' id="cena" name='cena'>
+                    <label class='text-primary' for="broj_ulaznica">Broj dostupnih ulaznica:</label>
+                    <input type="number" id='broj_ulaznica' name="broj_ulaznica" ><br>
+
+                    <label class='text-primary' for="granica_po_korisniku">Granica po korisniku:</label>
+                    <input type="number" id='granica_po_korisniku' name="granica_po_korisniku" ><br>
+
+                    <input type="submit" class="btn btn-primary" value="Sacuvaj novu kategoriju">
+                </form>
+            </div>
+            <jsp:include page="parts/footer.jsp"></jsp:include>
         </div>
 
-        <div>
-            <form action="sacuvajKategoriju">
 
-                <h3>Dodaj novu kategoriju ulaznica: </h3><br>
-                <input type="hidden" name="dogadjaj_id" value="<%= request.getAttribute("dogadjaj_id")%>" />
-                <label for='kategorija'>Nova kategorija ulaznica:</label>
-                <input type='text' id='kategorija' name="kategorija" placeholder="Unesite naziv kategorije">
-                <label for='cena'>| Cena:</label>
-                <input type='number' id="cena" name='cena'>
-                <label for="broj_ulaznica">Broj dostupnih ulaznica:</label>
-                <input type="number" id='broj_ulaznica' name="broj_ulaznica" ><br>
-
-                <label for="granica_po_korisniku">Granica po korisniku:</label>
-                <input type="number" id='granica_po_korisniku' name="granica_po_korisniku" ><br>
-
-                <input type="submit" value="Sacuvaj novu kategoriju">
-            </form>
-        </div>
-
-        <jsp:include page="parts/footer.jsp"></jsp:include>
     </body>
 
 </html>

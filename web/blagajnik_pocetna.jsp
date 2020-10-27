@@ -21,58 +21,61 @@
 
     <body>
         <jsp:include page="parts/header.jsp"></jsp:include>
-        <%
-            ArrayList<Dogadjaj> dogadjaji = (ArrayList<Dogadjaj>) request.getAttribute("dogadjaji");
-        %>
-        <!-- 
-        
-        - Pregled dogadjaja za lokaciju blagajnika
-        -->
+            <div class="container-fluid pt-3 my-3 border">
+            <%
+                ArrayList<Dogadjaj> dogadjaji = (ArrayList<Dogadjaj>) request.getAttribute("dogadjaji");
+            %>
 
-        <div>
-            <table>
-                <thead>
-                <th>Naziv dogadjaja</th>
-                <th>Naziv lokacije</th>
-                <th>Datum i vreme</th>
-                <th>Detalji</th>
-                <th></th>
-                </thead>
-                <%
-                    for (Dogadjaj dogadjaj : dogadjaji) {%>
-                <tr>
-                    <td><%= ((Dogadjaj) dogadjaj).getNaziv()%></td>
-                    <td><%= ((Dogadjaj) dogadjaj).getNazivLokacije()%></td>
-                    <%DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-                        String datumIVreme = dogadjaj.getDatumIVreme().format(formatter);%>
-                    <td><%= datumIVreme%></td>
-                    <td><%= ((Dogadjaj) dogadjaj).getDetalji()%></td>
+            <%  HttpSession sesija = request.getSession();
+                if (Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))) {
+            %>
+            <div class="container-fluid mb-3 p-3 w-25 text-center border border-primary rounded">
+                <form action="potvrdaRezervacije">
+                    <label class='text-primary '>ID rezervacije</label>
+                    <input type="number" placeholder="Unesi ID rezervacije" name="rezervacija_id">
+                    <input type="submit" class="btn btn-primary" value="Placanje">
+                </form>
+            </div>
+            <%}%>
+            <!-- 
+            
+            - Pregled dogadjaja za lokaciju blagajnika
+            -->
 
-                    <td><a href="dogadjajPojedinacno?dogadjaj_id=<%=String.valueOf(dogadjaj.getId())%>">
-                            <input type="button" name="dogadjajPojedinacno" value="Izaberi"></a></td>
-                    <td><a href="novaIzmenaDogadjaja?dogadjaj_id=<%=String.valueOf(dogadjaj.getId())%>">
-                            <input type="button" name="izmeni" value="Izmeni dogadjaj"></a></td>
-                    <td><a href="kategorijeUlaznica?dogadjaj_id=<%=String.valueOf(dogadjaj.getId())%>">
-                            <input type="button" name="kategorije" value="Kategorije ulaznica"></a></td>
+            <div class="container-fluid">
+                <table class="table">
+                    <thead class="text-primary">
+                    <th scope="col">Naziv dogadjaja</th>
+                    <th scope="col">Naziv lokacije</th>
+                    <th scope="col">Datum i vreme</th>
+                    <th scope="col">Detalji</th>
 
-                </tr>
-                <%
-                    }
-                %>
-            </table>
+                    </thead>
+                    <%
+                        for (Dogadjaj dogadjaj : dogadjaji) {%>
+                    <tr class="text-secondary" scope="row">
+                        <td style="width:20%"><%= ((Dogadjaj) dogadjaj).getNaziv()%></td>
+                        <td style="width:20%"><%= ((Dogadjaj) dogadjaj).getNazivLokacije()%></td>
+                        <%DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
+                            String datumIVreme = dogadjaj.getDatumIVreme().format(formatter);%>
+                        <td style="width:20%"><%= datumIVreme%></td>
+                        <td style="width:20%"><%= ((Dogadjaj) dogadjaj).getDetalji()%></td>
+
+                        <td style="width:5%"><a href="dogadjajPojedinacno?dogadjaj_id=<%=String.valueOf(dogadjaj.getId())%>">
+                                <input type="button" class="btn btn-primary" name="dogadjajPojedinacno" value="Izaberi"></a></td>
+                        <td style="width:5%"><a href="novaIzmenaDogadjaja?dogadjaj_id=<%=String.valueOf(dogadjaj.getId())%>">
+                                <input type="button"  class="btn btn-primary" name="izmeni" value="Izmeni dogadjaj"></a></td>
+                        <td style="width:10%"><a href="kategorijeUlaznica?dogadjaj_id=<%=String.valueOf(dogadjaj.getId())%>">
+                                <input type="button"  class="btn btn-primary" name="kategorije" value="Kategorije ulaznica"></a></td>
+
+                    </tr>
+                    <%
+                        }
+                    %>
+                </table>
+            </div>
+            <jsp:include page="parts/footer.jsp"></jsp:include>
         </div>
-        <%  HttpSession sesija = request.getSession();
-            if (Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))) {
-        %>
-        <div>
-            <form action="potvrdaRezervacije">
-                <label>ID rezervacije</label>
-                <input type="number" placeholder="Unesi ID rezervacije" name="rezervacija_id">
-                <input type="submit" value="Placanje">
-            </form>
-        </div>
-        <%}%>
-        <jsp:include page="parts/footer.jsp"></jsp:include>
     </body>
 
 </html>

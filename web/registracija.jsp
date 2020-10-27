@@ -11,49 +11,79 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <style>
+            .klasa {
+                position: fixed;
+                left: 50%;
+                top: 52%;
+                transform: translate(-50%, -50%);
+            }
+        </style>
         <title>Registracija</title>
     </head>
 
     <body>           
         <jsp:include page="parts/header.jsp"></jsp:include>
 
-            <div class="container-fluid pt-5">            
-                <h1>Registracija:</h1>
+            <div class="klasa m-3">
+                <div class="container-fluid p-3 border text-left">            
+                    <h1 class="text-primary text-center">Registracija:</h1>
 
-                <div>
+
                     <form action='registracija' method="post">
-                        <label for="ime">Ime:</label>
-                        <input type="text" name="ime" placeholder='Unesite ime' required><br>
 
-                        <label for="prezime">Prezime:</label>
-                        <input type="text" name="prezime" placeholder='Unesite prezime' required><br>
+                        <div class="form-group p-1 m-1">
+                            <label class="text-primary" for="ime">Ime:</label>
+                            <input class="border" type="text" name="ime" placeholder='Unesite ime' required><br>
+                        </div>
 
-                        <label for="username">Korisnicko ime:</label>
-                        <input type="text" name="username" placeholder='Unesite korisnicko ime' minlength='5' required><br>
+                        <div class="form-group p-1 m-1">
+                            <label class="text-primary" for="prezime">Prezime:</label>
+                            <input class="border" type="text" name="prezime" placeholder='Unesite prezime' required><br>
+                        </div>
 
-                        <label for="password">Lozinka:</label>
-                        <input type="password" name="password" placeholder="Unesite lozinku" minlength='5' required><br>
+                        <div class="form-group p-1 m-1">
+                            <label class="text-primary" for="username">Korisnicko ime:</label>
+                            <input class="border" type="text" name="username" placeholder='Unesite korisnicko ime' minlength='5' required><br>
+                        </div>
 
-                        <label for="password_check">Potvrda lozinke:</label>
-                        <input type="password" name="password_check" placeholder='Unesite potvrdu lozinke' minlength='5' required><br>
+                        <div class="form-group p-1 m-1">
+                            <label class="text-primary" for="password">Lozinka:</label>
+                            <input class="border" type="password" name="password" placeholder="Unesite lozinku" minlength='5' required><br>
+                        </div>
 
-                        <label for="grad">Grad:</label>
-                        <input type="text" name="grad" placeholder='Unesite grad' required><br>
+                        <div class="form-group p-1 m-1">
+                            <label class="text-primary" for="password_check">Potvrda lozinke:</label>
+                            <input class="border" type="password" name="password_check" placeholder='Unesite potvrdu lozinke' minlength='5' required><br>
+                        </div>
 
-                        <label for="adresa">Ulica i broj:</label>
-                        <input type="text" name="adresa" placeholder='Unesite ulicu i broj' required><br>
+                        <div class="form-group p-1 m-1">
+                            <label class="text-primary" for="grad">Grad:</label>
+                            <input class="border" type="text" name="grad" placeholder='Unesite grad' required><br>
+                        </div>
 
-                        <label for="telefon">Kontakt telefon:</label>
-                        <input type="text" name="telefon" placeholder='Unesite kontakt telefon' required><br>
+                        <div class="form-group p-1 m-1">
+                            <label class="text-primary" for="adresa">Ulica i broj:</label>
+                            <input class="border" type="text" name="adresa" placeholder='Unesite ulicu i broj' required><br>
+                        </div>
 
-                        <label for="email">E-mail:</label>
-                        <input type="text" name="email" placeholder="Unesite e-mail" required><br>
+                        <div class="form-group p-1 m-1">
+                            <label class="text-primary" for="telefon">Kontakt telefon:</label>
+                            <input class="border" type="text" name="telefon" placeholder='Unesite kontakt telefon' required><br>
+                        </div>
 
-                        <input type="submit" value="Registruj se">
+                        <div class="form-group p-1 m-1">
+                            <label class="text-primary" for="email">E-mail:</label>
+                            <input class="border" type="text" name="email" placeholder="Unesite e-mail" required><br>
+                        </div>
 
+                        <div class="d-flex justify-content-center">
+                        <input type="submit" class="btn btn-primary text-center p-1 btn-lg" value="Registruj se">
+                        </div>
+                        
                     </form>
                 </div>
-                <hr>
+
 
             <jsp:include page="parts/footer.jsp"></jsp:include>
         </div>

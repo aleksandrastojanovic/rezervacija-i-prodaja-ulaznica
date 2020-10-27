@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
-<div class="container-fluid p-1 my-3 border ">
+<div class="container-fluid p-3 mt-5 w-75 border border-primary rounded">
 
     <!--    <form class="form-inline">
             <div class="form-group">
@@ -26,37 +26,38 @@
             <button type="submit" class="btn btn-default">Sign in</button>
         </form>-->
 
-    <form class="form-inline justify-content-center " action="pretragaDogadjaja" method="post">
+    <form class="form-inline justify-content-center p-3" action="pretragaDogadjaja" method="post">
 
-        <div class="input-group mb-3">
+        <div class="input-group mb-3 ml-3">
             <div class="input-group-prepend">
-                <label class="input-group-text" for='naziv' id="naziv_labela">Pretrazi po nazivu:</label>
+                <label class="input-group-text text-primary" for='naziv' id="naziv_labela">Pretrazi po nazivu:</label>
             </div>
-            <input class="form-control" type="text" id="naziv" name='naziv' placeholder='Unesite naziv' aria-describedby="naziv_labela"><br>
+            <input class="form-control" type="text" id="naziv" name='naziv' placeholder='Unesi naziv' aria-describedby="naziv_labela"><br>
         </div>
-        <div class="input-group mb-3">
+        <div class="input-group mb-3 ml-3">
+            <div class="input-group-prepend ">
+                <label class="input-group-text text-primary" for="vreme_od" id="vreme_od_labela">Pretrazi po datumu od:</label>
+            </div>
+            <input class="form-control" type="datetime-local" id="vreme_od" name="vreme_od" placeholder="Unesi od kog datuma"  aria-describedby="vreme_od_labela" value="2001-01-01T00:00">
+        </div>
+        <div class="input-group mb-3 ml-3">
             <div class="input-group-prepend">
-                <label class="input-group-text" for="vreme_od" id="vreme_od_labela">Pretrazi po datumu od:</label>
+                <label  class="input-group-text text-primary" for='vreme_do' id="vreme_do_labela"> do:</label>
             </div>
-            <input class="form-control" type="datetime-local" id="vreme_od" name="vreme_od" placeholder="Unesite od kog datuma"  aria-describedby="vreme_od_labela" value="2001-01-01T00:00">
+            <input class="form-control" type="datetime-local" id="vreme_do" name='vreme_do' placeholder='Unesi do kog datuma'  aria-describedby="vreme_do_labela" value="2001-01-01T00:00">
         </div>
-        <div class="input-group mb-3">
+        <div class="input-group mb-0 ml-3">
             <div class="input-group-prepend">
-                <label  class="input-group-text" for='vreme_do' id="vreme_do_labela"> do:</label>
+                <label class="input-group-text text-primary" for='mesto' id="mesto_labela">Pretrazi po mestu odrzavanja:</label>
             </div>
-            <input class="form-control" type="datetime-local" id="vreme_do" name='vreme_do' placeholder='Unesite do kog datuma'  aria-describedby="vreme_do_labela" value="2001-01-01T00:00">
+            <input class="form-control" type="text" id="po_mestu" name='mesto' placeholder='Unesi mesto odrzavanja'  aria-describedby="mesto_labela">
         </div>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <label class="input-group-text" for='mesto' id="mesto_labela">Pretrazi po mestu odrzavanja:</label>
-            </div>
-            <input class="form-control" type="text" id="po_mestu" name='mesto' placeholder='Unesite mesto odrzavanja'  aria-describedby="mesto_labela">
-        </div>
-        <div class="input-group mb-3">
+        <div class="input-group mb-0 ml-3">
             <!--<div class="input-group-prepend">-->
             <input class="form-control btn btn-primary" type="submit" value="Pretrazi">
             <!--</div>-->
         </div>
+
     </form>
 
 

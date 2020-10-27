@@ -17,75 +17,91 @@
 
     <body>
         <jsp:include page="parts/header.jsp"></jsp:include>
-            <div>
-                <h1>Kreiranje novog korisnika:</h1>
+            <div class="container-fluid p-3 my-3 border">
+                <h1 class="text-primary">Kreiranje novog korisnika:</h1>
                 <form action="sacuvajKorisnika" method="post">
 
-                    <input type="radio" name='korisnik' id="reg_korisnik" value="Registrovani korisnik">
-                    <label for='reg_korisnik'>Novi registrovani korisnik:</label><br>
+                    <div class="form-group">
+                        <input type="radio" name='korisnik' id="reg_korisnik" value="Registrovani korisnik">
+                        <label class='text-secondary p-1' for='reg_korisnik'>Novi registrovani korisnik</label>
 
-                    <input type="radio" name='korisnik' id="blagajnik" value="Blagajnik">
-                    <label for='blagajnik'>Novi blagajnik:</label><br>
 
-                    <input type="radio" name='korisnik' id="admin" value="Administrator">
-                    <label for='administrator'>Novi administrator</label><br>
 
-                    <label for="ime">Ime:</label>
-                    <input type="text" name="ime" placeholder='Unesite ime' required><br>
+                        <input type="radio" name='korisnik' id="blagajnik" value="Blagajnik">
+                        <label class='text-secondary p-1' for='blagajnik'>Novi blagajnik</label>
 
-                    <label for="prezime">Prezime:</label>
-                    <input type="text" name="prezime" placeholder='Unesite prezime' required><br>
 
-                    <label for="username">Korisnicko ime:</label>
-                    <input type="text" name="username" placeholder='Unesite korisnicko ime' minlength='5' required><br>
 
-                    <label for="password">Lozinka:</label>
-                    <input type="password" name="password" placeholder="Unesite lozinku" minlength='5' required><br>
+                        <input type="radio" name='korisnik' id="admin" value="Administrator">
+                        <label class='text-secondary p-1' for='administrator'>Novi administrator</label><br>
+                    </div>
 
-                    <label for="password_check">Potvrda lozinke:</label>
-                    <input type="password" name="password_check" placeholder='Unesite potvrdu lozinke' minlength='5' required><br>
+                    <div class="form-group">
+                        <label class='text-secondary' for="ime">Ime:</label>
+                        <input type="text" name="ime" placeholder='Unesite ime' required><br>
+                    </div>
 
-                    <label for="grad">Grad:</label>
-                    <input type="text" name="grad" placeholder='Unesite grad'><br>
+                    <div class="form-group">
+                        <label class='text-secondary' for="prezime">Prezime:</label>
+                        <input type="text" name="prezime" placeholder='Unesite prezime' required><br>
+                    </div>
 
-                    <label for="adresa">Ulica i broj:</label>
-                    <input type="text" name="adresa" placeholder='Unesite ulicu i broj'><br>
+                    <div class="form-group">
+                        <label class='text-secondary' for="username">Korisnicko ime:</label>
+                        <input type="text" name="username" placeholder='Unesite korisnicko ime' minlength='5' required><br>
+                    </div>
 
-                    <label for="telefon">Kontakt telefon:</label>
-                    <input type="text" name="telefon" placeholder='Unesite kontakt telefon'><br>
+                    <div class="form-group">
+                        <label class='text-secondary' for="password">Lozinka:</label>
+                        <input type="password" name="password" placeholder="Unesite lozinku" minlength='5' required><br>
+                    </div>
 
-                    <label for="email">E-mail:</label>
-                    <input type="text" name="email" placeholder="Unesite e-mail"><br>
+                    <div class="form-group">
+                        <label class='text-secondary' for="password_check">Potvrda lozinke:</label>
+                        <input type="password" name="password_check" placeholder='Unesite potvrdu lozinke' minlength='5' required><br>
+                    </div>
 
-                    <label for="naziv_lokacije">Naziv lokacije:</label>
-                    <input type="text" name="naziv_lokacije" placeholder="Unesite naziv lokacije"><br>
+                    <div class="form-group">
+                        <label class='text-secondary' for="grad">Grad:</label>
+                        <input type="text" name="grad" placeholder='Unesite grad'><br>
+                    </div>
 
-                    <label for="grad_lokacije">Grad lokacije:</label>
-                    <input type="text" name="grad_lokacije" placeholder="Unesite grad lokacije"><br>
+                    <div class="form-group">
+                        <label class='text-secondary' for="adresa">Ulica i broj:</label>
+                        <input type="text" name="adresa" placeholder='Unesite ulicu i broj'><br>
+                    </div>
 
-                    <label for="adresa_lokacije">Adresa lokacije:</label>
-                    <input type="text" name="adresa_lokacije" placeholder="Unesite adresu lokacije"><br>
+                    <div class="form-group">
+                        <label class='text-secondary' for="telefon">Kontakt telefon:</label>
+                        <input type="text" name="telefon" placeholder='Unesite kontakt telefon'><br>
+                    </div>
 
-                    <input type="submit" name="posalji" value="Posalji">
+                    <div class="form-group">
+                        <label class='text-secondary' for="email">E-mail:</label>
+                        <input type="text" name="email" placeholder="Unesite e-mail"><br>
+                    </div>
+
+                    <div class="form-group">
+                        <label class='text-secondary' for="naziv_lokacije">Naziv lokacije:</label>
+                        <input type="text" name="naziv_lokacije" placeholder="Unesite naziv lokacije"><br>
+                    </div>
+
+                    <div class="form-group">
+                        <label class='text-secondary' for="grad_lokacije">Grad lokacije:</label>
+                        <input type="text" name="grad_lokacije" placeholder="Unesite grad lokacije"><br>
+                    </div>
+
+                    <div class="form-group">
+                        <label class='text-secondary' for="adresa_lokacije">Adresa lokacije:</label>
+                        <input type="text" name="adresa_lokacije" placeholder="Unesite adresu lokacije"><br>
+                    </div>
+
+                    <input type="submit" class="btn btn-primary" name="posalji" value="Kreiraj">
                 </form>
-            </div>
-            <hr>
 
-            <!-- <div>
-                 <h1>Kreiranje novog aministratora</h1>
-                 <form>
-                     <label for="novi_admin_korisnicko_ime">Korisnicko ime:</label>
-                     <input type='text' id="novi_admin_kornisnicko_ime" name='novi_admin_korisnicko_ime'
-                            placeholder='Unesite korisnicko ime' required><br>
-                     
-                     <label for="novi_admin_lozinka">Lozinka:</label>
-                     <input type='password' id="novi_admin_lozinka" name='novi_admin_lozinka'
-                            placeholder='Unesite lozinku' required><br>
-                     <input type="submit" name='posalji_novi_admin' value="Kreiraj novog administratora">
-                 </form>
-             </div> -->
 
-        <jsp:include page="parts/footer.jsp"></jsp:include>
+            <jsp:include page="parts/footer.jsp"></jsp:include>
+        </div>
     </body>
 
 </html>

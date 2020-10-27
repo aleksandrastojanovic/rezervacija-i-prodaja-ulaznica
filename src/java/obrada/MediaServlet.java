@@ -38,7 +38,9 @@ public class MediaServlet extends HttpServlet {
                 response.sendRedirect("proveraPrijavljen");
                 return;
             }
+            
             RequestDispatcher rd = request.getRequestDispatcher("blagajnik_media.jsp");
+            request.setAttribute("dogadjaj_id", request.getParameter("dogadjaj_id"));
             rd.forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(Media.class.getName()).log(Level.SEVERE, null, ex);

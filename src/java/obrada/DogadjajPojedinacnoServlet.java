@@ -14,7 +14,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import klase.*;
 
 /**
@@ -54,13 +53,21 @@ public class DogadjajPojedinacnoServlet extends HttpServlet {
 
             ArrayList<String> ostaleFotografije = new ArrayList<>();
             ArrayList<Media> medie = mediaBaza.allWhereDogadjajId(dogadjaj.getId());
+            String videoIme;
             for (Media media : medie) {
-                ostaleFotografije.add(media.getIme());
+                if(!Media.TIP_VIDEO.equals(media.getTip())){
+                  ostaleFotografije.add(media.getIme());  
+                } else {
+                    videoIme = media.getIme();
+                    request.setAttribute("videoIme", videoIme);
+                }
+                
             }
 
             request.setAttribute("strukture", strukture);
             request.setAttribute("dogadjaj", dogadjaj);
             request.setAttribute("ostaleFotografije", ostaleFotografije);
+            
             rd.forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(DogadjajPojedinacnoServlet.class.getName()).log(Level.SEVERE, null, ex);

@@ -22,27 +22,27 @@
         <%
             StrukturaUlaznica struktura = (StrukturaUlaznica) request.getAttribute("struktura");
         %>
-        <div>
+        <div class="container-fluid pt-3 my-3 border">
             <form action="sacuvajKategoriju">
                 <input type="hidden" name="struktura_id" value="<%= String.valueOf(struktura.getId())%>" >
                 <input type="hidden" name="dogadjaj_id" value="<%= String.valueOf(struktura.getIdDogadjaja())%>" >
-                <label for="kategorija">Kategorija:</label>
+                <label class="text-primary" for="kategorija">Kategorija:</label>
                 <input type='text' id='kategorija' name="kategorija" value="<%= struktura.getKategorija()%>"><br>
 
-                <label for="cena">Cena:</label>
+                <label class="text-primary" for="cena">Cena:</label>
                 <input type="number" id="cena" name="cena" value="<%= struktura.getCena()%>"><br>
 
-                <label for="broj_ulaznica">Broj dostupnih ulaznica:</label>
+                <label class="text-primary" for="broj_ulaznica">Broj dostupnih ulaznica:</label>
                 <input type="number" id='broj_ulaznica' name="broj_ulaznica" value="<%= struktura.getBrojDostupnihUlaznica()%>"><br>
 
-                <label for="granica_po_korisniku">Granica po korisniku:</label>
+                <label class="text-primary" for="granica_po_korisniku">Granica po korisniku:</label>
                 <input type="number" id='granica_po_korisniku' name="granica_po_korisniku" value="<%= struktura.getGranicaPoKorisniku()%>"><br>
 
-                <input type="submit" value="Sacuvaj izmene">
+                <input type="submit" class="btn btn-primary" value="Sacuvaj izmene">
             </form>
 
         </div>
-        <div></div>
+        
 
         <jsp:include page="parts/footer.jsp"></jsp:include>
     </body>

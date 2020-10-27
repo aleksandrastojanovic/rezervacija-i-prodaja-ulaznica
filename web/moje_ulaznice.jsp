@@ -4,6 +4,7 @@
     Author     : iq skola
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="klase.Dogadjaj"%>
 <%@page import="klase.DogadjajBaza"%>
 <%@page import="klase.Rezervacija"%>
@@ -24,26 +25,30 @@
         <%
             ArrayList<Rezervacija> rezervacije = (ArrayList<Rezervacija>) request.getAttribute("rezervacije");
         %>
-        <div>
-            <table>
-                <thead>
+        <div class="container-fluid p-3 m3-3 ">
+            <table class="table pb-0 mb-0">
+                <thead class='text-primary'>
                 <th>Id rezervacije</th>
                 <th>Naziv dogadjaja</th>
                 <th>Broj ulaznica</th>
                 <th>Vreme</th>
                 <th>Status</th>
+                <th></th>
                 </thead>
                 <%
                     for (Rezervacija rezervacija : rezervacije) {%>
-                <tr>
+                <tr class="text-secondary p-3 m-3">
                     <td><%= ((Rezervacija) rezervacija).getId()%></td>
                     <td><% DogadjajBaza db = new DogadjajBaza();
                         Dogadjaj d = db.find(rezervacija.getDogadjajId());%>
                         <%= d.getNaziv()%></td>
                     <td><%= ((Rezervacija) rezervacija).getBrojUlaznica()%></td>
-                    <td><%= ((Rezervacija) rezervacija).getVreme()%></td>
+                    <%
+                        String vreme = new SimpleDateFormat("dd.MM.yyyy. HH:mm:ss").format(rezervacija.getVreme());
+                    %>
+                    <td><%= vreme%></td>
                     <td><%= ((Rezervacija) rezervacija).getStatus()%></td>
-                    <td><a href='otkazivanjeRezervacije?rezervacija_id=<%= "" + rezervacija.getId()%>'><input type="button" value="Otkazi rezervaciju"></a></td>
+                    <td><a href='otkazivanjeRezervacije?rezervacija_id=<%= "" + rezervacija.getId()%>'><input type="button" class="form-control btn btn-primary" value="Otkazi rezervaciju"></a></td>
                 </tr>
                 <%
                     }

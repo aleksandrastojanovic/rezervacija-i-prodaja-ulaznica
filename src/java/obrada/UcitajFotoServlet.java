@@ -22,9 +22,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author iq skola
  */
-public class UcitajMediaServlet extends HttpServlet {
+public class UcitajFotoServlet extends HttpServlet {
 
-    private final String putanjaFoldera = "D:/sandra/_Baza slika/";
+    private final String putanjaFoldera = "E:/ProjekatMedia/";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,6 +39,7 @@ public class UcitajMediaServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("image/*");
         File fajl = napraviFajl(request);
+        //proverim da li je tip slika
         try (BufferedInputStream bin = new BufferedInputStream(new FileInputStream(fajl));
                 ServletOutputStream out = response.getOutputStream();
                 BufferedOutputStream bout = new BufferedOutputStream(out)) {
@@ -47,7 +48,7 @@ public class UcitajMediaServlet extends HttpServlet {
                 bout.write(ch);
             }
         } catch (Exception ex) {
-            Logger.getLogger(UcitajMediaServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UcitajFotoServlet.class.getName()).log(Level.SEVERE, null, ex);
             response.sendRedirect("error.jsp");
         }
     }

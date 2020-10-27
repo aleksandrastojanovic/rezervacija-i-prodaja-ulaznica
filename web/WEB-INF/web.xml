@@ -117,8 +117,8 @@
         <servlet-class>obrada.SacuvajMediaServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>UcitajMediaServlet</servlet-name>
-        <servlet-class>obrada.UcitajMediaServlet</servlet-class>
+        <servlet-name>UcitajFotoServlet</servlet-name>
+        <servlet-class>obrada.UcitajFotoServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>MediaServlet</servlet-name>
@@ -135,6 +135,10 @@
     <servlet>
         <servlet-name>NovaIzmenaDogadjajaServlet</servlet-name>
         <servlet-class>obrada.NovaIzmenaDogadjajaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UcitajVideoServlet</servlet-name>
+        <servlet-class>obrada.UcitajVideoServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>RegistracijaServlet</servlet-name>
@@ -256,8 +260,8 @@
         <url-pattern>/sacuvajMedia</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>UcitajMediaServlet</servlet-name>
-        <url-pattern>/ucitajMedia</url-pattern>
+        <servlet-name>UcitajFotoServlet</servlet-name>
+        <url-pattern>/ucitajFoto</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MediaServlet</servlet-name>
@@ -274,6 +278,10 @@
     <servlet-mapping>
         <servlet-name>NovaIzmenaDogadjajaServlet</servlet-name>
         <url-pattern>/novaIzmenaDogadjaja</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UcitajVideoServlet</servlet-name>
+        <url-pattern>/ucitajVideo</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

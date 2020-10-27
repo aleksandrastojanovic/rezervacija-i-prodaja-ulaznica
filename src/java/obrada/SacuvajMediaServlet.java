@@ -28,7 +28,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 public class SacuvajMediaServlet extends HttpServlet {
 
     private final MediaBaza mediaBaza = new MediaBaza();
-    private final String putanjaFoldera = "D:/sandra/_Baza slika/";
+    private final String putanjaFoldera = "E:/ProjekatMedia/";
     private final int maksimalanBrojMedia = 12;
 
     /**
@@ -45,17 +45,17 @@ public class SacuvajMediaServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try {
             if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
-                response.sendRedirect("");
+                response.sendRedirect("proveraPrijavljen");
                 return;
             }
 
             if (!ServletFileUpload.isMultipartContent(request)) {
                 // poruka: greska pri snimanju
                 // da ga salje na pravljenje novog dogadjaja ispocetka?
-                response.sendRedirect("");
+                response.sendRedirect("error.jsp");
             }
             int dogadjajId = Integer.parseInt(request.getParameter("dogadjaj_id"));
-            String putanjaZaDogadjaj = putanjaFoldera + dogadjajId;
+            String putanjaZaDogadjaj = putanjaFoldera + dogadjajId + "/";
             try {
                 List<FileItem> fileItems = ucitaj(request);
                 int brojacMedia = 0;
@@ -75,11 +75,10 @@ public class SacuvajMediaServlet extends HttpServlet {
             } catch (Exception ex) {
                 System.out.println(ex);
                 // da ga salje na pravljenje novog dogadjaja ispocetka?
-                response.sendRedirect("");
+                response.sendRedirect("error.jsp");
             }
 
-            // treba da se salje na strukture, da bi se snimale strukture
-            RequestDispatcher rd = request.getRequestDispatcher("novaStruktura");
+            RequestDispatcher rd = request.getRequestDispatcher("novaStruktura?dogadjaj_id=" + dogadjajId);
             rd.forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(SacuvajMediaServlet.class.getName()).log(Level.SEVERE, null, ex);

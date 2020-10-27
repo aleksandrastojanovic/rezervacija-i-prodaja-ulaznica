@@ -22,10 +22,10 @@
             ArrayList<RegistrovaniKorisnik> korisnici = (ArrayList<RegistrovaniKorisnik>) request.getAttribute("korisnici");
         %>
 
-        <div></div>
-        <div>
-            <table>
-                <thead>
+
+        <div class="container-fluid p-3 m-3 border">
+            <table class="table table-striped">
+                <thead class="text-primary">
                 <th>Id</th>
                 <th>Tip</th>
                 <th>Ime</th>
@@ -34,14 +34,14 @@
                 </thead>
                 <%
                     for (RegistrovaniKorisnik korisnik : korisnici) {%>
-                <tr>
+                <tr class="text-secondary">
                     <td><%= ((RegistrovaniKorisnik) korisnik).getId()%></td>
                     <td><%= ((RegistrovaniKorisnik) korisnik).getTip()%></td>
                     <td><%= ((RegistrovaniKorisnik) korisnik).getIme()%></td>
                     <td><%= ((RegistrovaniKorisnik) korisnik).getPrezime()%></td>
                     <td><%= ((RegistrovaniKorisnik) korisnik).getKorisnickoIme()%></td>
                     <td><a href='odobravanjeZahteva?korisnik_id=<%= korisnik.getId()%>'>
-                            <input type="button" value="Odblokiraj korisnika"></a></td>
+                            <input type="button" class="btn btn-success text-center" value="Odblokiraj korisnika"></a></td>
                 </tr>
                 <%
                     }

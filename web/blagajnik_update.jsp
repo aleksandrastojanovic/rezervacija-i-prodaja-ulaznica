@@ -21,66 +21,86 @@
 
     <body>
         <jsp:include page="parts/header.jsp"></jsp:include>
+            <div class="container-fluid pt-3 my-3 border">
 
-        <% Dogadjaj dogadjaj = (Dogadjaj) request.getAttribute("dogadjaj");
-            ArrayList<StrukturaUlaznica> strukture = (ArrayList<StrukturaUlaznica>) request.getAttribute("strukture");%>
+            <% Dogadjaj dogadjaj = (Dogadjaj) request.getAttribute("dogadjaj");
+                ArrayList<StrukturaUlaznica> strukture = (ArrayList<StrukturaUlaznica>) request.getAttribute("strukture");%>
 
-        <div>
-            <form action="sacuvajDogadjaj" method="post">
-                <input type="hidden" name="dogadjaj_id" value="<%= String.valueOf(dogadjaj.getId())%>">
-                <input type="hidden" name="noviDogadjaj" value="ne">
+                <div class="container mt-3 p-5 border border-primary rounded-lg">
+                <h2 class="text-primary">Izmena dogadjaja:</h2>
+                <form action="sacuvajDogadjaj" method="post">
 
-                <label for="naziv">Naziv:</label>
-                <input type='text' id='naziv' name="naziv" value="<%= dogadjaj.getNaziv()%>"><br>
+                    <input type="hidden" name="dogadjaj_id" value="<%= String.valueOf(dogadjaj.getId())%>">
+                    <input type="hidden" name="noviDogadjaj" value="ne">
 
-                <label for="vreme_odrzavanja">Vreme odrzavanja:</label>
-                <%DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-                    String datumIVreme = dogadjaj.getDatumIVreme().format(formatter);%>
-                <input type="datetime-local" id="vreme_odrzavanja" name="vreme_odrzavanja" value="<%= datumIVreme%>"><br>
+                    <div class="form-group">
+                        <label for="naziv">Naziv:</label>
+                        <input type='text' id='naziv' name="naziv" value="<%= dogadjaj.getNaziv()%>"><br>
+                    </div>
 
-                <label for="detalji">Detalji dogadjaja</label>
-                <input type="text" id='detalji' name="detalji" placeholder='Unesite detalje dogadjaja' value="<%= dogadjaj.getDetalji()%>"><br>
+                    <div class="form-group">
+                        <label for="vreme_odrzavanja">Vreme odrzavanja:</label>
+                        <%DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
+                        String datumIVreme = dogadjaj.getDatumIVreme().format(formatter);%>
+                        <input type="datetime-local" id="vreme_odrzavanja" name="vreme_odrzavanja" value="<%= datumIVreme%>"><br>
+                    </div>
 
-                <input type="submit" value="Sacuvaj izmene">
+                    <div class="form-group">
+                        <label for="detalji">Detalji dogadjaja</label>
+                        <input type="text" id='detalji' name="detalji" placeholder='Unesite detalje dogadjaja' value="<%= dogadjaj.getDetalji()%>"><br>
+                    </div>
 
-            </form>
-            <h2>Nova kategorija: </h2>
-            <form action="sacuvajKategoriju">
-                <label for='nova_kategorija'>Dodaj novu kategoriju ulaznica:</label>
-                <input type='text' id='nova_kategorija' name="nova_kategorija" placeholder='Unesite novu kateoriju ulaznica'>
-                <label for='nova_kategorija_cena'>| Cena:</label>
-                <input type='number' id="nova_kategorija_cena" name='nova_kategorija_cena'>
-                <label for="limit_nova_kategorija">| Limit:</label>
-                <input type="number" id="limit_nova_kategorija" name="limit_nova_kategorija"><br>
-            </form>
-            <form action="izmenaStruktura">
-                <div>
-                    <table>
-                        <thead>
-                        <th>Kategorija: </th>
-                        <th>Cena:</th>
-                        <th>Broj dotupnih ulaznica: </th>    
-                        <th></th>
-                        </thead>
-                        <%
-                            for (StrukturaUlaznica struktura : strukture) {%>
-                        <tr>
-                            <td><%= ((StrukturaUlaznica) struktura).getKategorija()%></td>
-                            <td><%= ((StrukturaUlaznica) struktura).getCena()%></td>
-                            <td><%= ((StrukturaUlaznica) struktura).getBrojDostupnihUlaznica()%></td>
-                            <td><a href=""><input type="button" name="izmeniStrukture" value="Izmeni Strukturu"></a></td>
+                    <input type="submit" class="btn btn-primary" value="Sacuvaj izmene">
 
-                        </tr>
-                        <%
-                            }
-                        %>
-                    </table>
-                </div>
-            </form>
+                </form>
+            </div>
+            <div class="container mt-3 p-5 border border-primary rounded-lg">
+                <h2 class="text-primary">Nova kategorija: </h2>
+                <form action="sacuvajKategoriju">
+                    <label for='nova_kategorija'>Dodaj novu kategoriju ulaznica:</label>
+                    <input type='text' id='nova_kategorija' name="nova_kategorija" placeholder='Unesite novu kategoriju'>
+                    <label for='nova_kategorija_cena'>| Cena:</label>
+                    <input type='number' id="nova_kategorija_cena" name='nova_kategorija_cena'>
+                    <label for="limit_nova_kategorija">| Limit:</label>
+                    <input type="number" id="limit_nova_kategorija" name="limit_nova_kategorija"><br>
+                    <input type="submit" class="btn btn-primary" value='Izmeni'>
+                </form>
+            </div>
+            <div class="container mt-3 p-5 border border-primary rounded-lg">
+                <h2 class="text-primary">Izmena postojecih kategorija:</h2>
+                <form action="izmenaStrukture">
+                    <div>
+                        <table class="table table-striped">
+                            <thead class="text-primary">
+                            <th>Kategorija: </th>
+                            <th>Cena:</th>
+                            <th>Broj dotupnih ulaznica: </th>    
+                            <th></th>
+                            </thead>
+                            <%
+                                for (StrukturaUlaznica struktura : strukture) {%>
+                            <tr class="text-secondary">
+                            <input type="hidden" value="<%= struktura.getId() %>" name='struktura_id'>
+                                <td><%= ((StrukturaUlaznica) struktura).getKategorija()%></td>
+                                <td><%= ((StrukturaUlaznica) struktura).getCena()%></td>
+                                <td><%= ((StrukturaUlaznica) struktura).getBrojDostupnihUlaznica()%></td>
+                                <td><input type="submit" class="btn btn-primary" name="izmeniStrukture" value="Izmeni Strukturu"></td>
+
+                            </tr>
+                            <%
+                                }
+                            %>
+                        </table>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div></div>
+        <div>
+
+        </div>
 
         <jsp:include page="parts/footer.jsp"></jsp:include>
+    </div>
 
 </html>
 

@@ -27,7 +27,7 @@ public class MediaBaza implements Baza<Media> {
     }
 
     private int insert(Media media) {
-        String query = "INSERT INTO media (putanja,glavna,tip, dogadjaj_id, ime) VALUES(?,?,?,?,?)";
+        String query = "INSERT INTO media (putanja,glavna,tip,dogadjaj_id,ime) VALUES(?,?,?,?,?)";
 
         ArrayList<Object> vrednosti = new ArrayList();
         vrednosti.add(media.getPutanja());

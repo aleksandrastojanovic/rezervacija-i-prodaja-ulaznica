@@ -26,30 +26,32 @@
             HttpSession sesija = request.getSession();
 
         %>
-        <h1>Rezultat pretrage: </h1>        
 
-        <div>
-            <table>
-                <thead>
+        <!-- ovde dodati fotke -->
+
+        <div class="container-fluid p-3 m-3-3">
+            <h1 class="text-center text-primary">Rezultat pretrage: </h1><br>
+            <table class="table">
+                <thead class="text-primary">
                 <th>Naziv dogadjaja</th>
                 <th>Naziv lokacije</th>
                 <th>Datum i vreme</th>
                 <th>Detalji</th>
                 </thead>
                 <%                    for (Dogadjaj dogadjaj : dogadjaji) {%>
-                <tr>
+                <tr class="text-secondary">
                     <td><%= ((Dogadjaj) dogadjaj).getNaziv()%></td>
                     <td><%= ((Dogadjaj) dogadjaj).getNazivLokacije()%></td>
-                    <%DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+                    <%DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
                         String datumIVreme = dogadjaj.getDatumIVreme().format(formatter);%>
                     <td><%= datumIVreme%></td>
                     <% if (sesija.getAttribute("korisnik_id") != null
                                 && Korisnik.TIP_REGISTROVANI_KORISNIK.equals(sesija.getAttribute("tip"))) {%>                    
                     <td><a href="dogadjajPojedinacno?dogadjaj_id=<%= "" + dogadjaj.getId()%>">
-                            <input type="button" name="dogadjaj_pojedinacno" value="Detaljnije"></a></td>
+                            <input type="button" class="btn btn-primary text-center p-1" name="dogadjaj_pojedinacno" value="Detaljnije"></a></td>
                             <% } else { %>
                     <td><a href="registracija.jsp">
-                            <input type="button" name="registracija" value="Detaljnije"></a></td>    
+                            <input type="button" class="btn btn-primary text-center p-1" name="registracija" value="Detaljnije"></a></td>    
                             <% } %>
                 </tr>
                 <%

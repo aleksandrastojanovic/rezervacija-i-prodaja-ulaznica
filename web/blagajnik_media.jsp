@@ -14,26 +14,31 @@
     </head>
     <body>
         <jsp:include page="parts/header.jsp"></jsp:include>
-            <h1>Kreiranje novog dogadjaja - 2/3</h1>
-            <div>
-                <form action = "sacuvajMedia" method = "post" enctype = "multipart/form-data">
+            <div class="container-fluid p-3 my-3 border">
+                <h1 class="text-primary">Kreiranje novog dogadjaja - 2/3</h1>
+                <div>
+                    <form action = 'sacuvajMedia?dogadjaj_id=<%= request.getAttribute("dogadjaj_id")%>' method = "post" enctype = "multipart/form-data">
 
-                    <label for="glavna">Dodaj glavnu fotografiju:</label>
-                    <input type="file" id="glavna" name="glavna" accept="image/*" required><br>
+                    <div class="form-group">
+                        <label class="text-primary" for="glavna">Dodaj glavnu fotografiju:</label>
+                        <input type="file" id="glavna" name="glavna" accept="image/*" required><br>
+                    </div>
 
-                    <label for="slike">Dodaj ostale fotografije:</label>
-                    <input type="file" id="slike" name="slike" accept="image/*" multiple><br>                
+                    <div class="form-group">
+                        <label class="text-primary" for="slike">Dodaj ostale fotografije:</label>
+                        <input type="file" id="slike" name="slike[]" accept="image/*" multiple='multiple'><br>
+                    </div>
 
-                    <label for="video">Dodaj video zapis</label>
-                    <input type="file" id="video" name="video" accept="video/*"><br>
+                    <div class="form-group">
+                        <label class="text-primary" for="video">Dodaj video zapis</label>
+                        <input type="file" id="video" name="video" accept="video/*"><br>
+                    </div>
 
-                    <input type="submit" value="Dalje">
-                    <!--<input type = "text" name = "imeSlike" placeholder="unesi ime slike">
-                    <input type = "file" name = "glavna" size = "50" multiple>
-                    <br>
-                    <input type = "submit" value = "Upload File" >-->
+                    <input class="btn btn-primary" type="submit" value="Dalje">
+
                 </form>
             </div>
-        <jsp:include page="parts/footer.jsp"></jsp:include>
+            <jsp:include page="parts/footer.jsp"></jsp:include>
+        </div>
     </body>
 </html>

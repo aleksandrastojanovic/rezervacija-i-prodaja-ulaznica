@@ -5,22 +5,26 @@
  */
 package obrada;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import klase.*;
 
 /**
  *
  * @author iq skola
  */
-public class SacuvajKategorijuServlet extends HttpServlet {
+public class UcitajVideoServlet extends HttpServlet {
 
-    private final StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
+    private final String putanjaFoldera = "E:/ProjekatMedia/";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,37 +37,30 @@ public class SacuvajKategorijuServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            response.setContentType("text/html;charset=UTF-8");
-            if (!ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {
-                response.sendRedirect("proveraPrijavljen");
-                return;
-            }
-
-            StrukturaUlaznica struktura = new StrukturaUlaznica();
-            if (request.getParameter("struktura_id") != null) {
-                struktura = strukturaUlaznicaBaza.find(Integer.parseInt(request.getParameter("struktura_id")));
-                struktura.setId(Integer.parseInt(request.getParameter("struktura_id")));
-            }
-
-            struktura.setIdDogadjaja(Integer.parseInt(request.getParameter("dogadjaj_id")));
-            struktura.setKategorija(request.getParameter("kategorija"));
-            struktura.setCena(Double.parseDouble(request.getParameter("cena")));
-            struktura.setBrojDostupnihUlaznica(Integer.parseInt(request.getParameter("broj_ulaznica")));
-            struktura.setPreostaloUlaznica(struktura.getBrojDostupnihUlaznica());
-            struktura.setGranicaPoKorisniku(Integer.parseInt(request.getParameter("granica_po_korisniku")));
-
-            struktura = strukturaUlaznicaBaza.save(struktura);
-            if (struktura.getId() > 0) {
-                response.sendRedirect("dogadjajPojedinacno?dogadjaj_id=" + struktura.getIdDogadjaja());
-            } else {
-                //poruka da nije uspesno
+        response.setContentType("video/*");
+        File fajl = napraviFajl(request);
+        //proverim da li je tip video i ispravim sta ako treba
+        try (BufferedInputStream bin = new BufferedInputStream(new FileInputStream(fajl));
+                ServletOutputStream out = response.getOutputStream();
+                BufferedOutputStream bout = new BufferedOutputStream(out)) {
+            int ch;
+            while ((ch = bin.read()) != -1) {
+                bout.write(ch);
             }
         } catch (Exception ex) {
-            Logger.getLogger(SacuvajKategorijuServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UcitajFotoServlet.class.getName()).log(Level.SEVERE, null, ex);
             response.sendRedirect("error.jsp");
         }
+    }
 
+    private File napraviFajl(HttpServletRequest request) {
+        String ime = request.getParameter("ime");
+        String dogadjajId = request.getParameter("dogadjaj_id");
+        File fajl = new File(putanjaFoldera + dogadjajId + "/" + ime);
+        if (!fajl.isFile()) {
+            fajl = new File(putanjaFoldera + "__praznaSlika__.jpg");
+        }
+        return fajl;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
