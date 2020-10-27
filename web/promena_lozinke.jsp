@@ -30,20 +30,20 @@
 
                         <div class="form-group p-1 m-1">
                             <label class="text-primary" for="lozinka">Lozinka:</label>
-                            <input type='password' class='border' placeholder='Unesite lozniku' name='lozinka' minlength='5' required><br>
+                            <input type='password' class='border w-100' placeholder='Unesite lozniku' name='lozinka' minlength='5' required><br>
                         </div>
 
                         <div class="form-group p-1 m-1">
                             <label class="text-primary" for="nova_lozinka">Nova lozinka:</label>
-                            <input type="password" class='border' placeholder="Unesite novu lozinku" name="nova_lozinka" minlength='5' required><br>
+                            <input type="password" class='border w-100' placeholder="Unesite novu lozinku" name="nova_lozinka" minlength='5' required><br>
                         </div>
                         <div class="form-group p-1 m-1">
                             <label class="text-primary" for='nova_lozinka_potvrda'>Potvrda nove lozinke:</label>
-                            <input type="password" class='border' placeholder="Potvrda nove lozinke" name="nova_lozinka_potvrda" minlength='5' required><br>
+                            <input type="password" class='border w-100' placeholder="Potvrda nove lozinke" name="nova_lozinka_potvrda" minlength='5' required><br>
                         </div>
 
                         <div class="d-flex justify-content-center">
-                            <input type="submit" class="btn btn-primary text-center p-1" value='Promeni lozinku'>
+                            <input type="submit" class="btn btn-primary text-center m-1 p-1" value='Promeni lozinku'>
                         </div>
                     </form>
 

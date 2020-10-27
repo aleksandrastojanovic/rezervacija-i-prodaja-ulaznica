@@ -33,12 +33,12 @@
                         
                         <div class="form-group p-1 m-1">
                         <label class="text-primary" for="username">Korisnicko ime:</label>
-                        <input type="text" class="border" name="username" placeholder='Unesite korisnicko ime' required><br>
+                        <input type="text" class="border w-100" name="username" placeholder='Unesite korisnicko ime' required><br>
                         </div>
                         
                         <div class="form-group p-1 m-1">
                         <label class="text-primary" for="password">Lozinka:</label>
-                        <input type="password" class="border" name="password" placeholder="Unesite lozinku" required><br>                
+                        <input type="password" class="border w-100" name="password" placeholder="Unesite lozinku" required><br>                
                         </div>
                         
                         <div class="d-flex justify-content-center">

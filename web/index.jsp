@@ -6,7 +6,7 @@
 
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDateTime"%>
-<%@page import="klase.Dogadjaj"%>
+<%@page import="klase.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -49,7 +49,17 @@
                                     <a href="proveraRegistrovan" class="btn btn-primary">Detaljnije</a>    
                                     <% }%>
                                     <div class="card-img-top">
-                                        <img class="card-img-top" src="ucitajFoto?dogadjaj_id=1&ime=prva.jpg" alt="Glavna slika">
+                                        <% 
+                                            String ime = "prva.jpg";
+                                            MediaBaza mediaBaza = new MediaBaza();
+                                            ArrayList<Media> sveFotke = mediaBaza.allWhereDogadjajId(dogadjaj.getId());
+                                            for(Media foto : sveFotke){
+                                                if(foto.isGlavna()){
+                                                    ime = foto.getIme();
+                                                }
+                                            }
+                                        %>
+                                        <img class="card-img-top" src="ucitajFoto?dogadjaj_id=<%= dogadjaj.getId() %>&ime=<%= ime %>" alt="Glavna slika">
                                     </div>
                                 </a>
                                 <div class="card-body">
