@@ -40,7 +40,10 @@ public class IzmenaDogadjajaServlet extends HttpServlet {
         try {
             response.setContentType("text/html;charset=UTF-8");
             if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
-                response.sendRedirect("proveraPrijavljen");
+                String poruka = "Morate biti prijavljen blagajnik kako biste pristupili stranici.";
+                RequestDispatcher rd = request.getRequestDispatcher("prijava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd.forward(request, response);
                 return;
             }
             if (ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {

@@ -54,7 +54,10 @@ public class PregledBlokiranihKorisnikaServlet extends HttpServlet {
                 }
             }
             if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
-                response.sendRedirect("proveraPrijavljen");
+                String poruka = "Morate biti prijavljen administrator kako biste pristupili stranici.";
+                RequestDispatcher rd1 = request.getRequestDispatcher("prijava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
                 return;
             }
             if (ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_ADMINISTRATOR)) {

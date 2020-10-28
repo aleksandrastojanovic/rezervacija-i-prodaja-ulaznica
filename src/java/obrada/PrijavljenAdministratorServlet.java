@@ -45,7 +45,10 @@ public class PrijavljenAdministratorServlet extends HttpServlet {
                 rd.forward(request, response);
 
             } else {
-                response.sendRedirect("proveraPrijavljen");
+                String poruka = "Morate biti prijavljen administrator kako biste pristupili stranici.";
+                RequestDispatcher rd1 = request.getRequestDispatcher("prijava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
             }
         } catch (Exception ex) {
             Logger.getLogger(PrijavljenAdministratorServlet.class.getName()).log(Level.SEVERE, null, ex);

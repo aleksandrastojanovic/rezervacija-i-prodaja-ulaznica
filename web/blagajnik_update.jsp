@@ -21,12 +21,13 @@
 
     <body>
         <jsp:include page="parts/header.jsp"></jsp:include>
+
             <div class="container-fluid pt-3 my-3 border">
 
             <% Dogadjaj dogadjaj = (Dogadjaj) request.getAttribute("dogadjaj");
                 ArrayList<StrukturaUlaznica> strukture = (ArrayList<StrukturaUlaznica>) request.getAttribute("strukture");%>
 
-                <div class="container mt-3 p-5 border border-primary rounded-lg">
+            <div class="container mt-3 p-5 border border-primary rounded-lg">
                 <h2 class="text-primary">Izmena dogadjaja:</h2>
                 <form action="sacuvajDogadjaj" method="post">
 
@@ -41,7 +42,7 @@
                     <div class="form-group">
                         <label for="vreme_odrzavanja">Vreme odrzavanja:</label>
                         <%DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
-                        String datumIVreme = dogadjaj.getDatumIVreme().format(formatter);%>
+                            String datumIVreme = dogadjaj.getDatumIVreme().format(formatter);%>
                         <input type="datetime-local" id="vreme_odrzavanja" name="vreme_odrzavanja" value="<%= datumIVreme%>"><br>
                     </div>
 
@@ -80,11 +81,11 @@
                             <%
                                 for (StrukturaUlaznica struktura : strukture) {%>
                             <tr class="text-secondary">
-                            <input type="hidden" value="<%= struktura.getId() %>" name='struktura_id'>
-                                <td><%= ((StrukturaUlaznica) struktura).getKategorija()%></td>
-                                <td><%= ((StrukturaUlaznica) struktura).getCena()%></td>
-                                <td><%= ((StrukturaUlaznica) struktura).getBrojDostupnihUlaznica()%></td>
-                                <td><input type="submit" class="btn btn-primary" name="izmeniStrukture" value="Izmeni Strukturu"></td>
+                            <input type="hidden" value="<%= struktura.getId()%>" name='struktura_id'>
+                            <td><%= ((StrukturaUlaznica) struktura).getKategorija()%></td>
+                            <td><%= ((StrukturaUlaznica) struktura).getCena()%></td>
+                            <td><%= ((StrukturaUlaznica) struktura).getBrojDostupnihUlaznica()%></td>
+                            <td><input type="submit" class="btn btn-primary" name="izmeniStrukture" value="Izmeni Strukturu"></td>
 
                             </tr>
                             <%

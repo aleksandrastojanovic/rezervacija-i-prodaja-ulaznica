@@ -16,32 +16,32 @@
     </head>
     <body>
         <div class="container-fluid pt-3 mt-0" >
-        <jsp:include page="parts/header.jsp"></jsp:include>
-        
-        <%
-            StrukturaUlaznica struktura = (StrukturaUlaznica) request.getAttribute("struktura");
-            Rezervacija rezervacija = (Rezervacija) request.getAttribute("rezervacija");
-            Dogadjaj dogadjaj = (Dogadjaj) request.getAttribute("dogadjaj");
-        %>
-        <div class="container-fluid">
-            <p>
-            <ul class="text-secondary">
-                <li>Id rezervacije: <%= rezervacija.getId()%><br></li>
-                <li>Naziv dogadjaja: <%= dogadjaj.getNaziv()%><br></li>
-                <li>Naziv lokacije: <%= dogadjaj.getNazivLokacije()%><br></li>
-                <li>Broj karata: <%= rezervacija.getBrojUlaznica()%><br></li>
-                <li>Kategorija: <%= struktura.getKategorija()%><br></li>
-                <li>Cena: <%= struktura.getCena()%><br></li>
-                <li>Ukupna cena: <%= struktura.getCena() * rezervacija.getBrojUlaznica()%><br></li>
-            </ul>
-                
+            <jsp:include page="parts/header.jsp"></jsp:include>
+
+            <%
+                StrukturaUlaznica struktura = (StrukturaUlaznica) request.getAttribute("struktura");
+                Rezervacija rezervacija = (Rezervacija) request.getAttribute("rezervacija");
+                Dogadjaj dogadjaj = (Dogadjaj) request.getAttribute("dogadjaj");
+            %>
+            <div class="container-fluid">
+                <p>
+                <ul class="text-secondary">
+                    <li>Id rezervacije: <%= rezervacija.getId()%><br></li>
+                    <li>Naziv dogadjaja: <%= dogadjaj.getNaziv()%><br></li>
+                    <li>Naziv lokacije: <%= dogadjaj.getNazivLokacije()%><br></li>
+                    <li>Broj karata: <%= rezervacija.getBrojUlaznica()%><br></li>
+                    <li>Kategorija: <%= struktura.getKategorija()%><br></li>
+                    <li>Cena: <%= struktura.getCena()%><br></li>
+                    <li>Ukupna cena: <%= struktura.getCena() * rezervacija.getBrojUlaznica()%><br></li>
+                </ul>
+
                 <a href="kupovinaUlaznica?rezervacija_id=<%=rezervacija.getId()%>">
                     <input type="buttton" class="btn btn-success btn-lg p-3 m-1 text-center" value="Potvrdi"></a><br>
                 <a href="otkazivanjeRezervacije?rezervacija_id=<%=rezervacija.getId()%>">
                     <input type="button" class="btn btn-danger btn-lg p-3 m-1 text-center" value="Otkazi"></a><br>
-            </p>
-        </div>
-        <jsp:include page="parts/footer.jsp"></jsp:include>
+                </p>
+            </div>
+            <jsp:include page="parts/footer.jsp"></jsp:include>
         </div>
     </body>
 </html>

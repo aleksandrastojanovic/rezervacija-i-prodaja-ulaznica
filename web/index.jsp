@@ -30,9 +30,10 @@
             ArrayList<Dogadjaj> dogadjaji = (ArrayList<Dogadjaj>) request.getAttribute("dogadjaji");
             int ukupnoStrana = (Integer) request.getAttribute("ukupnoStrana");
         %>
-<jsp:include page="parts/pretraga_dogadjaja.jsp"></jsp:include>
-        <div class="container-fluid pt-3 mt-0" >
-            
+        <jsp:include page="parts/pretraga_dogadjaja.jsp"></jsp:include>
+
+            <div class="container-fluid pt-3 mt-0" >
+
 
                 <div class="row">
                     <div class="col-md-2"></div>
@@ -49,17 +50,17 @@
                                     <a href="proveraRegistrovan" class="btn btn-primary">Detaljnije</a>    
                                     <% }%>
                                     <div class="card-img-top">
-                                        <% 
+                                        <%
                                             String ime = "prva.jpg";
                                             MediaBaza mediaBaza = new MediaBaza();
                                             ArrayList<Media> sveFotke = mediaBaza.allWhereDogadjajId(dogadjaj.getId());
-                                            for(Media foto : sveFotke){
-                                                if(foto.isGlavna()){
+                                            for (Media foto : sveFotke) {
+                                                if (foto.isGlavna()) {
                                                     ime = foto.getIme();
                                                 }
                                             }
                                         %>
-                                        <img class="card-img-top" src="ucitajFoto?dogadjaj_id=<%= dogadjaj.getId() %>&ime=<%= ime %>" alt="Glavna slika">
+                                        <img class="card-img-top" src="ucitajFoto?dogadjaj_id=<%= dogadjaj.getId()%>&ime=<%= ime%>" alt="Glavna slika">
                                     </div>
                                 </a>
                                 <div class="card-body">

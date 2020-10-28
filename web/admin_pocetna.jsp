@@ -21,8 +21,9 @@
 
     <body>
         <div class="container-fluid pt-3 my-3 border">
-        <jsp:include page="parts/header.jsp"></jsp:include>
-            
+            <jsp:include page="parts/header.jsp"></jsp:include>
+
+
             <%
                 ArrayList<Korisnik> korisnici = (ArrayList<Korisnik>) request.getAttribute("korisnici");
             %>
@@ -37,7 +38,7 @@
                     <th scope="col">Korisnicko ime</th>
                     </thead>
                     <%
-                    for (Korisnik korisnik : korisnici) {%>
+                        for (Korisnik korisnik : korisnici) {%>
                     <tr class="text-secondary">
                         <td><%= ((Korisnik) korisnik).getId()%></td>
                         <td><%= ((Korisnik) korisnik).getTip()%></td>

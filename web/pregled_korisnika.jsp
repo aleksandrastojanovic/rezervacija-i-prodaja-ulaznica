@@ -18,6 +18,7 @@
 
     <body>
         <jsp:include page="parts/header.jsp"></jsp:include>
+
         <%
             ArrayList<RegistrovaniKorisnik> korisnici = (ArrayList<RegistrovaniKorisnik>) request.getAttribute("korisnici");
         %>

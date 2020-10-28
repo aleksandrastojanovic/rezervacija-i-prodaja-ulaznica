@@ -37,7 +37,7 @@
                     <th></th>
                     </thead>
                     <%
-                    for (StrukturaUlaznica struktura : strukture) {%>
+                        for (StrukturaUlaznica struktura : strukture) {%>
                     <tr class="text-secondary">
                         <td><%= ((StrukturaUlaznica) struktura).getKategorija()%></td>
                         <td><%= ((StrukturaUlaznica) struktura).getCena()%></td>

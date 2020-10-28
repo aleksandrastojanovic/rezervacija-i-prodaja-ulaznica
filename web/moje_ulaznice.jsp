@@ -22,6 +22,7 @@
 
     <body>
         <jsp:include page="parts/header.jsp"></jsp:include>
+
         <%
             ArrayList<Rezervacija> rezervacije = (ArrayList<Rezervacija>) request.getAttribute("rezervacije");
         %>

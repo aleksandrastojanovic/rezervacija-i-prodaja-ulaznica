@@ -45,23 +45,33 @@ public class KupovinaUlaznicaServlet extends HttpServlet {
             -Proverava vrstu kupovine - ovo u jspu bira, i svakako dolazi na ovaj servlet
             -Na osnovu kategorije ulaznica, skida sa 'stanja'
             -Ako je bila rezervisana, menja status u njegovim ulaznicama
-            */
+             */
             if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
-                response.sendRedirect("proveraPrijavljen");
+                String poruka = "Morate biti prijavljeni kako biste pristupili stranici.";
+                RequestDispatcher rd1 = request.getRequestDispatcher("prijava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
                 return;
             }
             if (ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {
-                
+
                 Rezervacija rezervacija = rezervacijaBaza.find(Integer.parseInt(request.getParameter("rezervacija_id")));
                 if (Rezervacija.STATUS_REZERVISANO.equals(rezervacija.getStatus())) {
                     rezervacija.setStatus(Rezervacija.STATUS_PLACENO);
                     StrukturaUlaznica struktura = strukturaUlaznicaBaza.find(rezervacija.getStrukturaId());
                     struktura.setPreostaloUlaznica(struktura.getPreostaloUlaznica() - rezervacija.getBrojUlaznica());
-                    
+
                     strukturaUlaznicaBaza.save(struktura);
-                    rezervacijaBaza.save(rezervacija);
+                    rezervacija = rezervacijaBaza.save(rezervacija);
+                    if (rezervacija.getId() > 0 && rezervacija.getStatus().equals(Rezervacija.STATUS_PLACENO)) {
+                        response.sendRedirect("prijavljenBlagajnik");
+                    } else {
+                        String poruka = "Nije moguce izvrsiti placanje.";
+                        RequestDispatcher rd1 = request.getRequestDispatcher("blagajnik_pocetna.jsp");
+                        request.setAttribute("poruka", poruka);
+                        rd1.forward(request, response);
+                    }
                 }
-                response.sendRedirect("prijavljenBlagajnik");
                 //salje na novi jsp uspesna kupovina+dugme za povratak/nije moguca kupovina
             }
         } catch (Exception ex) {

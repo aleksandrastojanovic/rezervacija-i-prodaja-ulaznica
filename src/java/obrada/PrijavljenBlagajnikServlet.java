@@ -44,7 +44,7 @@ public class PrijavljenBlagajnikServlet extends HttpServlet {
                 RequestDispatcher rd = request.getRequestDispatcher("blagajnik_pocetna.jsp");
                 Blagajnik blagajnik = (Blagajnik) blagajnikBaza.find((Integer) sesija.getAttribute("korisnik_id"));
                 request.setAttribute("korisnik", blagajnik);
-                
+
                 ArrayList<Dogadjaj> sviDogadjaji = dogadjajBaza.all();
                 ArrayList<Dogadjaj> dogadjaji = new ArrayList<>();
                 for (Dogadjaj dogadjaj : sviDogadjaji) {
@@ -53,10 +53,13 @@ public class PrijavljenBlagajnikServlet extends HttpServlet {
                     }
                 }
                 request.setAttribute("dogadjaji", dogadjaji);
-                
+
                 rd.forward(request, response);
             } else {
-                response.sendRedirect("proveraPrijavljen");
+                String poruka = "Morate biti prijavljen blagajnik kako biste pristupili stranici.";
+                RequestDispatcher rd1 = request.getRequestDispatcher("prijava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
             }
         } catch (Exception ex) {
             Logger.getLogger(PrijavljenBlagajnikServlet.class.getName()).log(Level.SEVERE, null, ex);

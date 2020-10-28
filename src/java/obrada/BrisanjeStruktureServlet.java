@@ -13,7 +13,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import klase.*;
 
 /**
@@ -45,8 +44,11 @@ public class BrisanjeStruktureServlet extends HttpServlet {
                 strukturaUlaznicaBaza.delete(struktura);
                 rd.forward(request, response);
             } else {
-                response.sendRedirect("proveraPrijavljen");
-                //poruka nije prepoznat blagajnik
+
+                String poruka = "Morate biti prijavljen blagajnik kako biste pristupili stranici.";
+                RequestDispatcher rd = request.getRequestDispatcher("prijava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd.forward(request, response);
             }
         } catch (Exception ex) {
             Logger.getLogger(BrisanjeStruktureServlet.class.getName()).log(Level.SEVERE, null, ex);

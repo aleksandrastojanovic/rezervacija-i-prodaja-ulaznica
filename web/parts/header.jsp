@@ -9,4 +9,14 @@
 <header>
     <jsp:include page="/kontrola"></jsp:include>
     <jsp:include page="meni.jsp"></jsp:include>
+    <%
+        if (request.getAttribute("poruka") != null) {
+    %>
+    <div class="alert alert-warning text-center" role="alert">
+        <h2><%= request.getAttribute("poruka")%></h2>
+    </div>
+
+    <%
+        }
+    %>
 </header>

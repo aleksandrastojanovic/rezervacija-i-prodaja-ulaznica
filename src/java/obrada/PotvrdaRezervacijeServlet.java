@@ -41,7 +41,10 @@ public class PotvrdaRezervacijeServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try {
             if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
-                response.sendRedirect("proveraPrijavljen");
+                String poruka = "Morate biti prijavljeni kako biste pristupili stranici.";
+                RequestDispatcher rd1 = request.getRequestDispatcher("prijava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
                 return;
             }
 
@@ -54,7 +57,10 @@ public class PotvrdaRezervacijeServlet extends HttpServlet {
                 } else if (request.getAttribute("rezervacija_id") != null) {
                     rezervacijaId = (int) request.getAttribute("rezervacija_id");
                 } else {
-                    response.sendRedirect("prijavljenBlagajnik");
+                    String poruka = "Morate biti prijavljen blagajnik kako biste pristupili stranici.";
+                    RequestDispatcher rd1 = request.getRequestDispatcher("prijava.jsp");
+                    request.setAttribute("poruka", poruka);
+                    rd1.forward(request, response);
                     return;
                 }
                 Rezervacija rezervacija = rezervacijaBaza.find(rezervacijaId);
@@ -64,8 +70,10 @@ public class PotvrdaRezervacijeServlet extends HttpServlet {
                 Dogadjaj dogadjaj = dogadjajBaza.find(rezervacija.getDogadjajId());
                 Blagajnik blagajnik = blagajnikBaza.find(korisnikId);
                 if (!blagajnik.getNazivLokacije().equals(dogadjaj.getNazivLokacije())) {
-                    response.sendRedirect("blagajni_pocetna.jsp");
-                    //poruka nije pronadjena rezervacija
+                    String poruka = "Nije pronadjena rezervacija";
+                    RequestDispatcher rd1 = request.getRequestDispatcher("blagajnik_pocetna.jsp");
+                    request.setAttribute("poruka", poruka);
+                    rd1.forward(request, response);
                     return;
                 }
 
@@ -76,7 +84,10 @@ public class PotvrdaRezervacijeServlet extends HttpServlet {
                 rd.forward(request, response);
 
             } else {
-                response.sendRedirect("proveraPrijavljen");
+                String poruka = "Morate biti prijavljen blagajnik kako biste pristupili stranici.";
+                RequestDispatcher rd1 = request.getRequestDispatcher("prijava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
             }
         } catch (Exception ex) {
             Logger.getLogger(PotvrdaRezervacijeServlet.class.getName()).log(Level.SEVERE, null, ex);

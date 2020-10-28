@@ -22,7 +22,7 @@ import klase.*;
  * @author iq skola
  */
 public class MojeUlazniceServlet extends HttpServlet {
-    
+
     RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
 
     /**
@@ -41,7 +41,7 @@ public class MojeUlazniceServlet extends HttpServlet {
             HttpSession sesija = request.getSession();
             if (ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_REGISTROVANI_KORISNIK)) {
                 RequestDispatcher rd = request.getRequestDispatcher("moje_ulaznice.jsp");
-                
+
                 ArrayList<Rezervacija> sveRezervacije = rezervacijaBaza.all();
                 ArrayList<Rezervacija> rezervacije = new ArrayList<>();
                 for (Rezervacija rezervacija : sveRezervacije) {
@@ -52,7 +52,10 @@ public class MojeUlazniceServlet extends HttpServlet {
                 request.setAttribute("rezervacije", rezervacije);
                 rd.forward(request, response);
             } else {
-                response.sendRedirect("proveraPrijavljen");
+                String poruka = "Morate biti prijavljen registrovani korisnik.";
+                RequestDispatcher rd1 = request.getRequestDispatcher("prijava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
             }
         } catch (Exception ex) {
             Logger.getLogger(MojeUlazniceServlet.class.getName()).log(Level.SEVERE, null, ex);

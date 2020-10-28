@@ -42,8 +42,11 @@ public class ProveraRegistrovanogKorisnikaServlet extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             HttpSession sesija = request.getSession();
             RequestDispatcher rd = request.getRequestDispatcher("index");
-            if (ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
-                response.sendRedirect("index");
+            if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
+                String poruka = "Morate biti prijavljen registrovani korisnik kako biste pristupili stranici.";
+                RequestDispatcher rd1 = request.getRequestDispatcher("prijava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
                 return;
             }
             int korisnikId = (int) sesija.getAttribute("korisnik_id");

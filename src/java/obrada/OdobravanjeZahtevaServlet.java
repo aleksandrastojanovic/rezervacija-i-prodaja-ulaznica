@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +39,11 @@ public class OdobravanjeZahtevaServlet extends HttpServlet {
         try {
             response.setContentType("text/html;charset=UTF-8");
             
-            if (ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
+            if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
+                String poruka = "Morate biti prijavljen administrator kako biste pristupili stranici.";
+                RequestDispatcher rd1 = request.getRequestDispatcher("prijava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
                 return;
             }
             if (ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_ADMINISTRATOR)) {

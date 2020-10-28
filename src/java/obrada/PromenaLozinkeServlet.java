@@ -9,6 +9,7 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +42,10 @@ public class PromenaLozinkeServlet extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             HttpSession sesija = request.getSession();
             if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
-                response.sendRedirect("proveraPrijavljen");
+                String poruka = "Morate biti prijavljeni kako biste pristupili stranici.";
+                RequestDispatcher rd1 = request.getRequestDispatcher("prijava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
                 return;
             }
 
@@ -59,7 +63,10 @@ public class PromenaLozinkeServlet extends HttpServlet {
                             registrovaniKorisnikBaza.save(korisnik);
 
                         } else {
-                            //nije dobra stara lozinka
+                            String poruka = "Pogresno uneta postojeca lozinka";
+                            RequestDispatcher rd1 = request.getRequestDispatcher("index.jsp");
+                            request.setAttribute("poruka", poruka);
+                            rd1.forward(request, response);
                         }
                         response.sendRedirect("index");
                         break;
@@ -85,7 +92,10 @@ public class PromenaLozinkeServlet extends HttpServlet {
                 }
 
             } else {
-                //poruka greska ne poklapa se nova lozinka i potvrda nove lozinke
+                String poruka = "Netacan unos/potvrda nove loznike.";
+                RequestDispatcher rd1 = request.getRequestDispatcher("index.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
             }
         } catch (Exception ex) {
             Logger.getLogger(PromenaLozinkeServlet.class.getName()).log(Level.SEVERE, null, ex);

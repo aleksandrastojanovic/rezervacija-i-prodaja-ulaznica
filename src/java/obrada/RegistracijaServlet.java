@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -51,10 +52,14 @@ public class RegistracijaServlet extends HttpServlet {
                 for (RegistrovaniKorisnik korisnik : korisnici) {
                     RegistrovaniKorisnik k = korisnik;
                     if (k.getKorisnickoIme().equals(request.getParameter("username"))) {
+
                         //poruka korisnicko ime vec postoji, pokusajte ponovo.
                         //vraca na registracija za sad,
                         //ne znam kako da se to radi i na frontu
-                        response.sendRedirect("proveraRegistrovan");
+                        String poruka = "Uneto korisnicko ime vec postoji.";
+                        RequestDispatcher rd1 = request.getRequestDispatcher("registracija.jsp");
+                        request.setAttribute("poruka", poruka);
+                        rd1.forward(request, response);
                         return;
                     }
 
@@ -79,18 +84,21 @@ public class RegistracijaServlet extends HttpServlet {
                 if (request.getParameter("email").matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
                     registrovaniKorisnik.setEmail(request.getParameter("email"));
                 } else {
-                    response.sendRedirect("proveraRegistrovan");
+                    String poruka = "Neispravno uneta e-mail adresa";
+                    RequestDispatcher rd1 = request.getRequestDispatcher("registracija.jsp");
+                    request.setAttribute("poruka", poruka);
+                    rd1.forward(request, response);
                 }
 
-                /*Ovaj deo se valjda izvrsava u OdobravanjeZahtevaServlet:
-                -Uz izmene klase na RegistrovaniKorisnik*/
                 registrovaniKorisnik = registrovaniKorisnikBaza.save(registrovaniKorisnik);
-                //ArrayList<RegistrovaniKorisnik> korisnici = registrovaniKorisnikBaza.all();
                 if (registrovaniKorisnik.getId() > 0) {
                     //gde prosledjuje zavisi od uloge administratora
                     response.sendRedirect("proveraPrijavljen");
                 } else {
-                    response.sendRedirect("proveraRegistrovan");
+                    String poruka = "Neuspesna registracija. Molimo pokusajte ponovo";
+                    RequestDispatcher rd1 = request.getRequestDispatcher("registracija.jsp");
+                    request.setAttribute("poruka", poruka);
+                    rd1.forward(request, response);
                 }
 
             }

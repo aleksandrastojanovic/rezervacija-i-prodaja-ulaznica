@@ -13,7 +13,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import klase.*;
 
 /**
@@ -36,12 +35,15 @@ public class NoviDogadjajServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try {
             if (!ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {
-                response.sendRedirect("proveraPrijavljen");
+                String poruka = "Morate biti prijavljen blagajnik kako biste pristupili stranici.";
+                RequestDispatcher rd1 = request.getRequestDispatcher("prijava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
                 return;
             }
             RequestDispatcher rd = request.getRequestDispatcher("blagajnik_novi_dogadjaj.jsp");
             BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
-            Blagajnik blagajnik = blagajnikBaza.find((Integer)request.getSession().getAttribute("korisnik_id"));
+            Blagajnik blagajnik = blagajnikBaza.find((Integer) request.getSession().getAttribute("korisnik_id"));
             request.setAttribute("blagajnik", blagajnik);
             rd.forward(request, response);
         } catch (Exception ex) {

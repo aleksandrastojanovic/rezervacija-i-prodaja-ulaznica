@@ -36,7 +36,10 @@ public class NovaIzmenaDogadjajaServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try {
             if (!ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {
-                response.sendRedirect("proveraPrijavljen");
+                String poruka = "Morate biti prijavljen blagajnik kako biste pristupili stranici.";
+                RequestDispatcher rd1 = request.getRequestDispatcher("prijava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
                 return;
             }
             int dogadjajId = Integer.parseInt(request.getParameter("dogadjaj_id"));
@@ -48,7 +51,7 @@ public class NovaIzmenaDogadjajaServlet extends HttpServlet {
             ArrayList<StrukturaUlaznica> strukture = strukturaUlaznicaBaza.allForDogadjajId(dogadjajId);
             request.setAttribute("strukture", strukture);
             rd.forward(request, response);
-            
+
         } catch (Exception ex) {
             Logger.getLogger(NovaIzmenaDogadjajaServlet.class.getName()).log(Level.SEVERE, null, ex);
             response.sendRedirect("error.jsp");

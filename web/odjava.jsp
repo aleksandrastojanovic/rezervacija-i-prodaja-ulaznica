@@ -23,10 +23,11 @@
     <body>
 
         <jsp:include page="parts/header.jsp"></jsp:include>
+
             <div class="klasa">
                 <div class="container-fluid p-3 border text-center">
 
-                
+
                     <p class="">
                     <h2 class="text-primary mb-3">Molimo potvrdite odjavu:</h2>
                     <a href="odjava"><input type="button" class="btn btn-success btn-lg p-3 m-1 text-center" value="Potvrdi" name="potvrda"></a>

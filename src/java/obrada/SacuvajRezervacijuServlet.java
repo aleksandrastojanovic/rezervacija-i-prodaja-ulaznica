@@ -44,7 +44,10 @@ public class SacuvajRezervacijuServlet extends HttpServlet {
             HttpSession sesija = request.getSession();
             int korisnikId = (Integer) sesija.getAttribute("korisnik_id");
             if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
-                response.sendRedirect("proveraPrijavljen");
+                String poruka = "Morate biti prijavljeni kako biste pristupili stranici.";
+                RequestDispatcher rd1 = request.getRequestDispatcher("prijava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
                 return;
             }
 
@@ -61,8 +64,10 @@ public class SacuvajRezervacijuServlet extends HttpServlet {
             switch (tip) {
                 case Korisnik.TIP_REGISTROVANI_KORISNIK:
                     if (LocalDateTime.now().isAfter(dogadjaj.getDatumIVreme().minusDays(2))) {
-                        //poruka ulaznice je moguce kupiti samo na blagajni
-                        response.sendRedirect("index");
+                        String poruka = "Ulaznice je trenutno moguce kupiti samo na blagajni";
+                        RequestDispatcher rd1 = request.getRequestDispatcher("index.jsp");
+                        request.setAttribute("poruka", poruka);
+                        rd1.forward(request, response);
                         return;
                     }
                     putanja = "mojeUlaznice";
@@ -81,7 +86,11 @@ public class SacuvajRezervacijuServlet extends HttpServlet {
                             if (rezervacijaKorisnika.getStrukturaId() == struktura.getId()) {
                                 ukupanBrojUlaznica += rezervacijaKorisnika.getBrojUlaznica();
                                 if (struktura.getGranicaPoKorisniku() - ukupanBrojUlaznica < 0) {
-                                    response.sendRedirect("index"); //greska ne moze da rezervise vise od granicaPoKorisniku karata
+                                    String poruka = "Maksimalan broj karata koje jedan korisnik moze rezervisati je " + struktura.getGranicaPoKorisniku();
+                                    request.setAttribute("poruka", poruka);
+                                    putanja = "dogadjajPojedinacno";
+                                    request.setAttribute("dogadjajId", dogadjaj.getId());
+                                    //greska ne moze da rezervise vise od granicaPoKorisniku karata
                                 }
                             }
                         }
@@ -91,7 +100,10 @@ public class SacuvajRezervacijuServlet extends HttpServlet {
                     putanja = "potvrdaRezervacije";
                     break;
                 default:
-                    response.sendRedirect("proveraPrijavljen");
+                    String poruka = "Morate biti prijavljeni.";
+                    RequestDispatcher rd1 = request.getRequestDispatcher("prijava.jsp");
+                    request.setAttribute("poruka", poruka);
+                    rd1.forward(request, response);
                     return;
             }
 
@@ -104,16 +116,16 @@ public class SacuvajRezervacijuServlet extends HttpServlet {
                 if (rezervacija.getId() > 0) {
                     request.setAttribute("rezervacija_id", rezervacija.getId());
                 } else {
-                    //poruka da nije uspesno
-//                response.sendRedirect("dogadjajPojedinacno");
+                    String poruka = "Neuspesna rezervacija.";
+                    request.setAttribute("poruka", poruka);
                     putanja = "dogadjajPojedinacno";
                     request.setAttribute("dogadjajId", dogadjaj.getId());
                 }
             } else {
-                //nema vise dostupnih ulaznica, molimo izaberite drugu kategoriju.
-                //ili jos bolje, da se prikazuje odmah poruka cim ide na submit, ali
-                //mislim da svakako ostaje i ovde provera
-                response.sendRedirect("index");
+                String poruka = "Nema vise dostupnih ulaznica za odabranu kategoriju";
+                request.setAttribute("poruka", poruka);
+                putanja = "dogadjajPojedinacno";
+                request.setAttribute("dogadjajId", dogadjaj.getId());
             }
             RequestDispatcher rd = request.getRequestDispatcher(putanja);
             rd.forward(request, response);

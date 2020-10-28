@@ -24,30 +24,32 @@
 
     <body>
         <jsp:include page="parts/header.jsp"></jsp:include>
+
             <div class="klasa">
                 <div class="container-fluid p-3 border text-left">
+
 
                     <h1 class="text-primary text-center">Prijava:</h1>
 
                     <form action='prijava' method="post">
-                        
+
                         <div class="form-group p-1 m-1">
-                        <label class="text-primary" for="username">Korisnicko ime:</label>
-                        <input type="text" class="border w-100" name="username" placeholder='Unesite korisnicko ime' required><br>
+                            <label class="text-primary" for="username">Korisnicko ime:</label>
+                            <input type="text" class="border w-100" name="username" placeholder='Unesite korisnicko ime' required><br>
                         </div>
-                        
+
                         <div class="form-group p-1 m-1">
-                        <label class="text-primary" for="password">Lozinka:</label>
-                        <input type="password" class="border w-100" name="password" placeholder="Unesite lozinku" required><br>                
+                            <label class="text-primary" for="password">Lozinka:</label>
+                            <input type="password" class="border w-100" name="password" placeholder="Unesite lozinku" required><br>                
                         </div>
-                        
+
                         <div class="d-flex justify-content-center">
-                        <input type="submit" class="btn btn-primary text-center p-1" value="Prijavi se">
+                            <input type="submit" class="btn btn-primary text-center p-1" value="Prijavi se">
                         </div>
-                        
+
                     </form>
 
-                    
+
                     <div>
 
                     <jsp:include page="parts/footer.jsp"></jsp:include>

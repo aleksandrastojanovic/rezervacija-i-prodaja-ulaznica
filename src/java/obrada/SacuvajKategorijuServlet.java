@@ -8,6 +8,7 @@ package obrada;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +37,10 @@ public class SacuvajKategorijuServlet extends HttpServlet {
         try {
             response.setContentType("text/html;charset=UTF-8");
             if (!ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {
-                response.sendRedirect("proveraPrijavljen");
+                String poruka = "Morate biti prijavljen blagajnik kako biste pristupili stranici.";
+                RequestDispatcher rd1 = request.getRequestDispatcher("prijava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
                 return;
             }
 
@@ -46,18 +50,22 @@ public class SacuvajKategorijuServlet extends HttpServlet {
                 struktura.setId(Integer.parseInt(request.getParameter("struktura_id")));
             }
 
-            struktura.setIdDogadjaja(Integer.parseInt(request.getParameter("dogadjaj_id")));
             struktura.setKategorija(request.getParameter("kategorija"));
+
             struktura.setCena(Double.parseDouble(request.getParameter("cena")));
             struktura.setBrojDostupnihUlaznica(Integer.parseInt(request.getParameter("broj_ulaznica")));
             struktura.setPreostaloUlaznica(struktura.getBrojDostupnihUlaznica());
             struktura.setGranicaPoKorisniku(Integer.parseInt(request.getParameter("granica_po_korisniku")));
+            struktura.setIdDogadjaja(Integer.parseInt(request.getParameter("dogadjaj_id")));
 
             struktura = strukturaUlaznicaBaza.save(struktura);
             if (struktura.getId() > 0) {
                 response.sendRedirect("dogadjajPojedinacno?dogadjaj_id=" + struktura.getIdDogadjaja());
             } else {
-                //poruka da nije uspesno
+                String poruka = "Neuspesno cuvanje kategorije.";
+                RequestDispatcher rd1 = request.getRequestDispatcher("blagajnik_pocetna.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
             }
         } catch (Exception ex) {
             Logger.getLogger(SacuvajKategorijuServlet.class.getName()).log(Level.SEVERE, null, ex);

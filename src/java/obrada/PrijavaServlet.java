@@ -69,9 +69,12 @@ public class PrijavaServlet extends HttpServlet {
                             break;
                         case Korisnik.TIP_BLOKIRANI_KORISNIK:
                             sesija.setAttribute("korisnik_id", -1);
-                            putanja = "index";
+                            String poruka = "Blokirani ste. Molimo kontaktirajte administratora.";
+                            RequestDispatcher rd1 = request.getRequestDispatcher("index.jsp");
+                            request.setAttribute("poruka", poruka);
+                            rd1.forward(request, response);
                             break;
-                        //poruka da je blokiran ili drugi  jsp
+
                     }
                     RequestDispatcher rd = request.getRequestDispatcher(putanja);
                     rd.forward(request, response);

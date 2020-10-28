@@ -45,14 +45,21 @@ public class SacuvajMediaServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try {
             if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
-                response.sendRedirect("proveraPrijavljen");
+                String poruka = "Morate biti prijavljeni";
+                RequestDispatcher rd1 = request.getRequestDispatcher("prijava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
                 return;
             }
 
             if (!ServletFileUpload.isMultipartContent(request)) {
                 // poruka: greska pri snimanju
                 // da ga salje na pravljenje novog dogadjaja ispocetka?
-                response.sendRedirect("error.jsp");
+                String poruka = "Greska pri snimanju fajla";
+                RequestDispatcher rd1 = request.getRequestDispatcher("error.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
+                return;
             }
             int dogadjajId = Integer.parseInt(request.getParameter("dogadjaj_id"));
             String putanjaZaDogadjaj = putanjaFoldera + dogadjajId + "/";
@@ -67,6 +74,10 @@ public class SacuvajMediaServlet extends HttpServlet {
                         Media media = napraviMedia(fileItem, putanjaZaDogadjaj, dogadjajId);
                         media = mediaBaza.save(media);
                         if (media.getId() < 0) {
+                            String poruka = "Greska pri snimanju fajla.";
+                            RequestDispatcher rd1 = request.getRequestDispatcher("error.jsp");
+                            request.setAttribute("poruka", poruka);
+                            rd1.forward(request, response);
                             // greska, nije snimio fajl
                             // ali imamo ih vise, sta ako ne snimi jedan samo?
                         }
@@ -87,10 +98,12 @@ public class SacuvajMediaServlet extends HttpServlet {
     }
 
     private Media napraviMedia(FileItem fajl, String putanjaZaDogadjaj, int dogadjajId) {
+
         boolean glavna = "glavna".equals(fajl.getFieldName());
         String tip = "video".equals(fajl.getFieldName()) ? Media.TIP_VIDEO : Media.TIP_FOTOGRAFIJA;
         String ime = fajl.getName();
         return new Media(fajl, glavna, tip, putanjaZaDogadjaj + ime, dogadjajId, ime);
+
     }
 
     private List<FileItem> ucitaj(HttpServletRequest request) throws FileUploadException {

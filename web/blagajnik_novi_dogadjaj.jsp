@@ -17,6 +17,7 @@
 
     <body>
         <jsp:include page="parts/header.jsp"></jsp:include>
+
             <div class="container-fluid pt-3 my-3 border">
             <% Blagajnik blagajnik = (Blagajnik) request.getAttribute("blagajnik");%>
 

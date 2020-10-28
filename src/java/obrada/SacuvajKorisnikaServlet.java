@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -42,7 +43,10 @@ public class SacuvajKorisnikaServlet extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             HttpSession sesija = request.getSession();
             if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
-                response.sendRedirect("proveraPrijavljen");
+                String poruka = "Morate biti prijavljeni kako biste pristupili stranici.";
+                RequestDispatcher rd1 = request.getRequestDispatcher("prijava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
                 return;
             }
             if (Korisnik.TIP_ADMINISTRATOR.equals(sesija.getAttribute("tip"))) {
@@ -58,7 +62,11 @@ public class SacuvajKorisnikaServlet extends HttpServlet {
                                 //poruka korisnicko ime vec postoji, pokusajte ponovo.
                                 //vraca na ("admin_novi_korisnik.jsp") za sad,
                                 //ne znam kako da se to radi i na frontu
-                                response.sendRedirect("admin_novi_korisnik.jsp");//da ostane, metod vraca null
+                                String poruka = "Uneto korisnicko ime vec postoji. Molimo pokusajte ponovo";
+                                RequestDispatcher rd1 = request.getRequestDispatcher("admin_novi_korisnik.jsp");
+                                request.setAttribute("poruka", poruka);
+                                rd1.forward(request, response);
+                                //da ostane, metod vraca null
                                 return;
                             }
 
@@ -93,7 +101,10 @@ public class SacuvajKorisnikaServlet extends HttpServlet {
                                 //poruka korisnicko ime vec postoji, pokusajte ponovo.
                                 //vraca na ("admin_novi_korisnik.jsp") za sad,
                                 //ne znam kako da se to radi i na frontu
-                                response.sendRedirect("admin_novi_korisnik.jsp");
+                                String poruka = "Uneto korisnicko ime vec postoji. Molimo pokusajte ponovo";
+                                RequestDispatcher rd1 = request.getRequestDispatcher("admin_novi_korisnik.jsp");
+                                request.setAttribute("poruka", poruka);
+                                rd1.forward(request, response);
                                 return;
                             }
 
@@ -126,7 +137,10 @@ public class SacuvajKorisnikaServlet extends HttpServlet {
                                 //poruka korisnicko ime vec postoji, pokusajte ponovo.
                                 //vraca na ("admin_novi_korisnik.jsp") za sad,
                                 //ne znam kako da se to radi i na frontu
-                                response.sendRedirect("admin_novi_korisnik.jsp");
+                                String poruka = "Uneto korisnicko ime vec postoji. Molimo pokusajte ponovo";
+                                RequestDispatcher rd1 = request.getRequestDispatcher("admin_novi_korisnik.jsp");
+                                request.setAttribute("poruka", poruka);
+                                rd1.forward(request, response);
                                 return;
                             }
                         }

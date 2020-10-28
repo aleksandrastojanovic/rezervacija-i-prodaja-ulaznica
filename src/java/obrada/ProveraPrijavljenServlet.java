@@ -8,6 +8,7 @@ package obrada;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,8 +35,10 @@ public class ProveraPrijavljenServlet extends HttpServlet {
         try {
             response.setContentType("text/html;charset=UTF-8");
             if (ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
-                //vec ulogovan poruka
-                response.sendRedirect("odjava.jsp");
+                String poruka = "Vec ste ulogovani. Da li zelite da se odjavite?";
+                RequestDispatcher rd = request.getRequestDispatcher("odjava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd.forward(request, response);
             } else {
                 response.sendRedirect("prijava.jsp");
             }

@@ -17,6 +17,7 @@
 
     <body>
         <jsp:include page="parts/header.jsp"></jsp:include>
+
             <div></div>
 
         <jsp:include page="parts/footer.jsp"></jsp:include>

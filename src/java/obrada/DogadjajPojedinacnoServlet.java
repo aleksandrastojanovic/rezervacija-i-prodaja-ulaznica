@@ -40,11 +40,12 @@ public class DogadjajPojedinacnoServlet extends HttpServlet {
         try {
             response.setContentType("text/html;charset=UTF-8");
             if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
-                response.sendRedirect("proveraPrijavljen");
-                //poruka
+                String poruka = "Morate se prijaviti kako biste videli vise detalja.";
+                RequestDispatcher rd = request.getRequestDispatcher("prijava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd.forward(request, response);
                 return;
             }
-
 
             RequestDispatcher rd = request.getRequestDispatcher("dogadjaj.jsp");
             Dogadjaj dogadjaj = dogadjajBaza.find(Integer.parseInt(request.getParameter("dogadjaj_id")));
@@ -55,19 +56,19 @@ public class DogadjajPojedinacnoServlet extends HttpServlet {
             ArrayList<Media> medie = mediaBaza.allWhereDogadjajId(dogadjaj.getId());
             String videoIme;
             for (Media media : medie) {
-                if(!Media.TIP_VIDEO.equals(media.getTip())){
-                  ostaleFotografije.add(media.getIme());  
+                if (!Media.TIP_VIDEO.equals(media.getTip())) {
+                    ostaleFotografije.add(media.getIme());
                 } else {
                     videoIme = media.getIme();
                     request.setAttribute("videoIme", videoIme);
                 }
-                
+
             }
 
             request.setAttribute("strukture", strukture);
             request.setAttribute("dogadjaj", dogadjaj);
             request.setAttribute("ostaleFotografije", ostaleFotografije);
-            
+
             rd.forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(DogadjajPojedinacnoServlet.class.getName()).log(Level.SEVERE, null, ex);

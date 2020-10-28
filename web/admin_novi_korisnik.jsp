@@ -17,6 +17,7 @@
 
     <body>
         <jsp:include page="parts/header.jsp"></jsp:include>
+
             <div class="container-fluid p-3 my-3 border">
                 <h1 class="text-primary">Kreiranje novog korisnika:</h1>
                 <form action="sacuvajKorisnika" method="post">

@@ -41,8 +41,12 @@ public class OtkazivanjeRezervacijeServlet extends HttpServlet {
             Pristupa se sa stranice moje_ulaznice i omogucava reg. korisniku
             otkazivanje rezervacije iz liste*/
             HttpSession sesija = request.getSession();
-            if (ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
-                response.sendRedirect("proveraPrijavljen");
+            if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
+                String poruka = "Morate biti prijavljen korisnik kako biste pristupili stranici.";
+                RequestDispatcher rd1 = request.getRequestDispatcher("prijava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
+                return;
             }
             String putanja = "";
             if (Korisnik.TIP_REGISTROVANI_KORISNIK.equals(sesija.getAttribute("tip"))) {

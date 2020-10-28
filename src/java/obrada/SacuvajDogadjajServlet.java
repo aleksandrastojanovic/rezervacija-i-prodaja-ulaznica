@@ -41,17 +41,18 @@ public class SacuvajDogadjajServlet extends HttpServlet {
             response.setContentType("text/html;charset=UTF-8");
             HttpSession sesija = request.getSession();
             if (!ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {
-                response.sendRedirect("proveraPrijavljen");
+                String poruka = "Morate biti prijavljen blagajnik kako biste pristupili stranici.";
+                RequestDispatcher rd1 = request.getRequestDispatcher("prijava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
                 return;
             }
-
-            
 
             Blagajnik blagajnik = blagajnikBaza.find((int) sesija.getAttribute("korisnik_id"));
 
             Dogadjaj dogadjaj = new Dogadjaj();
             String noviDogadjaj = request.getParameter("noviDogadjaj");
-            if(request.getParameter("dogadjaj_id") != null && noviDogadjaj.equals("ne")){
+            if (request.getParameter("dogadjaj_id") != null && noviDogadjaj.equals("ne")) {
                 dogadjaj = dogadjajBaza.find(Integer.parseInt(request.getParameter("dogadjaj_id")));
             }
 
@@ -62,27 +63,30 @@ public class SacuvajDogadjajServlet extends HttpServlet {
 
             dogadjaj = dogadjajBaza.save(dogadjaj);
             String putanja = "";
-            
-            
+
             if (dogadjaj.getId() > 0) {
-                if(noviDogadjaj.equals("da")){
-                putanja = "media?dogadjaj_id=" + dogadjaj.getId();
-            } else if (noviDogadjaj.equals("ne")){
-                putanja = "dogadjajPojedinacno?dogadjaj_id=" + dogadjaj.getId();
-                //poruka uspesno sacuvano
-            } else {
-                response.sendRedirect("error.jsp");
-            }
-                RequestDispatcher rd = request.getRequestDispatcher(putanja); 
-                
+                if (noviDogadjaj.equals("da")) {
+                    putanja = "media?dogadjaj_id=" + dogadjaj.getId();
+                } else if (noviDogadjaj.equals("ne")) {
+                    putanja = "dogadjajPojedinacno?dogadjaj_id=" + dogadjaj.getId();
+                    //poruka uspesno sacuvano
+                } else {
+                    String poruka = "Neuspesno sacuvan dogadjaj.";
+                    RequestDispatcher rd1 = request.getRequestDispatcher("error.jsp");
+                    request.setAttribute("poruka", poruka);
+                    rd1.forward(request, response);
+                }
+                RequestDispatcher rd = request.getRequestDispatcher(putanja);
+
                 rd.forward(request, response);
             } else {
                 //poruka da nije kreiran, za sad vraca na blagajnik_novi_dogadjaj.jsp
-                response.sendRedirect("noviDogadjaj");
+                String poruka = "Nije kreiran dogadjaj.";
+                RequestDispatcher rd1 = request.getRequestDispatcher("blagajnik_novi_dogadjaj.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
 
             }
-            
-            
 
         } catch (Exception ex) {
             Logger.getLogger(SacuvajDogadjajServlet.class.getName()).log(Level.SEVERE, null, ex);

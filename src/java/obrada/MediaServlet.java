@@ -35,10 +35,13 @@ public class MediaServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try {
             if (!ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {
-                response.sendRedirect("proveraPrijavljen");
+                String poruka = "Morate biti prijavljen blagajnik kako biste pristupili stranici.";
+                RequestDispatcher rd1 = request.getRequestDispatcher("prijava.jsp");
+                request.setAttribute("poruka", poruka);
+                rd1.forward(request, response);
                 return;
             }
-            
+
             RequestDispatcher rd = request.getRequestDispatcher("blagajnik_media.jsp");
             request.setAttribute("dogadjaj_id", request.getParameter("dogadjaj_id"));
             rd.forward(request, response);

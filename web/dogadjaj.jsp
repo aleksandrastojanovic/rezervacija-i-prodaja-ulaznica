@@ -26,6 +26,7 @@
     </head>
     <body>
         <jsp:include page="parts/header.jsp"></jsp:include>
+
             <div class="container-fluid pt-3" >
                 <div class="row">
                     <div class="col-md-2"></div>
@@ -33,7 +34,6 @@
                         <div class="row">
 
                         <%
-
                             ArrayList<String> ostaleFotografije = (ArrayList<String>) request.getAttribute("ostaleFotografije");
                             Dogadjaj dogadjaj = (Dogadjaj) request.getAttribute("dogadjaj");
                             for (String imeFotografije : ostaleFotografije) {
@@ -114,21 +114,21 @@
                                 <th>Broj ulaznica</th>
                                 </thead>
                                 <div class="form-group">
-                                <%
-                                    for (StrukturaUlaznica struktura : strukture) {%>
-                                <tr>
-                                <input type="hidden" name="struktura_id" value='<%= "" + struktura.getId()%>' >
-                                <input type="hidden" name="dogadjaj_id" value="<%= "" + struktura.getIdDogadjaja()%>" >
-                                <td><input type="radio" name='kategorija' id='<%= "" + struktura.getKategorija()%>'
-                                           value='<%= "" + struktura.getId()%>'></td>
-                                <td><%= struktura.getKategorija()%></td>
-                                <td><%= struktura.getCena()%></td>
-                                <td><input type="number" placeholder="Broj ulaznica" name='broj_ulaznica' value='0'></td>
+                                    <%
+                                        for (StrukturaUlaznica struktura : strukture) {%>
+                                    <tr>
+                                    <input type="hidden" name="struktura_id" value='<%= "" + struktura.getId()%>' >
+                                    <input type="hidden" name="dogadjaj_id" value="<%= "" + struktura.getIdDogadjaja()%>" >
+                                    <td><input type="radio" name='kategorija' id='<%= "" + struktura.getKategorija()%>'
+                                               value='<%= "" + struktura.getId()%>'></td>
+                                    <td><%= struktura.getKategorija()%></td>
+                                    <td><%= struktura.getCena()%></td>
+                                    <td><input type="number" placeholder="Broj ulaznica" name='broj_ulaznica' value='0'></td>
 
-                                </tr>
-                                <%
-                                    }
-                                %>
+                                    </tr>
+                                    <%
+                                        }
+                                    %>
                                 </div>
                             </table>
                             <button type="submit" class="btn btn-primary">Rezervisi</button>
