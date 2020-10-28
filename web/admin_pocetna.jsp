@@ -26,6 +26,7 @@
 
             <%
                 ArrayList<Korisnik> korisnici = (ArrayList<Korisnik>) request.getAttribute("korisnici");
+                if (korisnici != null && korisnici.size() > 0) {
             %>
 
             <div>
@@ -51,6 +52,9 @@
                     %>
                 </table>
             </div>
+            <% } else { %>
+            <jsp:include page="parts/nema_rezultata.jsp"></jsp:include>
+            <% }%>
 
             <jsp:include page="parts/footer.jsp"></jsp:include>
         </div>

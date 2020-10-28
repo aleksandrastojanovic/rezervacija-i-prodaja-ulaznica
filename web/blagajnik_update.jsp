@@ -64,7 +64,7 @@
                     <input type='number' id="nova_kategorija_cena" name='nova_kategorija_cena'>
                     <label for="limit_nova_kategorija">| Limit:</label>
                     <input type="number" id="limit_nova_kategorija" name="limit_nova_kategorija"><br>
-                    <input type="submit" class="btn btn-primary" value='Izmeni'>
+                    <input type="submit" class="btn btn-primary" value='Sacuvaj'>
                 </form>
             </div>
             <div class="container mt-3 p-5 border border-primary rounded-lg">

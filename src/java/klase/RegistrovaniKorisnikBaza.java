@@ -156,7 +156,37 @@ public class RegistrovaniKorisnikBaza implements Baza<RegistrovaniKorisnik> {
         return uspesno;
     }
 
-    @Override
+    
+    public ArrayList<RegistrovaniKorisnik> allBlokirani() {
+        ArrayList<RegistrovaniKorisnik> korisnici = new ArrayList<>();
+        try {
+
+            String query = "SELECT * "
+                    + "FROM korisnici WHERE korisnici.tip = 'Blokirani korisnik'";
+
+            Database db = Database.getInstance();
+            ResultSet rs = db.select(query);
+
+            while (rs.next()) {
+                RegistrovaniKorisnik registrovaniKorisnik = new RegistrovaniKorisnik();
+
+                registrovaniKorisnik.setId(rs.getInt("id"));
+                registrovaniKorisnik.setTip(rs.getString("tip"));
+                registrovaniKorisnik.setIme(rs.getString("ime"));
+                registrovaniKorisnik.setPrezime(rs.getString("prezime"));
+                registrovaniKorisnik.setKorisnickoIme(rs.getString("korisnicko_ime"));
+                registrovaniKorisnik.setLozinka(rs.getString("lozinka"));
+
+                korisnici.add(registrovaniKorisnik);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RegistrovaniKorisnikBaza.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return korisnici;
+    }
+    
     public ArrayList<RegistrovaniKorisnik> all() {
         ArrayList<RegistrovaniKorisnik> korisnici = new ArrayList<>();
         try {

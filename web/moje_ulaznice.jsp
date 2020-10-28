@@ -25,6 +25,7 @@
 
         <%
             ArrayList<Rezervacija> rezervacije = (ArrayList<Rezervacija>) request.getAttribute("rezervacije");
+            if (rezervacije.size() > 0) {
         %>
         <div class="container-fluid p-3 m3-3 ">
             <table class="table pb-0 mb-0">
@@ -58,6 +59,9 @@
             </table>
         </div>
         <div></div>
+        <% } else { %>
+        <jsp:include page="parts/nema_rezultata.jsp"></jsp:include>
+        <% }%>
 
         <jsp:include page="parts/footer.jsp"></jsp:include>
     </body>

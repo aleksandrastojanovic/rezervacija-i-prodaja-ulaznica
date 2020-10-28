@@ -25,6 +25,7 @@
             <div class="container-fluid pt-3 my-3 border">
             <%
                 ArrayList<Dogadjaj> dogadjaji = (ArrayList<Dogadjaj>) request.getAttribute("dogadjaji");
+                if (dogadjaji.size() > 0) {
             %>
 
             <%  HttpSession sesija = request.getSession();
@@ -75,6 +76,9 @@
                     %>
                 </table>
             </div>
+            <% } else { %>
+            <jsp:include page="parts/nema_rezultata.jsp"></jsp:include>
+            <% }%>
             <jsp:include page="parts/footer.jsp"></jsp:include>
         </div>
     </body>

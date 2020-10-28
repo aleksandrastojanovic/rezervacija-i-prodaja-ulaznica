@@ -24,6 +24,7 @@
         <%
             ArrayList<Dogadjaj> dogadjaji = (ArrayList<Dogadjaj>) request.getAttribute("dogadjaji");
             HttpSession sesija = request.getSession();
+            if(dogadjaji.size() > 0){
 
         %>
 
@@ -62,6 +63,7 @@
                 </tr> -->
             </table>
         </div>
+                <% } %>
 
         <jsp:include page="parts/footer.jsp"></jsp:include>
     </body>

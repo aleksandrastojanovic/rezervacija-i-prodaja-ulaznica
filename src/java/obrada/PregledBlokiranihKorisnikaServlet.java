@@ -25,7 +25,7 @@ import klase.*;
 public class PregledBlokiranihKorisnikaServlet extends HttpServlet {
 
     private final RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
-    private final KorisnikBaza korisnikBaza = new KorisnikBaza();
+    private final RegistrovaniKorisnikBaza registrovaniKorisnikBaza = new RegistrovaniKorisnikBaza();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -62,8 +62,9 @@ public class PregledBlokiranihKorisnikaServlet extends HttpServlet {
             }
             if (ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_ADMINISTRATOR)) {
 
-                ArrayList<Korisnik> sviKorisnici = korisnikBaza.all();
-                ArrayList<Korisnik> korisnici = new ArrayList<>();
+                ArrayList<RegistrovaniKorisnik> sviKorisnici = registrovaniKorisnikBaza.all();
+                ArrayList<RegistrovaniKorisnik> blokirani = registrovaniKorisnikBaza.allBlokirani();
+                ArrayList<RegistrovaniKorisnik> korisnici = new ArrayList<>(blokirani);
 
                 HashMap<Integer, ArrayList<Rezervacija>> korisniciRezervacije = new HashMap<>();
                 for (Rezervacija rezervacija : sveRezervacije) {
@@ -75,7 +76,9 @@ public class PregledBlokiranihKorisnikaServlet extends HttpServlet {
                     korisnikRezervacije.add(rezervacija);
                 }
                 int brojIsteklihRezervacija = 0;
-                for (Korisnik korisnik : sviKorisnici) {
+                
+                for (RegistrovaniKorisnik korisnik : sviKorisnici) {
+                    
                     if (Korisnik.TIP_REGISTROVANI_KORISNIK.equals(korisnik.getTip())) {
                         Integer korisnikId = korisnik.getId();
                         ArrayList<Rezervacija> korisnikRezervacije = korisniciRezervacije.get(korisnikId);
@@ -87,7 +90,8 @@ public class PregledBlokiranihKorisnikaServlet extends HttpServlet {
                                 }
                                 if (brojIsteklihRezervacija >= 3) {
                                     korisnik.setTip(Korisnik.TIP_BLOKIRANI_KORISNIK);
-                                    korisnikBaza.save(korisnik);
+                                    korisnik = registrovaniKorisnikBaza.save(korisnik);
+                                    korisnici.add(korisnik);
                                     // TODO:sta vec treba
                                     break; // zavrsila si sa ovom for petljom ovog korisnika
                                 }

@@ -21,6 +21,7 @@
 
         <%
             ArrayList<RegistrovaniKorisnik> korisnici = (ArrayList<RegistrovaniKorisnik>) request.getAttribute("korisnici");
+            if (korisnici.size() > 0) {
         %>
 
 
@@ -42,13 +43,16 @@
                     <td><%= ((RegistrovaniKorisnik) korisnik).getPrezime()%></td>
                     <td><%= ((RegistrovaniKorisnik) korisnik).getKorisnickoIme()%></td>
                     <td><a href='odobravanjeZahteva?korisnik_id=<%= korisnik.getId()%>'>
-                            <input type="button" class="btn btn-success text-center" value="Odblokiraj korisnika"></a></td>
+                            <input type="button" class="btn btn-success text-center" value='Odblokiraj korisnika'></a></td>
                 </tr>
                 <%
                     }
                 %>
             </table>
         </div>
+        <% } else { %>
+        <jsp:include page="parts/nema_rezultata.jsp"></jsp:include>
+        <% }%>
 
         <jsp:include page="parts/footer.jsp"></jsp:include>
     </body>

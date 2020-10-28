@@ -28,7 +28,8 @@
         <jsp:include page="parts/header.jsp"></jsp:include>
         <%
             ArrayList<Dogadjaj> dogadjaji = (ArrayList<Dogadjaj>) request.getAttribute("dogadjaji");
-            int ukupnoStrana = (Integer) request.getAttribute("ukupnoStrana");
+            if (dogadjaji.size() > 0) {
+                int ukupnoStrana = (Integer) request.getAttribute("ukupnoStrana");
         %>
         <jsp:include page="parts/pretraga_dogadjaja.jsp"></jsp:include>
 
@@ -91,6 +92,9 @@
                         </nav>
                     </div>
                 </div>
+                <% } else { %>
+                <jsp:include page="parts/nema_rezultata.jsp"></jsp:include>
+                <% }%>
 
                 <hr>
                 <jsp:include page="parts/footer.jsp"></jsp:include>

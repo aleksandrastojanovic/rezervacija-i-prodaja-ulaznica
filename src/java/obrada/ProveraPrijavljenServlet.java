@@ -35,7 +35,7 @@ public class ProveraPrijavljenServlet extends HttpServlet {
         try {
             response.setContentType("text/html;charset=UTF-8");
             if (ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
-                String poruka = "Vec ste ulogovani. Da li zelite da se odjavite?";
+                String poruka = "Da li zelite da se odjavite?";
                 RequestDispatcher rd = request.getRequestDispatcher("odjava.jsp");
                 request.setAttribute("poruka", poruka);
                 rd.forward(request, response);

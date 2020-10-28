@@ -21,8 +21,8 @@ import klase.*;
  * @author iq skola
  */
 public class OdobravanjeZahtevaServlet extends HttpServlet {
-    
-    private final KorisnikBaza korisnikBaza = new KorisnikBaza();
+
+    private final RegistrovaniKorisnikBaza registrovaniKorisnikBaza = new RegistrovaniKorisnikBaza();
     private final RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
 
     /**
@@ -38,7 +38,7 @@ public class OdobravanjeZahtevaServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             response.setContentType("text/html;charset=UTF-8");
-            
+
             if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
                 String poruka = "Morate biti prijavljen administrator kako biste pristupili stranici.";
                 RequestDispatcher rd1 = request.getRequestDispatcher("prijava.jsp");
@@ -47,20 +47,18 @@ public class OdobravanjeZahtevaServlet extends HttpServlet {
                 return;
             }
             if (ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_ADMINISTRATOR)) {
-                Korisnik korisnik = korisnikBaza.find((int) request.getAttribute("korisnik_id"));
-                if (Korisnik.TIP_BLOKIRANI_KORISNIK.equals(korisnik.getTip())) {
-                    korisnik.setTip(Korisnik.TIP_REGISTROVANI_KORISNIK);
-                    ArrayList<Rezervacija> sveRezervacije = rezervacijaBaza.all();
-                    for (Rezervacija rezervacija : sveRezervacije) {
-                        if (rezervacija.getKorisnikId() == korisnik.getId()
-                                && Rezervacija.STATUS_ISTEKLO.equals(rezervacija.getStatus())) {
-                            rezervacijaBaza.delete(rezervacija);
-                        }
+                RegistrovaniKorisnik korisnik = registrovaniKorisnikBaza.find((Integer.parseInt(request.getParameter("korisnik_id"))));
+                korisnik.setTip(Korisnik.TIP_REGISTROVANI_KORISNIK);
+
+                ArrayList<Rezervacija> sveRezervacije = rezervacijaBaza.all();
+                for (Rezervacija rezervacija : sveRezervacije) {
+                    if (rezervacija.getKorisnikId() == korisnik.getId()
+                            && Rezervacija.STATUS_ISTEKLO.equals(rezervacija.getStatus())) {
+                        rezervacijaBaza.delete(rezervacija);
                     }
-                    
-                    korisnikBaza.save(korisnik);
-                    
                 }
+
+                korisnik = registrovaniKorisnikBaza.save(korisnik);
                 if (korisnik.getId() > 0) {
                     //poruka uspesno
                     response.sendRedirect("prijavljenAdministrator");

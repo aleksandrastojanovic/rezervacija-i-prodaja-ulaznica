@@ -25,6 +25,7 @@
 
         <%
             ArrayList<StrukturaUlaznica> strukture = (ArrayList<StrukturaUlaznica>) request.getAttribute("strukture");
+            if (strukture.size() > 0) {
         %>
         <div class="container-fluid pt-3 my-3">
             <div class='container-fluid'>
@@ -72,7 +73,10 @@
                 </form>
             </div>
             <jsp:include page="parts/footer.jsp"></jsp:include>
-        </div>
+            </div>
+        <% } else { %>
+        <jsp:include page="parts/nema_rezultata.jsp"></jsp:include>
+        <% }%>
 
 
     </body>
