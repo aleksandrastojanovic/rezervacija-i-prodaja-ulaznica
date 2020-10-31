@@ -67,7 +67,7 @@
                     <input type="number" id='broj_ulaznica' name="broj_ulaznica" ><br>
 
                     <label class='text-primary' for="granica_po_korisniku">Granica po korisniku:</label>
-                    <input type="number" id='granica_po_korisniku' name="granica_po_korisniku" ><br>
+                    <input type="number" id='granica_po_korisniku' name="granica_po_korisniku"><br>
 
                     <input type="submit" class="btn btn-primary" value="Sacuvaj novu kategoriju">
                 </form>

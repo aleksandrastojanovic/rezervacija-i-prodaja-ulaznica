@@ -149,7 +149,7 @@ public class MediaBaza implements Baza<Media> {
         if (!fajl.getParentFile().isDirectory()) {
             fajl.mkdirs();
         }
-        sadrzajFajla.write(fajl);
+        sadrzajFajla.write(new File(putanja));
     }
 
     public ArrayList<Media> allWhereDogadjajId(int dogadjajId) {

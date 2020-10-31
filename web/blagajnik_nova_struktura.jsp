@@ -19,12 +19,13 @@
             <div class="container-fluid p-3 my-3 border">
 
                 <h1 class="text-primary">Kreiranje novog dogadjaja - 3/3</h1>
-
+                <h2 id='naslov' class="text-primary">Dodaj novu kategoriju:</h2>
                 <div>
                     <form id='forma' action='sacuvajKategoriju'>
-                        <input type="hidden" name="dogadjaj_id" value="<%= request.getAttribute("dogadjaj_id")%>"
-                           <table class="table">
-                        <tr>
+
+                        <table class="table">
+                            <input type="hidden" name="dogadjaj_id" value="<%= request.getAttribute("dogadjaj_id")%>"
+                               <tr>
                         <div class="form-group">
                             <td><label class="text-primary" for='kategorija'>Nova kategorija ulaznica:</label></td>
                             <td><input type='text' id='kategorija' name="kategorija" placeholder='Unesi novu kateoriju ulaznica'></td>
@@ -51,20 +52,30 @@
                         </div>
                         </tr>
 
-                        <tr><td><input class="btn btn-primary" type="button" onclick="submitIReset()" value="Sacuvaj i kreiraj novu kategoriju"></td>
-                            <td><input type="submit" class="btn btn-primary" value="Sacuvaj dogadjaj"></td></tr>
+                        <tr>
+                            <td></td>
+                            <td><input class="btn btn-primary" type="button" onclick="submitIReset()" value="Sacuvaj unetu kategoriju"></td>
+                            
+                        </tr>
                     </table>
                 </form>
             </div>
+
             <jsp:include page="parts/footer.jsp"></jsp:include>
-            <script>
-                function submitIReset() {
-                    var forma = document.getElementById("forma");
-                    forma.submit();
-                    forma.reset();
-                    return false;
-                }
-            </script>
+                <script>
+                    function submitIReset() {
+                        var forma = document.getElementById("forma");
+                        forma.submit();
+                        forma.reset();
+                        document.getElementById("naslov").innerHTML = "Dodaj jos jednu kategoriju";
+                        return false;
+                    }
+                </script>
+                <div class="d-flex justify-content pt-3">
+                    <a a class="btn btn-primary" href='dogadjajPojedinacno?dogadjaj_id=<%= request.getAttribute("dogadjaj_id")%>' role='button'>
+                    Zavrsi sa kreiranjem dogadjaja</a>
+            </div>
         </div>
+
     </body>
 </html>

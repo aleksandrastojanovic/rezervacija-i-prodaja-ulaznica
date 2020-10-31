@@ -57,7 +57,9 @@ public class IzmenaDogadjajaServlet extends HttpServlet {
                 dogadjaj.setDetalji(request.getParameter("detalji"));
                 dogadjajBaza.save(dogadjaj);
                 
-                request.setAttribute("dogadjaj", dogadjaj);
+                request.setAttribute("dogadjaj", dogadjaj);                
+                String porukaUspesno = "Uspesno izmenjen dogadjaj.";
+                request.setAttribute("porukaUspesno", porukaUspesno);
                 rd.forward(request, response);
             }
         } catch (Exception ex) {

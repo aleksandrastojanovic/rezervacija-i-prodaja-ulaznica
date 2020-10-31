@@ -82,6 +82,7 @@ public class SacuvajRezervacijuServlet extends HttpServlet {
                                     && !Rezervacija.STATUS_PLACENO.equals(rezervacijaKorisnika.getStatus())) {
                                 putanja = "dogadjajPojedinacno"; //greska ne moze da rezervise za taj dogadjaj dok ne plati
                                 request.setAttribute("dogadjajId", dogadjaj.getId());
+                                request.setAttribute("poruka", "Nije moguce izvrsiti rezervaciju ulaznica, dok nije placena prethodna rezervacija za isti dogadjaj.");
                             }
                             if (rezervacijaKorisnika.getStrukturaId() == struktura.getId()) {
                                 ukupanBrojUlaznica += rezervacijaKorisnika.getBrojUlaznica();
@@ -115,6 +116,8 @@ public class SacuvajRezervacijuServlet extends HttpServlet {
 
                 if (rezervacija.getId() > 0) {
                     request.setAttribute("rezervacija_id", rezervacija.getId());
+                    String porukaUspesno = "Uspesno sacuvana rezervacija.";
+                    request.setAttribute("porukaUspesno", porukaUspesno);
                 } else {
                     String poruka = "Neuspesna rezervacija.";
                     request.setAttribute("poruka", poruka);

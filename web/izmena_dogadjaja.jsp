@@ -20,7 +20,7 @@
         <<jsp:include page="parts/header.jsp"></jsp:include>
 
         <%
-            Dogadjaj dogadjaj = (Dogadjaj) requesribute("dogadjaj");
+            Dogadjaj dogadjaj = (Dogadjaj) request.getAttribute("dogadjaj");
             Blagajnik blagajnik = (Blagajnik) request.getAttribute("bagajnik");
         %>
         <h1 class="text-primary">Izmena dogadjaja</h1>

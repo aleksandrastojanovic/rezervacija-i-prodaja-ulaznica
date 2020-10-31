@@ -27,16 +27,17 @@ function StateChanged() {
     }
 }
 
- var password = document.getElementById("password")
-                        , password_check = document.getElementById("password_check");
+var password = document.getElementById("password")
+        , password_check = document.getElementById("password_check");
 
-                function validatePassword() {
-                    if (password.value !== password_check.value) {
-                        password_check.setCustomValidity("Unete lozinke se ne podudaraju.");
-                    } else {
-                        password_check.setCustomValidity('');
-                    }
-                }
+function validatePassword() {
+    if (password.value !== password_check.value) {
+        password_check.setCustomValidity("Unete lozinke se ne podudaraju.");
+    } else {
+        password_check.setCustomValidity('');
+    }
+}
 
-                password.onchange = validatePassword;
-                password_check.onkeyup = validatePassword;
+password.onchange = validatePassword;
+password_check.onkeyup = validatePassword;
+

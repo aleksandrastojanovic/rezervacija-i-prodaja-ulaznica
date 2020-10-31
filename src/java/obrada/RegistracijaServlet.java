@@ -93,8 +93,10 @@ public class RegistracijaServlet extends HttpServlet {
 
                 registrovaniKorisnik = registrovaniKorisnikBaza.save(registrovaniKorisnik);
                 if (registrovaniKorisnik.getId() > 0) {
-                    //gde prosledjuje zavisi od uloge administratora
-                    response.sendRedirect("proveraPrijavljen");
+                    RequestDispatcher rd = request.getRequestDispatcher("prijava.jsp");
+                    String porukaUspesno = "Uspesna registracija.";
+                    request.setAttribute("porukaUspesno", porukaUspesno);
+                    rd.forward(request, response);
                 } else {
                     String poruka = "Neuspesna registracija. Molimo pokusajte ponovo";
                     RequestDispatcher rd1 = request.getRequestDispatcher("registracija.jsp");

@@ -59,6 +59,8 @@ public class OtkazivanjeRezervacijeServlet extends HttpServlet {
             Rezervacija rezervacija = rezervacijaBaza.find(Integer.parseInt(request.getParameter("rezervacija_id")));
             //preko rez-dogId-struktura menjam br preostalih ulaynica
             rezervacijaBaza.delete(rezervacija);
+            String porukaUspesno = "Uspesno otkazana rezervacija.";
+            request.setAttribute("porukaUspesno", porukaUspesno);
             rd.forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(OtkazivanjeRezervacijeServlet.class.getName()).log(Level.SEVERE, null, ex);

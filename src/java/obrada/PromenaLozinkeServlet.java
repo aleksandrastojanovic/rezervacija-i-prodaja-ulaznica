@@ -56,6 +56,8 @@ public class PromenaLozinkeServlet extends HttpServlet {
             if (novaLozinka.equals(novaLozinkaPotvrda)) {
                 String tip = sesija.getAttribute("tip").toString();
                 int korisnikId = (int) sesija.getAttribute("korisnik_id");
+                RequestDispatcher rd;
+                String porukaUspesno;
                 switch (tip) {
                     case Korisnik.TIP_REGISTROVANI_KORISNIK:
                         RegistrovaniKorisnik korisnik = registrovaniKorisnikBaza.find(korisnikId);
@@ -68,14 +70,20 @@ public class PromenaLozinkeServlet extends HttpServlet {
                             request.setAttribute("poruka", poruka);
                             rd1.forward(request, response);
                         }
-                        response.sendRedirect("index");
+                        rd = request.getRequestDispatcher("index.jsp");
+                        porukaUspesno = "Uspesno promenjena lozinka.";
+                        request.setAttribute("porukaUspesno", porukaUspesno);
+                        rd.forward(request, response);
                         break;
                     case Korisnik.TIP_BLAGAJNIK:
                         Blagajnik blagajnik = blagajnikBaza.find(korisnikId);
                         if (verifikujIIzmeniLozinku(blagajnik, lozinka, novaLozinka)) {
                             blagajnikBaza.save(blagajnik);
                         }
-                        response.sendRedirect("prijavljenBlagajnik");
+                        rd = request.getRequestDispatcher("blagajnik_pocetna.jsp");
+                        porukaUspesno = "Uspesno promenjena lozinka.";
+                        request.setAttribute("porukaUspesno", porukaUspesno);
+                        rd.forward(request, response);
                         break;
                     case Korisnik.TIP_ADMINISTRATOR:
                         Administrator administrator = administratorBaza.find(korisnikId);
@@ -83,7 +91,10 @@ public class PromenaLozinkeServlet extends HttpServlet {
                             administratorBaza.save(administrator);
 
                         }
-                        response.sendRedirect("prijavljenAdministrator");
+                        rd = request.getRequestDispatcher("admin_pocetna.jsp");
+                        porukaUspesno = "Uspesno promenjena lozinka.";
+                        request.setAttribute("porukaUspesno", porukaUspesno);
+                        rd.forward(request, response);
                         break;
                     default:
                         response.sendRedirect("proveraPrijavljen");

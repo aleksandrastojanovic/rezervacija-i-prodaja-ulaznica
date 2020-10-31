@@ -87,7 +87,10 @@ public class SacuvajKorisnikaServlet extends HttpServlet {
                         korisnik = registrovaniKorisnikBaza.save(korisnik);
                         if (korisnik.getId() > 0) {
                             //poruka uspesno kreiran korisnik
-                            response.sendRedirect("prijavljenAdministrator");
+                            RequestDispatcher rd = request.getRequestDispatcher("admin_pocetna.jsp");
+                            String porukaUspesno = "Uspesno sacuvan korisnik.";
+                            request.setAttribute("porukaUspesno", porukaUspesno);
+                            rd.forward(request, response);
                         }
                         break;
                     }
@@ -122,8 +125,10 @@ public class SacuvajKorisnikaServlet extends HttpServlet {
                         korisnik.setAdresaLokacije(request.getParameter("adresa_lokacije"));
                         korisnik = blagajnikBaza.save(korisnik);
                         if (korisnik.getId() > 0) {
-                            response.sendRedirect("prijavljenAdministrator");
-                            //poruka uspesno kreiran korisnik
+                            RequestDispatcher rd = request.getRequestDispatcher("admin_pocetna.jsp");
+                            String porukaUspesno = "Uspesno sacuvan korisnik.";
+                            request.setAttribute("porukaUspesno", porukaUspesno);
+                            rd.forward(request, response);
                         }
                         break;
                     }
@@ -155,7 +160,10 @@ public class SacuvajKorisnikaServlet extends HttpServlet {
                         }
                         korisnik = administratorBaza.save(korisnik);
                         if (korisnik.getId() > 0) {
-                            response.sendRedirect("prijavljenAdministrator");
+                            RequestDispatcher rd = request.getRequestDispatcher("admin_pocetna.jsp");
+                            String porukaUspesno = "Uspesno sacuvan korisnik.";
+                            request.setAttribute("porukaUspesno", porukaUspesno);
+                            rd.forward(request, response);
 
                             //poruka uspesno kreiran korisnik
                         }

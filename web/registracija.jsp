@@ -30,7 +30,7 @@
                     <form action='registracija' method="post">
 
                         
-                            <div class="form-group p-1 m-1 row text-left text-left">
+                            <div class="form-group p-1 m-1 row text-left">
                                 <label class="text-primary col-sm-6" for="ime">Ime:</label>
                                 <input class="border input-sm col-sm-6" type="text" name="ime" placeholder='Ime' required><br>
                             </div>

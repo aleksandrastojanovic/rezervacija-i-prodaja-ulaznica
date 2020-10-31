@@ -41,9 +41,7 @@
 
                     <div class="form-group">
                         <label for="vreme_odrzavanja">Vreme odrzavanja:</label>
-                        <%DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy. HH:mm");
-                            String datumIVreme = dogadjaj.getDatumIVreme().format(formatter);%>
-                        <input type="datetime-local" id="vreme_odrzavanja" name="vreme_odrzavanja" value="<%= datumIVreme%>"><br>
+                        <input type="datetime-local" id="vreme_odrzavanja" name="vreme_odrzavanja" value="<%= dogadjaj.getDatumIVreme() %>"><br>
                     </div>
 
                     <div class="form-group">

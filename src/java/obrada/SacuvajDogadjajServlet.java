@@ -62,11 +62,14 @@ public class SacuvajDogadjajServlet extends HttpServlet {
             dogadjaj.setDetalji(request.getParameter("detalji"));
 
             dogadjaj = dogadjajBaza.save(dogadjaj);
-            String putanja = "";
+            String putanja;
+            
 
             if (dogadjaj.getId() > 0) {
+                String porukaUspesno = "Uspesno sacuvan dogadjaj.";
                 if (noviDogadjaj.equals("da")) {
                     putanja = "media?dogadjaj_id=" + dogadjaj.getId();
+                    porukaUspesno = "Uspesno sacuvani detalji dogadjaja.";
                 } else if (noviDogadjaj.equals("ne")) {
                     putanja = "dogadjajPojedinacno?dogadjaj_id=" + dogadjaj.getId();
                     //poruka uspesno sacuvano
@@ -78,7 +81,7 @@ public class SacuvajDogadjajServlet extends HttpServlet {
                     return;
                 }
                 RequestDispatcher rd = request.getRequestDispatcher(putanja);
-
+                request.setAttribute("porukaUspesno", porukaUspesno);
                 rd.forward(request, response);
             } else {
                 //poruka da nije kreiran, za sad vraca na blagajnik_novi_dogadjaj.jsp

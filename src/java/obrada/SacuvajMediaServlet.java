@@ -63,9 +63,10 @@ public class SacuvajMediaServlet extends HttpServlet {
             }
             int dogadjajId = Integer.parseInt(request.getParameter("dogadjaj_id"));
             String putanjaZaDogadjaj = putanjaFoldera + dogadjajId + "/";
+            int brojacMedia = 0;
             try {
                 List<FileItem> fileItems = ucitaj(request);
-                int brojacMedia = 0;
+                
                 for (FileItem fileItem : fileItems) {
                     if (!fileItem.isFormField()) {
                         if (brojacMedia++ >= maksimalanBrojMedia) {
@@ -91,6 +92,8 @@ public class SacuvajMediaServlet extends HttpServlet {
             }
 
             RequestDispatcher rd = request.getRequestDispatcher("novaStruktura?dogadjaj_id=" + dogadjajId);
+            String porukaUspesno = "Uspesno sacuvano " + brojacMedia + " fajlova.";
+            request.setAttribute("porukaUspesno", porukaUspesno);
             rd.forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(SacuvajMediaServlet.class.getName()).log(Level.SEVERE, null, ex);

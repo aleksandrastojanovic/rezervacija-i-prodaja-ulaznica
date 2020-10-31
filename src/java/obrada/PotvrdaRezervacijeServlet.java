@@ -81,6 +81,8 @@ public class PotvrdaRezervacijeServlet extends HttpServlet {
                 request.setAttribute("rezervacija", rezervacija);
                 request.setAttribute("struktura", strukturaUlaznica);
                 request.setAttribute("dogadjaj", dogadjaj);
+                String porukaUspesno = "Uspesna rezervacija.";
+                request.setAttribute("porukaUspesno", porukaUspesno);
                 rd.forward(request, response);
 
             } else {

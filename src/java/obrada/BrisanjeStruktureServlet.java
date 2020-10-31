@@ -42,6 +42,8 @@ public class BrisanjeStruktureServlet extends HttpServlet {
 
                 StrukturaUlaznica struktura = strukturaUlaznicaBaza.find(Integer.parseInt(request.getParameter("struktura_id")));
                 strukturaUlaznicaBaza.delete(struktura);
+                String porukaUspesno = "Uspesno obrisana struktura.";
+                request.setAttribute("porukaUspesno", porukaUspesno);
                 rd.forward(request, response);
             } else {
 

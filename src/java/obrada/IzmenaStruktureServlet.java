@@ -48,7 +48,9 @@ public class IzmenaStruktureServlet extends HttpServlet {
                 RequestDispatcher rd = request.getRequestDispatcher("izmena_strukture.jsp");
                 StrukturaUlaznica struktura = strukturaUlaznicaBaza.find(Integer.parseInt(request.getParameter("struktura_id")));
 
-                request.setAttribute("struktura", struktura);
+                request.setAttribute("struktura", struktura);                
+                String porukaUspesno = "Uspesno izmenjena struktura.";
+                request.setAttribute("porukaUspesno", porukaUspesno);
                 rd.forward(request, response);
             }
         } catch (Exception ex) {

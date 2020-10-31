@@ -18,5 +18,10 @@
 
     <%
         }
+        if (request.getAttribute("porukaUspesno") != null) {
     %>
+    <div class="alert alert-success text-center" role="alert">
+        <h2><%= request.getAttribute("porukaUspesno")%></h2>
+    </div>
+    <% }%>
 </header>

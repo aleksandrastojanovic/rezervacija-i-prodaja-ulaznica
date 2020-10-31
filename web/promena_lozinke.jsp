@@ -36,11 +36,11 @@
 
                         <div class="form-group p-1 m-1">
                             <label class="text-primary" for="nova_lozinka">Nova lozinka:</label>
-                            <input type="password" class='border w-100' placeholder="Unesite novu lozinku" name="nova_lozinka" minlength='5' required><br>
+                            <input type="password" class='border w-100' id="password" placeholder="Unesite novu lozinku" name="nova_lozinka" minlength='5' required><br>
                         </div>
                         <div class="form-group p-1 m-1">
                             <label class="text-primary" for='nova_lozinka_potvrda'>Potvrda nove lozinke:</label>
-                            <input type="password" class='border w-100' placeholder="Potvrda nove lozinke" name="nova_lozinka_potvrda" minlength='5' required><br>
+                            <input type="password" class='border w-100'  id="password_check" placeholder="Potvrda nove lozinke" name="nova_lozinka_potvrda" minlength='5' required><br>
                         </div>
 
                         <div class="d-flex justify-content-center">
@@ -51,6 +51,8 @@
 
                 </div>
             <jsp:include page="parts/footer.jsp"></jsp:include>
+<script type="text/javascript" src='provera_korisnickog_imena.js'>
+</script>
         </div>
     </body>
 </html>

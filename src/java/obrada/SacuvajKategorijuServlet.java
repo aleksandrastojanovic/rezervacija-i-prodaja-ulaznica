@@ -51,7 +51,6 @@ public class SacuvajKategorijuServlet extends HttpServlet {
             }
 
             struktura.setKategorija(request.getParameter("kategorija"));
-
             struktura.setCena(Double.parseDouble(request.getParameter("cena")));
             struktura.setBrojDostupnihUlaznica(Integer.parseInt(request.getParameter("broj_ulaznica")));
             struktura.setPreostaloUlaznica(struktura.getBrojDostupnihUlaznica());
@@ -59,8 +58,15 @@ public class SacuvajKategorijuServlet extends HttpServlet {
             struktura.setIdDogadjaja(Integer.parseInt(request.getParameter("dogadjaj_id")));
 
             struktura = strukturaUlaznicaBaza.save(struktura);
+
             if (struktura.getId() > 0) {
-                response.sendRedirect("dogadjajPojedinacno?dogadjaj_id=" + struktura.getIdDogadjaja());
+
+                RequestDispatcher rd = request.getRequestDispatcher("blagajnik_nova_struktura.jsp");
+                String porukaUspesno = "Uspesno sacuvana kategorija.";
+                request.setAttribute("porukaUspesno", porukaUspesno);
+                request.setAttribute("dogadjaj_id", struktura.getIdDogadjaja());
+                rd.forward(request, response);
+
             } else {
                 String poruka = "Neuspesno cuvanje kategorije.";
                 RequestDispatcher rd1 = request.getRequestDispatcher("blagajnik_pocetna.jsp");
