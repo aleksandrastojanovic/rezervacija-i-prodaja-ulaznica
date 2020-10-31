@@ -4,6 +4,7 @@
     Author     : iq skola
 --%>
 
+<%@page import="klase.ProvereKorisnik"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="klase.Korisnik"%>
 <%@page import="klase.Dogadjaj"%>
@@ -47,11 +48,11 @@
                         String datumIVreme = dogadjaj.getDatumIVreme().format(formatter);%>
                     <td><%= datumIVreme%></td>
                     <% if (sesija.getAttribute("korisnik_id") != null
-                                && Korisnik.TIP_REGISTROVANI_KORISNIK.equals(sesija.getAttribute("tip"))) {%>                    
+                                && ProvereKorisnik.postojiPrijavljenKorisnik(request)) {%>                    
                     <td><a href="dogadjajPojedinacno?dogadjaj_id=<%= "" + dogadjaj.getId()%>">
                             <input type="button" class="btn btn-primary text-center p-1" name="dogadjaj_pojedinacno" value="Detaljnije"></a></td>
                             <% } else { %>
-                    <td><a href="registracija.jsp">
+                    <td><a href="prijava.jsp">
                             <input type="button" class="btn btn-primary text-center p-1" name="registracija" value="Detaljnije"></a></td>    
                             <% } %>
                 </tr>

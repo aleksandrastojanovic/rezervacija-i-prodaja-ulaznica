@@ -75,6 +75,7 @@ public class SacuvajDogadjajServlet extends HttpServlet {
                     RequestDispatcher rd1 = request.getRequestDispatcher("error.jsp");
                     request.setAttribute("poruka", poruka);
                     rd1.forward(request, response);
+                    return;
                 }
                 RequestDispatcher rd = request.getRequestDispatcher(putanja);
 

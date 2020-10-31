@@ -28,7 +28,7 @@
         <jsp:include page="parts/header.jsp"></jsp:include>
         <%
             ArrayList<Dogadjaj> dogadjaji = (ArrayList<Dogadjaj>) request.getAttribute("dogadjaji");
-            if (dogadjaji.size() > 0) {
+            if (dogadjaji != null && dogadjaji.size() > 0) {
                 int ukupnoStrana = (Integer) request.getAttribute("ukupnoStrana");
         %>
         <jsp:include page="parts/pretraga_dogadjaja.jsp"></jsp:include>
@@ -52,7 +52,7 @@
                                     <% }%>
                                     <div class="card-img-top">
                                         <%
-                                            String ime = "prva.jpg";
+                                            String ime = "__praznaSlika__.jpg";
                                             MediaBaza mediaBaza = new MediaBaza();
                                             ArrayList<Media> sveFotke = mediaBaza.allWhereDogadjajId(dogadjaj.getId());
                                             for (Media foto : sveFotke) {

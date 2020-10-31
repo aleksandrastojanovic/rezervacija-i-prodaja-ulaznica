@@ -71,13 +71,14 @@ public class SacuvajMediaServlet extends HttpServlet {
                         if (brojacMedia++ >= maksimalanBrojMedia) {
                             break;
                         }
-                        Media media = napraviMedia(fileItem, putanjaZaDogadjaj, dogadjajId);
+                        Media media = napraviMedia(fileItem, putanjaZaDogadjaj, dogadjajId, brojacMedia);
                         media = mediaBaza.save(media);
                         if (media.getId() < 0) {
                             String poruka = "Greska pri snimanju fajla.";
                             RequestDispatcher rd1 = request.getRequestDispatcher("error.jsp");
                             request.setAttribute("poruka", poruka);
                             rd1.forward(request, response);
+                            return;
                             // greska, nije snimio fajl
                             // ali imamo ih vise, sta ako ne snimi jedan samo?
                         }
@@ -97,11 +98,17 @@ public class SacuvajMediaServlet extends HttpServlet {
         }
     }
 
-    private Media napraviMedia(FileItem fajl, String putanjaZaDogadjaj, int dogadjajId) {
+    private Media napraviMedia(FileItem fajl, String putanjaZaDogadjaj, int dogadjajId, int brojacMedia) {
 
         boolean glavna = "glavna".equals(fajl.getFieldName());
         String tip = "video".equals(fajl.getFieldName()) ? Media.TIP_VIDEO : Media.TIP_FOTOGRAFIJA;
-        String ime = fajl.getName();
+        String ime = "slika_" + brojacMedia;
+        if (Media.TIP_VIDEO.equals(tip)) {
+            ime = "video";
+        } else if (glavna) {
+            ime = "glavna";
+        }
+        ime = ime + fajl.getName().substring(fajl.getName().lastIndexOf("."));
         return new Media(fajl, glavna, tip, putanjaZaDogadjaj + ime, dogadjajId, ime);
 
     }

@@ -88,6 +88,7 @@ public class RegistracijaServlet extends HttpServlet {
                     RequestDispatcher rd1 = request.getRequestDispatcher("registracija.jsp");
                     request.setAttribute("poruka", poruka);
                     rd1.forward(request, response);
+                    return;
                 }
 
                 registrovaniKorisnik = registrovaniKorisnikBaza.save(registrovaniKorisnik);

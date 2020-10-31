@@ -140,6 +140,14 @@
         <servlet-name>UcitajVideoServlet</servlet-name>
         <servlet-class>obrada.UcitajVideoServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProveraKorisnickogImenaServlet</servlet-name>
+        <servlet-class>obrada.ProveraKorisnickogImenaServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PasswordCheckServlet</servlet-name>
+        <servlet-class>obrada.PasswordCheckServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegistracijaServlet</servlet-name>
         <url-pattern>/registracija</url-pattern>
@@ -282,6 +290,10 @@
     <servlet-mapping>
         <servlet-name>UcitajVideoServlet</servlet-name>
         <url-pattern>/ucitajVideo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProveraKorisnickogImenaServlet</servlet-name>
+        <url-pattern>/proveraKorisnickogImena</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

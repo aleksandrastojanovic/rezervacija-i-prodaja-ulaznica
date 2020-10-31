@@ -20,7 +20,7 @@
         <!--<ul class="nav nav-tabs">-->
         <ul class="nav nav-tabs justify-content-end">
             <% if (Korisnik.TIP_REGISTROVANI_KORISNIK.equals(tip)) { %>
-            <li class="nav-items" role="presentation"><a class="nav-link active"  href="index">Pocetna stranica</a></li>
+            <li class="nav-items" role="presentation"><a class="nav-link"  href="index">Pocetna stranica</a></li>
             <li class="nav-items" role="presentation" class="dropdown"><a class="nav-link"  href="mojeUlaznice">Moje ulaznice</a></li>
 
             <% } else if (Korisnik.TIP_BLAGAJNIK.equals(tip)) { %>
