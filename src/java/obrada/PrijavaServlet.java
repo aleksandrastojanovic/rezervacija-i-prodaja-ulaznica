@@ -78,9 +78,17 @@ public class PrijavaServlet extends HttpServlet {
                     }
                     RequestDispatcher rd = request.getRequestDispatcher(putanja);
                     rd.forward(request, response);
+                    return;
 
                 }
+
             }
+
+            RequestDispatcher rd = request.getRequestDispatcher("prijava.jsp");
+            String poruka = "Neispravno uneto korisnicko ime/lozinka. Molimo pokusajte ponovo.";
+            request.setAttribute("poruka", poruka);
+            rd.forward(request, response);
+
         } catch (IOException | ServletException ex) {
             Logger.getLogger(PrijavaServlet.class.getName()).log(Level.SEVERE, null, ex);
             response.sendRedirect("error.jsp");

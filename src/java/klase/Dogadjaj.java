@@ -7,14 +7,14 @@ package klase;
 
 import java.time.LocalDateTime;
 
-
 /**
  *
  * @author iq skola
  */
 public class Dogadjaj implements Model {
+
     private int id;
-    
+
     private String naziv;
     private String nazivLokacije;
     //proveriti format mySql i LocalDateTime
@@ -41,7 +41,6 @@ public class Dogadjaj implements Model {
         this.table = "dogadjaji";
         this.id = -1;
     }
-
 
     public String getNaziv() {
         return naziv;
@@ -105,12 +104,5 @@ public class Dogadjaj implements Model {
     public void setId(int id) {
         this.id = id;
     }
-    
-    
-    
-    
-    
-    
-    
-    
+
 }

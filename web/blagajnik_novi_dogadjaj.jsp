@@ -12,13 +12,14 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="parts/pozadina.css">
         <title>Novi dogadjaj</title>
     </head>
 
     <body>
         <jsp:include page="parts/header.jsp"></jsp:include>
 
-            <div class="container-fluid pt-3 my-3 border">
+            <div class="container-fluid p-3 mb-3 text-center w-100 border">
             <% Blagajnik blagajnik = (Blagajnik) request.getAttribute("blagajnik");%>
 
             <h1 class="text-primary text-center">Kreiranje novog dogadjaja - 1/3</h1>
@@ -26,27 +27,29 @@
                 <form action="sacuvajDogadjaj" method="post">
                     <input type="hidden" name="noviDogadjaj" value="da">
 
-                    <div class="form-group text-secondary">
-                        <label  class="text-primary">Mesto odrzavanja: </label>
-                        <%= blagajnik.getNazivLokacije()%><br>
+                    <div class="form-group p-1 m-1 row text-left">
+                        <label  class="text-primary col-sm-6">Mesto odrzavanja: </label>
+                        <p class="text-primary col-sm-6"><%= blagajnik.getNazivLokacije()%></p><br>
                     </div>
 
-                    <div class="form-group">
-                        <label class="text-primary" for="naziv">Naziv:</label>
-                        <input type='text' name = 'naziv' id='naziv' placeholder="Unesite naziv" required><br>
+                    <div class="form-group p-1 m-1 row text-left">
+                        <label class="text-primary col-sm-6" for="naziv">Naziv:</label>
+                        <input type='text' class="border input-sm col-sm-6" name = 'naziv' id='naziv' placeholder="Unesite naziv" required><br>
                     </div>
 
-                    <div class="form-group">
-                        <label class="text-primary" for="vreme_odrzavanja">Vreme odrzavanja:</label>
-                        <input type="datetime-local" id="vreme_odrzavanja" name="vreme_odrzavanja" required><br>
+                    <div class="form-group p-1 m-1 row text-left">
+                        <label class="text-primary col-sm-6" for="vreme_odrzavanja">Vreme odrzavanja:</label>
+                        <input type="datetime-local" class="border input-sm col-sm-6" id="vreme_odrzavanja" name="vreme_odrzavanja" required><br>
                     </div>
 
-                    <div class="form-group">
-                        <label class="text-primary" for="detalji">Detalji dogadjaja:</label><br>
-                        <textarea type="text" id='detalji' name="detalji" rows="4" cols="50" placeholder='Unesite detalje dogadjaja' required></textarea><br>
+                    <div class="form-group p-1 m-1 row text-left">
+                        <label class="text-primary col-sm-6" for="detalji">Detalji dogadjaja:</label><br>
+                        <textarea type="text" class="col-sm-6" id='detalji' name="detalji" rows="4" cols="50" placeholder='Unesite detalje dogadjaja' required></textarea><br>
                     </div>
 
-                    <input class="btn btn-primary" type="submit" value="Dalje">
+                    <div class="d-flex justify-content-center pt-3">
+                        <input class="btn btn-primary" type="submit" value="Dalje">
+                    </div>
 
                     <!--Preko js bi trebalo da napravim da bude required cena i limit ako je cekirano -->
 
@@ -54,9 +57,9 @@
 
                 </form>
             </div>
-
-            <jsp:include page="parts/footer.jsp"></jsp:include>
         </div>
+        <jsp:include page="parts/footer.jsp"></jsp:include>
+
     </body>
 
 </html>

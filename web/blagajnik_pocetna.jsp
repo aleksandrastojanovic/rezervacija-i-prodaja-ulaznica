@@ -16,13 +16,15 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="parts/pozadina.css">
         <title>Pocetna stranica/blaganik</title>
     </head>
 
     <body>
         <jsp:include page="parts/header.jsp"></jsp:include>
 
-            <div class="container-fluid pt-3 my-3 border">
+            <div class="container-fluid pt-3 my-3">
+                <h1 class="text-center text-primary">Blagajna:</h1>
             <%
                 ArrayList<Dogadjaj> dogadjaji = (ArrayList<Dogadjaj>) request.getAttribute("dogadjaji");
                 if (dogadjaji.size() > 0) {
@@ -31,12 +33,29 @@
             <%  HttpSession sesija = request.getSession();
                 if (Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))) {
             %>
-            <div class="container-fluid mb-3 p-3 w-25 text-center border border-primary rounded">
-                <form action="potvrdaRezervacije">
-                    <label class='text-primary '>ID rezervacije</label>
-                    <input type="number" placeholder="Unesi ID rezervacije" name="rezervacija_id">
-                    <input type="submit" class="btn btn-primary" value="Placanje">
+            <h2 class="text-primary text-center p-3">Prodaja rezervisanih ulaznica:</h2>
+            <div class="d-flex justify-content-center container-fluid p-3 w-75 text-center border border-primary rounded">
+
+                <form action="potvrdaRezervacije" class="w-100">
+
+                    <div class="row">
+                        <div class="col-2 p-1">
+                        </div>
+                        <div class="col-3 p-1">
+                            <label class='text-primary'>ID rezervacije</label>
+                        </div>
+                        <div class="col-3 p-1">
+                            <input type="number" class="input-sm " placeholder="ID rezervacije" name="rezervacija_id">
+                        </div>
+                        <div class="col-2 p-1">
+                            <input type="submit" class="btn btn-primary" value="Placanje">
+                        </div>
+                        <div class="col-2 p-1">
+                        </div>
+                    </div>
+
                 </form>
+
             </div>
             <%}%>
             <!-- 
@@ -45,13 +64,16 @@
             -->
 
             <div class="container-fluid">
+                <h2 class="text-primary text-center p-3">Prodaja bez rezervacije:</h2>
                 <table class="table">
                     <thead class="text-primary">
                     <th scope="col">Naziv dogadjaja</th>
                     <th scope="col">Naziv lokacije</th>
                     <th scope="col">Datum i vreme</th>
                     <th scope="col">Detalji</th>
-
+                    <th></th>
+                    <th></th>
+                    <th></th>
                     </thead>
                     <%
                         for (Dogadjaj dogadjaj : dogadjaji) {%>
@@ -79,8 +101,9 @@
             <% } else { %>
             <jsp:include page="parts/nema_rezultata.jsp"></jsp:include>
             <% }%>
-            <jsp:include page="parts/footer.jsp"></jsp:include>
         </div>
+        <jsp:include page="parts/footer.jsp"></jsp:include>
+
     </body>
 
 </html>

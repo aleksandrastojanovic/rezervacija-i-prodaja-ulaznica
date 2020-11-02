@@ -12,6 +12,7 @@
     <head>        
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="parts/pozadina.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <title>Pregled korisnika</title>
     </head>
@@ -28,7 +29,7 @@
         <div class="container-fluid p-3 m-3 border">
             <table class="table table-striped">
                 <thead class="text-primary">
-                <th>Id</th>
+                <th>ID</th>
                 <th>Tip</th>
                 <th>Ime</th>
                 <th>Prezime</th>
@@ -43,7 +44,7 @@
                     <td><%= ((RegistrovaniKorisnik) korisnik).getPrezime()%></td>
                     <td><%= ((RegistrovaniKorisnik) korisnik).getKorisnickoIme()%></td>
                     <td><a href='odobravanjeZahteva?korisnik_id=<%= korisnik.getId()%>'>
-                            <input type="button" class="btn btn-success text-center" value='Odblokiraj korisnika'></a></td>
+                            <button type="button" class="btn btn-success text-center">Odblokiraj korisnika</button></a></td>
                 </tr>
                 <%
                     }

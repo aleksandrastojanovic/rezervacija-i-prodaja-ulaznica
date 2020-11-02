@@ -28,6 +28,7 @@
                 background-repeat: no-repeat;
                 background-size: cover;
             }
+
         </style>
         <title>Error</title>
     </head>

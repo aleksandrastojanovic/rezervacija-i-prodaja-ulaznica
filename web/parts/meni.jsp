@@ -24,11 +24,11 @@
             <li class="nav-items" role="presentation" class="dropdown"><a class="nav-link"  href="mojeUlaznice">Moje ulaznice</a></li>
 
             <% } else if (Korisnik.TIP_BLAGAJNIK.equals(tip)) { %>
-            <li class="nav-items" role="presentation"><a class="nav-link"  href="prijavljenBlagajnik">Pocetna stranica</a></li>
+            <li class="nav-items" role="presentation"><a class="nav-link"  href="prijavljenBlagajnik">Pocetna stranica - Blagajnik</a></li>
             <li class="nav-items" role="presentation"><a class="nav-link"  href="noviDogadjaj">Novi Dogadjaj</a></li>
 
             <% } else if (Korisnik.TIP_ADMINISTRATOR.equals(tip)) { %>
-            <li class="nav-items" role="presentation"><a class="nav-link"  href="prijavljenAdministrator">Pocetna stranica</a></li>
+            <li class="nav-items" role="presentation"><a class="nav-link"  href="prijavljenAdministrator">Pocetna stranica - Administrator</a></li>
             <li class="nav-items" role="presentation"><a class="nav-link"  href="pregledBlokiranihKorisnika">Pregled blokiranih korisnika</a></li>
             <li class="nav-items" role="presentation"><a class="nav-link"  href="noviKorisnik">Novi korisnik</a></li>
                 <% } else { %>
@@ -42,6 +42,7 @@
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right justify-content-end">
+                    <li class="nav-items" ><a class="dropdown-item text-secondary"  href="index">Pocetna stranica</a></li>
                     <% if (uslov) {%>
                     <li class="nav-items" ><a class="dropdown-item text-secondary"  href="promena_lozinke.jsp">Promena lozinke</a></li>
                     <li class="nav-items" ><a class="dropdown-item text-secondary"  href="proveraPrijavljen">Odjava</a></li>

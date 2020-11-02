@@ -14,6 +14,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="parts/pozadina.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <title></title>
         <style>
@@ -42,7 +43,7 @@
                         <div class="col-md-4 pt-2">
                             <div class="card border rounded">
                                 <!-- ovde  na klik skida sliku umesto da prikaze celu -->
-                                <a href="ucitajFoto?dogadjaj_id=<%= dogadjaj.getId()%>&ime=<%= imeFotografije%>">
+                                <a href='prikaz_fotke.jsp?dogadjaj_id=<%= dogadjaj.getId()%>&ime=<%= imeFotografije%>' target="_self">
                                     <div class="card-img-top">
                                         <img class="card-img-top" src="ucitajFoto?dogadjaj_id=<%= dogadjaj.getId()%>&ime=<%= imeFotografije%>" alt="<%= imeFotografije%>">
                                     </div>
@@ -57,7 +58,6 @@
                         <!--        odavde ostaje-->
                         <%
                             ArrayList<StrukturaUlaznica> strukture = (ArrayList<StrukturaUlaznica>) request.getAttribute("strukture");
-                            String blagajnik = "Blagajnik";
                         %>
 
                         <div class="container-fluid pt-3">
@@ -89,25 +89,16 @@
                     <% } %>
 
                     <%  HttpSession sesija = request.getSession();
-                        if (blagajnik.equals(sesija.getAttribute("tip"))) {
                     %>
-                    <div class="container-fluid pt-3">
-                        <form action="potvrdaRezervacije">
-                            <label>ID rezervacije</label>
-                            <input type="number" placeholder="Unesi ID rezervacije" name="rezervacija_id">
-                            <input type="submit" value="Placanje">
-                        </form>
-                    </div>
-                    <%}%>
 
                     <% if (Korisnik.TIP_BLAGAJNIK.equals(sesija.getAttribute("tip"))
                                 || (Korisnik.TIP_REGISTROVANI_KORISNIK.equals(sesija.getAttribute("tip"))
                                 && LocalDateTime.now().isBefore(dogadjaj.getDatumIVreme().minusDays(2)))) { %>
-                    <div class="container-fluid pt-3">
+                    <div class="container-fluid p-3 mt-3 border border-primary rounded">
                         <form action='sacuvajRezervaciju'>
-                            <h3 class="text-primary">Rezervisi ulaznice:</h3><br>
+                            <h3 class="text-primary text-center">Rezervisi ulaznice:</h3>
                             <table class="table text-secondary">
-                                <thead>
+                                <thead class="text-primary">
                                 <th></th>
                                 <th>Kategorija:</th>
                                 <th>Cena:</th>
@@ -131,7 +122,9 @@
                                     %>
                                 </div>
                             </table>
-                            <button type="submit" class="btn btn-primary">Rezervisi</button>
+                            <div class="d-flex justify-content-center pt-3">
+                                <button type="submit" class="btn btn-primary btn-lg">Rezervisi</button>
+                            </div>
                             <br>                       
                         </form>
                         <% }%>

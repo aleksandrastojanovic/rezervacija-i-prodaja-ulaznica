@@ -114,7 +114,7 @@ public class DogadjajBaza implements Baza<Dogadjaj> {
         try {
 
             String query = "SELECT * "
-                    + "FROM dogadjaji";
+                    + "FROM dogadjaji ORDER BY datum_i_vreme DESC";
 
             Database db = Database.getInstance();
             ResultSet rs = db.select(query);
@@ -143,7 +143,7 @@ public class DogadjajBaza implements Baza<Dogadjaj> {
         try {
 
             String query = "SELECT * "
-                    + "FROM dogadjaji limit " + grupa + "," + 9;
+                    + "FROM dogadjaji ORDER BY datum_i_vreme DESC limit " + grupa + "," + 9;
 
             Database db = Database.getInstance();
             ResultSet rs = db.select(query);

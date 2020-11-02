@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -67,6 +68,10 @@ public class KontrolaServlet extends HttpServlet {
                 if (brojISteklihRezervacija != null && brojISteklihRezervacija >= 3) {
                     registrovaniKorisnik.setTip(Korisnik.TIP_BLOKIRANI_KORISNIK);
                     registrovaniKorisnikBaza.save(registrovaniKorisnik);
+                    RequestDispatcher rd = request.getRequestDispatcher("blokirani_korisnik.jsp");
+                    String poruka = "Blokirani ste. Kontaktirajte aministratora.";
+                    request.setAttribute("poruka", poruka);
+                    rd.forward(request, response);
                 }
             }
         } catch (Exception ex) {
