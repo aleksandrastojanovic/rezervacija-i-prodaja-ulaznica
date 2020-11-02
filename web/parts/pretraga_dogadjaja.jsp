@@ -26,7 +26,8 @@
             <button type="submit" class="btn btn-default">Sign in</button>
         </form>-->
 
-    <form class="form-inline justify-content-center p-3" action="pretragaDogadjaja" method="post">
+
+    <form class="form-inline justify-content-center p-3" action="pretragaDogadjaja">
 
         <div class="input-group mb-3 ml-3">
             <div class="input-group-prepend">
@@ -38,13 +39,13 @@
             <div class="input-group-prepend ">
                 <label class="input-group-text text-primary" for="vreme_od" id="vreme_od_labela">Pretrazi po datumu od:</label>
             </div>
-            <input class="form-control" type="datetime-local" id="vreme_od" name="vreme_od" placeholder="Unesi od kog datuma"  aria-describedby="vreme_od_labela" value="2001-01-01T00:00">
+            <input class="form-control" type="datetime-local" id="vreme_od" name="vreme_od" placeholder="Unesi od kog datuma"  aria-describedby="vreme_od_labela">
         </div>
         <div class="input-group mb-3 ml-3">
             <div class="input-group-prepend">
                 <label  class="input-group-text text-primary" for='vreme_do' id="vreme_do_labela"> do:</label>
             </div>
-            <input class="form-control" type="datetime-local" id="vreme_do" name='vreme_do' placeholder='Unesi do kog datuma'  aria-describedby="vreme_do_labela" value="2001-01-01T00:00">
+            <input class="form-control" type="datetime-local" id="vreme_do" name='vreme_do' placeholder='Unesi do kog datuma'  aria-describedby="vreme_do_labela">
         </div>
         <div class="input-group mb-0 ml-3">
             <div class="input-group-prepend">
@@ -59,6 +60,7 @@
         </div>
 
     </form>
+    
 
 
     <!--    <form>

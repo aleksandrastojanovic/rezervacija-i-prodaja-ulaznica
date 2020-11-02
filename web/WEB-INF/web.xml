@@ -25,10 +25,6 @@
         <servlet-class>obrada.NoviKorisnikServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>IzmenaDogadjajaServlet</servlet-name>
-        <servlet-class>obrada.IzmenaDogadjajaServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>PrijavaServlet</servlet-name>
         <servlet-class>obrada.PrijavaServlet</servlet-class>
     </servlet>
@@ -79,10 +75,6 @@
     <servlet>
         <servlet-name>PregledBlokiranihKorisnikaServlet</servlet-name>
         <servlet-class>obrada.PregledBlokiranihKorisnikaServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ProveraRegistrovanogKorisnikaServlet</servlet-name>
-        <servlet-class>obrada.ProveraRegistrovanogKorisnikaServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>PotvrdaRezervacijeServlet</servlet-name>
@@ -173,10 +165,6 @@
         <url-pattern>/noviKorisnik</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>IzmenaDogadjajaServlet</servlet-name>
-        <url-pattern>/izmenaDogadjaja</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
         <servlet-name>PrijavaServlet</servlet-name>
         <url-pattern>/prijava</url-pattern>
     </servlet-mapping>
@@ -230,10 +218,6 @@
     <servlet-mapping>
         <servlet-name>PregledBlokiranihKorisnikaServlet</servlet-name>
         <url-pattern>/pregledBlokiranihKorisnika</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ProveraRegistrovanogKorisnikaServlet</servlet-name>
-        <url-pattern>/proveraRegistrovanogKorisnika</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PotvrdaRezervacijeServlet</servlet-name>

@@ -1,13 +1,10 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+- vrsi pretragu dogadjaja za unete parametre (prikazuju se rezultati koji prodju sve filtere)
  */
 package obrada;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +20,7 @@ import klase.*;
  * @author iq skola
  */
 public class PretragaDogadjajaServlet extends HttpServlet {
-    
+
     private final DogadjajBaza dogadjajBaza = new DogadjajBaza();
 
     /**
@@ -45,30 +42,30 @@ public class PretragaDogadjajaServlet extends HttpServlet {
         -Omogucava pretragu dogadjaja po mestu odrzavanja
         -U slucaju da je u pitanju registrovani korisnik, omogucava preusmeravanje na rezervaciju(pojedinacni dogadjaj
              */
-            
+
             ArrayList<Dogadjaj> sviDogadjaji = dogadjajBaza.all();
             ArrayList<Dogadjaj> dogadjajiSviFilteri = new ArrayList<>();
             boolean prosaoSveFiltere = true;
-            
+
             String naziv = request.getParameter("naziv").toLowerCase();
             naziv = naziv.trim();
             LocalDateTime vremeOd = LocalDateTime.parse(request.getParameter("vreme_od"));
             LocalDateTime vremeDo = LocalDateTime.parse(request.getParameter("vreme_do"));
             String mesto = request.getParameter("mesto").toLowerCase();
             mesto = mesto.trim();
-            
+
             for (Dogadjaj dogadjaj : sviDogadjaji) {
                 prosaoSveFiltere = true;
                 if (prosaoSveFiltere && naziv != null) {
                     prosaoSveFiltere = dogadjaj.getNaziv().toLowerCase().contains(naziv) || dogadjaj.getNaziv().toLowerCase().equals(naziv);
                 }
-                if (prosaoSveFiltere && !LocalDateTime.of(2001, Month.JANUARY, 1, 0, 0).equals(vremeOd)) {
+                if (prosaoSveFiltere && vremeOd != null) {
                     prosaoSveFiltere = vremeOd.isBefore(LocalDateTime.now())
                             && (dogadjaj.getDatumIVreme().isAfter(vremeOd)
                             || dogadjaj.getDatumIVreme().isEqual(vremeOd));
                 }
-                if (prosaoSveFiltere && !LocalDateTime.of(2001, Month.JANUARY, 1, 0, 0).equals(vremeDo)) {
-                    
+                if (prosaoSveFiltere && vremeDo != null) {
+
                     prosaoSveFiltere = vremeDo.isAfter(LocalDateTime.now())
                             && (dogadjaj.getDatumIVreme().isBefore(vremeDo)
                             || dogadjaj.getDatumIVreme().isEqual(vremeDo));
@@ -81,7 +78,7 @@ public class PretragaDogadjajaServlet extends HttpServlet {
                         dogadjajiSviFilteri.add(dogadjaj);
                     }
                 }
-                
+
             }
             if (dogadjajiSviFilteri.size() > 0) {
                 RequestDispatcher rd = request.getRequestDispatcher("rezultat_pretrage.jsp");
@@ -93,7 +90,7 @@ public class PretragaDogadjajaServlet extends HttpServlet {
                 request.setAttribute("poruka", poruka);
                 rd1.forward(request, response);
             }
-            
+
         } catch (Exception ex) {
             Logger.getLogger(PretragaDogadjajaServlet.class.getName()).log(Level.SEVERE, null, ex);
             response.sendRedirect("error.jsp");

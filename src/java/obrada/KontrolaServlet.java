@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+        - update za istekle rezervacije
+        - update za blokirane korisnike
+        - setuje tip i korisnikId u sesiji
+        - poziva se u header-u u svakoj jsp stranici
  */
 package obrada;
 
@@ -39,6 +40,7 @@ public class KontrolaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         try {
             response.setContentType("text/html;charset=UTF-8");
             HttpSession sesija = request.getSession();

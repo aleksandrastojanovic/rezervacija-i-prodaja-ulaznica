@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+- proverava da li je korisnik prijavljen, ako nije, ide na prijava.jsp,
+- ako jeste, ide na odjavu
  */
 package obrada;
 

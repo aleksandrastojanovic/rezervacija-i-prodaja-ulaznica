@@ -1,8 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/* 
+        - proverava da li je korisnik blagajnik
+        - prosledjuje dogadjaj_id kao parametar
+        - prosledjuje na blagajnik_media.jsp 
+*/
 package obrada;
 
 import java.io.IOException;
@@ -32,6 +32,7 @@ public class MediaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+                
         response.setContentType("text/html;charset=UTF-8");
         try {
             if (!ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {

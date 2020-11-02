@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+        - proverava da li je blagajnik
+        - uzima trazenu strukturu iz baze i prosledjuje blagajnika na izmena_strukture.jsp
  */
 package obrada;
 
@@ -34,6 +33,7 @@ public class IzmenaStruktureServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         try {
             response.setContentType("text/html;charset=UTF-8");
 
@@ -48,7 +48,7 @@ public class IzmenaStruktureServlet extends HttpServlet {
                 RequestDispatcher rd = request.getRequestDispatcher("izmena_strukture.jsp");
                 StrukturaUlaznica struktura = strukturaUlaznicaBaza.find(Integer.parseInt(request.getParameter("struktura_id")));
 
-                request.setAttribute("struktura", struktura); 
+                request.setAttribute("struktura", struktura);
                 rd.forward(request, response);
             }
         } catch (Exception ex) {

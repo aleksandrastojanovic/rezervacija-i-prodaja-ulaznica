@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+        -dozvoljava prijavljenom blagajniku brisanje strukture
  */
 package obrada;
 
@@ -34,6 +32,7 @@ public class BrisanjeStruktureServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         try {
             response.setContentType("text/html;charset=UTF-8");
 

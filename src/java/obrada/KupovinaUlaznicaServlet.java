@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+       - blagajnik moze da izvrsi kupovinu
+       - menja status rezervacije
+       - menja broj preostalih ulaznica za strukturu
  */
 package obrada;
 
@@ -13,7 +13,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import klase.*;
 
 /**
@@ -36,15 +35,13 @@ public class KupovinaUlaznicaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         try {
             response.setContentType("text/html;charset=UTF-8");
-            HttpSession sesija = request.getSession();
-            RequestDispatcher rd = request.getRequestDispatcher("blagajnik_prodaja.jsp");
             /*
-            -Ocitava podatke iz blagajnik_prodaja
-            -Proverava vrstu kupovine - ovo u jspu bira, i svakako dolazi na ovaj servlet
-            -Na osnovu kategorije ulaznica, skida sa 'stanja'
-            -Ako je bila rezervisana, menja status u njegovim ulaznicama
+            - Proverava da li je blagajnik
+            - Ako jeste vrsi prodaju
+            - vraca ga na pocetnu
              */
             if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
                 String poruka = "Morate biti prijavljeni kako biste pristupili stranici.";
@@ -64,7 +61,10 @@ public class KupovinaUlaznicaServlet extends HttpServlet {
                     strukturaUlaznicaBaza.save(struktura);
                     rezervacija = rezervacijaBaza.save(rezervacija);
                     if (rezervacija.getId() > 0 && rezervacija.getStatus().equals(Rezervacija.STATUS_PLACENO)) {
-                        response.sendRedirect("prijavljenBlagajnik");
+                        String porukaUspesno = "Uspesno izvrsena prodaja.";
+                        RequestDispatcher rd = request.getRequestDispatcher("blagajnik_pocetna");
+                        request.setAttribute("porukaUspesno", porukaUspesno);
+                        rd.forward(request, response);
                     } else {
                         String poruka = "Nije moguce izvrsiti placanje.";
                         RequestDispatcher rd1 = request.getRequestDispatcher("blagajnik_pocetna.jsp");
@@ -72,7 +72,6 @@ public class KupovinaUlaznicaServlet extends HttpServlet {
                         rd1.forward(request, response);
                     }
                 }
-                //salje na novi jsp uspesna kupovina+dugme za povratak/nije moguca kupovina
             }
         } catch (Exception ex) {
             Logger.getLogger(KupovinaUlaznicaServlet.class.getName()).log(Level.SEVERE, null, ex);

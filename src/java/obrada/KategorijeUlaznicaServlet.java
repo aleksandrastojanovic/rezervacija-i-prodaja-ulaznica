@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+        - proverava da li je blagajnik
+        - Uzima strukture za dogadjaj iz baze i prosledjuje ih na kategorije_ulaznica.jsp
  */
 package obrada;
 
@@ -21,7 +20,7 @@ import klase.*;
  * @author iq skola
  */
 public class KategorijeUlaznicaServlet extends HttpServlet {
-    
+
     private final StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
 
     /**
@@ -35,6 +34,7 @@ public class KategorijeUlaznicaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         try {
             response.setContentType("text/html;charset=UTF-8");
             if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
@@ -46,7 +46,7 @@ public class KategorijeUlaznicaServlet extends HttpServlet {
             }
             if (ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {
                 int dogadjajId = Integer.parseInt(request.getParameter("dogadjaj_id"));
-                
+
                 if (dogadjajId > 0) {
                     RequestDispatcher rd = request.getRequestDispatcher("kategorije_ulaznica.jsp");
                     ArrayList<StrukturaUlaznica> strukture = strukturaUlaznicaBaza.allForDogadjajId(dogadjajId);
@@ -54,7 +54,7 @@ public class KategorijeUlaznicaServlet extends HttpServlet {
                     request.setAttribute("dogadjaj_id", dogadjajId);
                     rd.forward(request, response);
                 }
-                
+
             } else {
                 String poruka = "Morate biti prijavljen blagajnik kako biste pristupili stranici.";
                 RequestDispatcher rd = request.getRequestDispatcher("prijava.jsp");

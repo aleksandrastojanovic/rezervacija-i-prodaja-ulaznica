@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ - dozvoljava registrovanom korisniku i blagajniku brisanje rezervacije
  */
 package obrada;
 
@@ -23,6 +21,7 @@ import klase.*;
 public class OtkazivanjeRezervacijeServlet extends HttpServlet {
 
     private final RezervacijaBaza rezervacijaBaza = new RezervacijaBaza();
+    private final StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,9 +36,7 @@ public class OtkazivanjeRezervacijeServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             response.setContentType("text/html;charset=UTF-8");
-            /*
-            Pristupa se sa stranice moje_ulaznice i omogucava reg. korisniku
-            otkazivanje rezervacije iz liste*/
+            
             HttpSession sesija = request.getSession();
             if (!ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
                 String poruka = "Morate biti prijavljen korisnik kako biste pristupili stranici.";
@@ -57,7 +54,9 @@ public class OtkazivanjeRezervacijeServlet extends HttpServlet {
             }
             RequestDispatcher rd = request.getRequestDispatcher(putanja);
             Rezervacija rezervacija = rezervacijaBaza.find(Integer.parseInt(request.getParameter("rezervacija_id")));
-            //preko rez-dogId-struktura menjam br preostalih ulaynica
+            StrukturaUlaznica strukturaUlaznica = strukturaUlaznicaBaza.find(rezervacija.getStrukturaId());
+            strukturaUlaznica.setPreostaloUlaznica(strukturaUlaznica.getPreostaloUlaznica() + rezervacija.getBrojUlaznica());
+            strukturaUlaznicaBaza.save(strukturaUlaznica);
             rezervacijaBaza.delete(rezervacija);
             String porukaUspesno = "Uspesno otkazana rezervacija.";
             request.setAttribute("porukaUspesno", porukaUspesno);
