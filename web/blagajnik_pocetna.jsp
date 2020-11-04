@@ -5,8 +5,7 @@
 --%>
 
 <%@page import="java.time.format.DateTimeFormatter"%>
-<%@page import="klase.Korisnik"%>
-<%@page import="klase.Dogadjaj"%>
+<%@page import="modeli.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 

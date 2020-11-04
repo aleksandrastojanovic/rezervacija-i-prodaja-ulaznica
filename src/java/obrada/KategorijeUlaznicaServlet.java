@@ -4,6 +4,9 @@
  */
 package obrada;
 
+import modeli.StrukturaUlaznica;
+import modeli.Korisnik;
+import bazaKlase.StrukturaUlaznicaBaza;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;

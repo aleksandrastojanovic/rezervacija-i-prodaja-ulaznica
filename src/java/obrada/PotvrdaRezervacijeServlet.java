@@ -3,6 +3,15 @@
  */
 package obrada;
 
+import modeli.StrukturaUlaznica;
+import modeli.Rezervacija;
+import modeli.Korisnik;
+import modeli.Dogadjaj;
+import modeli.Blagajnik;
+import bazaKlase.StrukturaUlaznicaBaza;
+import bazaKlase.RezervacijaBaza;
+import bazaKlase.DogadjajBaza;
+import bazaKlase.BlagajnikBaza;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

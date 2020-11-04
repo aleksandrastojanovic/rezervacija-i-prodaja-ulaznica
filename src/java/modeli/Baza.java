@@ -1,4 +1,5 @@
-package klase;
+package modeli;
+import klase.Model;
 import java.util.ArrayList;
 
 /*

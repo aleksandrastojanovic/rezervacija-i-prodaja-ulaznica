@@ -5,6 +5,7 @@
  */
 package klase;
 
+import modeli.Korisnik;
 import javax.servlet.http.HttpServletRequest;
 
 /**

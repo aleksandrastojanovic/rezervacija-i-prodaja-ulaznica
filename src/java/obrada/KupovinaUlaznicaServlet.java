@@ -5,6 +5,11 @@
  */
 package obrada;
 
+import modeli.StrukturaUlaznica;
+import modeli.Rezervacija;
+import modeli.Korisnik;
+import bazaKlase.StrukturaUlaznicaBaza;
+import bazaKlase.RezervacijaBaza;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

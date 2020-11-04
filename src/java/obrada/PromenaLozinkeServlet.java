@@ -3,6 +3,13 @@
  */
 package obrada;
 
+import modeli.RegistrovaniKorisnik;
+import modeli.Korisnik;
+import modeli.Blagajnik;
+import modeli.Administrator;
+import bazaKlase.RegistrovaniKorisnikBaza;
+import bazaKlase.BlagajnikBaza;
+import bazaKlase.AdministratorBaza;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import java.io.IOException;
 import java.util.logging.Level;

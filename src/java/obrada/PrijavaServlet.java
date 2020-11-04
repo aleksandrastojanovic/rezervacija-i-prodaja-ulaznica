@@ -3,6 +3,8 @@
  */
 package obrada;
 
+import modeli.Korisnik;
+import bazaKlase.KorisnikBaza;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -55,7 +57,7 @@ public class PrijavaServlet extends HttpServlet {
                     switch (tip) {
                         case Korisnik.TIP_REGISTROVANI_KORISNIK:
                             sesija.setAttribute("korisnik_id", korisnikId);
-                            putanja = "proveraRegistrovanogKorisnika";
+                            putanja = "index";
                             break;
                         case Korisnik.TIP_BLAGAJNIK:
                             sesija.setAttribute("korisnik_id", korisnikId);

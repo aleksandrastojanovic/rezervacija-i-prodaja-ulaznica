@@ -4,9 +4,10 @@
     Author     : iq skola
 --%>
 
+<%@page import="bazaKlase.MediaBaza"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.time.LocalDateTime"%>
-<%@page import="klase.*"%>
+<%@page import="modeli.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

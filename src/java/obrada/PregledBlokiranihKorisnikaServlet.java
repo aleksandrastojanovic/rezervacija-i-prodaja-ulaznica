@@ -4,6 +4,11 @@ pa prosledjivanje liste blokirani korisnika (ako je admin)
  */
 package obrada;
 
+import modeli.RegistrovaniKorisnik;
+import modeli.Rezervacija;
+import modeli.Korisnik;
+import bazaKlase.RezervacijaBaza;
+import bazaKlase.RegistrovaniKorisnikBaza;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

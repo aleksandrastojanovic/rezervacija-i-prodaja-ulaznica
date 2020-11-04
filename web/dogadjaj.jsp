@@ -4,8 +4,8 @@
     Author     : iq skola
 --%>
 
+<%@page import="modeli.*"%>
 <%@page import="java.time.LocalDateTime"%>
-<%@page import="klase.*"%>
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

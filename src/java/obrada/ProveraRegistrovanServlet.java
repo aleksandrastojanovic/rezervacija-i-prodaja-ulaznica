@@ -32,7 +32,7 @@ public class ProveraRegistrovanServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try {
             if (ProvereKorisnik.postojiPrijavljenKorisnik(request)) {
-                response.sendRedirect("prijavljenProvera");
+                response.sendRedirect("proveraPrijavljen");
             } else {
                 response.sendRedirect("registracija.jsp");
             }

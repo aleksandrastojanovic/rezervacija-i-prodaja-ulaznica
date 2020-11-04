@@ -6,6 +6,11 @@
  */
 package obrada;
 
+import modeli.RegistrovaniKorisnik;
+import modeli.Rezervacija;
+import modeli.Korisnik;
+import bazaKlase.RezervacijaBaza;
+import bazaKlase.RegistrovaniKorisnikBaza;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -53,7 +58,7 @@ public class KontrolaServlet extends HttpServlet {
             HashMap<Integer, Integer> korisnikIstekleRezervacije = new HashMap<>();
             for (Rezervacija rezervacija : sveRezervacije) {
                 if (!Rezervacija.STATUS_PLACENO.equals(rezervacija.getStatus()) && (pre48h.isEqual(rezervacija.getVreme().toLocalDateTime())
-                        || pre48h.isBefore(rezervacija.getVreme().toLocalDateTime()))) {
+                        || pre48h.isAfter(rezervacija.getVreme().toLocalDateTime()))) {
 
                     rezervacija.setStatus(Rezervacija.STATUS_ISTEKLO);
                     rezervacija = rezervacijaBaza.save(rezervacija);

@@ -4,10 +4,8 @@
     Author     : iq skola
 --%>
 
-<%@page import="klase.DogadjajBaza"%>
-<%@page import="klase.Dogadjaj"%>
-<%@page import="klase.Blagajnik"%>
-<%@page import="klase.StrukturaUlaznica"%>
+<%@page import="modeli.*"%>
+<%@page import="bazaKlase.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 

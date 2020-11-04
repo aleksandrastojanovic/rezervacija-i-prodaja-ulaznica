@@ -4,6 +4,13 @@ i dalje prosledjuje u zavisnosti od tipa korisnika
  */
 package obrada;
 
+import modeli.StrukturaUlaznica;
+import modeli.Rezervacija;
+import modeli.Korisnik;
+import modeli.Dogadjaj;
+import bazaKlase.StrukturaUlaznicaBaza;
+import bazaKlase.RezervacijaBaza;
+import bazaKlase.DogadjajBaza;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

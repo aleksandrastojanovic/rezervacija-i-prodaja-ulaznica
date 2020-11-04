@@ -4,7 +4,7 @@
     Author     : iq skola
 --%>
 
-<%@page import="klase.RegistrovaniKorisnik"%>
+<%@page import="modeli.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

@@ -4,6 +4,8 @@ i pravljenja novog korisnika(admin)
  */
 package obrada;
 
+import modeli.RegistrovaniKorisnik;
+import bazaKlase.RegistrovaniKorisnikBaza;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;

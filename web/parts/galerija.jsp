@@ -5,7 +5,7 @@
 --%>
 
 <%@page import="java.util.ArrayList"%>
-<%@page import="klase.Dogadjaj"%>
+<%@page import="modeli.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 

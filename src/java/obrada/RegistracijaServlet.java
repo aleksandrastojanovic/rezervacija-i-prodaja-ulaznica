@@ -3,6 +3,8 @@
  */
 package obrada;
 
+import modeli.RegistrovaniKorisnik;
+import bazaKlase.RegistrovaniKorisnikBaza;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import java.io.IOException;
 import java.util.ArrayList;

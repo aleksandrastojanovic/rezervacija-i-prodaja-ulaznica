@@ -5,9 +5,8 @@
 --%>
 
 <%@page import="java.text.SimpleDateFormat"%>
-<%@page import="klase.Dogadjaj"%>
-<%@page import="klase.DogadjajBaza"%>
-<%@page import="klase.Rezervacija"%>
+<%@page import="modeli.*"%>
+<%@page import="bazaKlase.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 

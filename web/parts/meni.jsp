@@ -4,7 +4,7 @@
     Author     : iq skola
 --%>
 
-<%@page import="klase.*"%>
+<%@page import="modeli.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     HttpSession sesija = request.getSession();

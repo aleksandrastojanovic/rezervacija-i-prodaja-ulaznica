@@ -4,6 +4,8 @@
  */
 package obrada;
 
+import modeli.Korisnik;
+import bazaKlase.KorisnikBaza;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;

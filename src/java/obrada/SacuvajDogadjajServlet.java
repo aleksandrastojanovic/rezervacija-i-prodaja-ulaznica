@@ -3,6 +3,11 @@
  */
 package obrada;
 
+import modeli.Korisnik;
+import modeli.Dogadjaj;
+import modeli.Blagajnik;
+import bazaKlase.DogadjajBaza;
+import bazaKlase.BlagajnikBaza;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.logging.Level;

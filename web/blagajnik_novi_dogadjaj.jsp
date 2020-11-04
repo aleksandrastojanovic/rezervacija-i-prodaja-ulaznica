@@ -4,7 +4,7 @@
     Author     : iq skola
 --%>
 
-<%@page import="klase.Blagajnik"%>
+<%@page import="modeli.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

@@ -4,7 +4,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package klase;
+package bazaKlase;
 
 import baza.Database;
 import java.io.File;
@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import modeli.Baza;
+import modeli.Media;
 import org.apache.commons.fileupload.FileItem;
 
 /**

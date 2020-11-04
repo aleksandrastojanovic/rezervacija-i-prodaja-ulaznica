@@ -3,6 +3,8 @@
  */
 package obrada;
 
+import modeli.Media;
+import bazaKlase.MediaBaza;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;

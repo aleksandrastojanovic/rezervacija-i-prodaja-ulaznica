@@ -3,6 +3,11 @@
  */
 package obrada;
 
+import modeli.Rezervacija;
+import modeli.RegistrovaniKorisnik;
+import modeli.Korisnik;
+import bazaKlase.RezervacijaBaza;
+import bazaKlase.RegistrovaniKorisnikBaza;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
