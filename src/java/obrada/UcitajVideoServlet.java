@@ -7,7 +7,10 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -22,7 +25,19 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class UcitajVideoServlet extends HttpServlet {
 
-    private final String putanjaFoldera = "E:/ProjekatMedia/";
+    private String putanjaFoldera;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        Properties properties = new Properties();
+        try (InputStream resourceContent = getServletContext().getResourceAsStream("/WEB-INF/podesavanja.properties")) {
+            properties.load(resourceContent);
+            putanjaFoldera = properties.getProperty("media.folder");
+        } catch (IOException ex) {
+            Logger.getLogger(UcitajVideoServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

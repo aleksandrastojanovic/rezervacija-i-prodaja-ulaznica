@@ -6,8 +6,11 @@ package obrada;
 import modeli.Media;
 import bazaKlase.MediaBaza;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -28,8 +31,22 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 public class SacuvajMediaServlet extends HttpServlet {
 
     private final MediaBaza mediaBaza = new MediaBaza();
-    private final String putanjaFoldera = "E:/ProjekatMedia/";
-    private final int maksimalanBrojMedia = 12;
+    private String putanjaFoldera;
+    private int maksimalanBrojMedia;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        Properties properties = new Properties();
+        this.maksimalanBrojMedia = 12;
+        try (InputStream resourceContent = getServletContext().getResourceAsStream("/WEB-INF/podesavanja.properties")) {
+            properties.load(resourceContent);
+            putanjaFoldera = properties.getProperty("media.folder");
+            maksimalanBrojMedia = Integer.parseInt(properties.getProperty("media.max"));
+        } catch (IOException ex) {
+            Logger.getLogger(SacuvajMediaServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -66,7 +83,7 @@ public class SacuvajMediaServlet extends HttpServlet {
             int brojacMedia = 0;
             try {
                 List<FileItem> fileItems = ucitaj(request);
-                
+
                 for (FileItem fileItem : fileItems) {
                     if (!fileItem.isFormField()) {
                         if (brojacMedia++ >= maksimalanBrojMedia) {
