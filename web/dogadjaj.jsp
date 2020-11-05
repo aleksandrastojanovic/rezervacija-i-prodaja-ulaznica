@@ -20,7 +20,7 @@
         <link rel="stylesheet" href="parts/pozadina.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="icon" href="favicon.ico" type="image/icon type">
-        <title><%= dogadjaj.getNaziv() %></title>
+        <title><%= dogadjaj.getNaziv()%></title>
         <style>
             .card-img-top {
                 width: 100%;
@@ -107,23 +107,27 @@
                                 <th>Cena:</th>
                                 <th>Broj ulaznica</th>
                                 </thead>
-                                <div class="form-group">
-                                    <%
+                                <%
                                         for (StrukturaUlaznica struktura : strukture) {%>
-                                    <tr>
-                                    <input type="hidden" name="struktura_id" value='<%= "" + struktura.getId()%>' >
-                                    <input type="hidden" name="dogadjaj_id" value='<%= "" + struktura.getIdDogadjaja()%>' >
-                                    <td><input type="radio" name='kategorija' id='<%= "" + struktura.getKategorija()%>'
-                                               value='<%= "" + struktura.getId()%>'></td>
-                                    <td><%= struktura.getKategorija()%></td>
-                                    <td><%= struktura.getCena()%></td>
-                                    <td><input type="number" placeholder="Broj ulaznica" name='broj_ulaznica' value='0'></td>
+                                <tr>
+                                <input type="hidden" name="struktura_id" value='<%= "" + struktura.getId()%>' >
+                                <input type="hidden" name="dogadjaj_id" value='<%= "" + struktura.getIdDogadjaja()%>' >
+                                <td><input type="radio" name='kategorija' id='<%= "" + struktura.getKategorija()%>'
+                                           value='<%= "" + struktura.getId()%>'></td>
+                                <td><%= struktura.getKategorija()%></td>
+                                <td><%= struktura.getCena()%></td>
+                                </tr>
 
-                                    </tr>
-                                    <%
-                                        }
-                                    %>
-                                </div>
+                                <%
+                                    }
+                                %>
+
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><input type="number" placeholder="Broj ulaznica" name='broj_ulaznica' value='0'></td>
+                                </tr>
                             </table>
                             <div class="d-flex justify-content-center pt-3">
                                 <button type="submit" class="btn btn-primary btn-lg">Rezervisi</button>
