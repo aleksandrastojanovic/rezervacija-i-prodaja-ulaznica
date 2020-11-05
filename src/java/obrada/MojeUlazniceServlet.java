@@ -52,6 +52,12 @@ public class MojeUlazniceServlet extends HttpServlet {
                     }
                 }
                 request.setAttribute("rezervacije", rezervacije);
+                if (request.getAttribute("poruka") != null) {
+                    request.setAttribute("poruka", request.getAttribute("poruka"));
+                }
+                if (request.getAttribute("porukaUspesno") != null) {
+                    request.setAttribute("porukaUspesno", request.getAttribute("porukaUspesno"));
+                }
                 rd.forward(request, response);
             } else {
                 String poruka = "Morate biti prijavljen registrovani korisnik.";

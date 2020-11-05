@@ -94,10 +94,10 @@ public class SacuvajRezervacijuServlet extends HttpServlet {
                                 ukupanBrojUlaznica += rezervacijaKorisnika.getBrojUlaznica();
                                 if (struktura.getGranicaPoKorisniku() - ukupanBrojUlaznica < 0) {
                                     String poruka = "Maksimalan broj karata koje jedan korisnik moze rezervisati je " + struktura.getGranicaPoKorisniku();
+                                    RequestDispatcher rd = request.getRequestDispatcher("dogadjajPojedinacno?dogadjaj_id=" + dogadjaj.getId());
                                     request.setAttribute("poruka", poruka);
-                                    putanja = "dogadjajPojedinacno";
-                                    request.setAttribute("dogadjajId", dogadjaj.getId());
-                                    //greska ne moze da rezervise vise od granicaPoKorisniku karata
+                                    rd.forward(request, response);
+                                    return;
                                 }
                             }
                         }
@@ -188,7 +188,7 @@ public class SacuvajRezervacijuServlet extends HttpServlet {
         Rezervacija rezervacija = new Rezervacija();
         rezervacija.setDogadjajId(Integer.parseInt(request.getParameter("dogadjaj_id")));
         rezervacija.setKorisnikId(korisnikId);
-        rezervacija.setStrukturaId(Integer.parseInt(request.getParameter("struktura_id")));
+        rezervacija.setStrukturaId(Integer.parseInt(request.getParameter("kategorija")));
         return rezervacija;
     }
 }

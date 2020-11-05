@@ -9,6 +9,9 @@
 <%@page import="java.time.format.DateTimeFormatter"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    Dogadjaj dogadjaj = (Dogadjaj) request.getAttribute("dogadjaj");
+%>
 
 <!DOCTYPE html>
 <html>
@@ -16,7 +19,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="parts/pozadina.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <title></title>
+        <link rel="icon" href="favicon.ico" type="image/icon type">
+        <title><%= dogadjaj.getNaziv() %></title>
         <style>
             .card-img-top {
                 width: 100%;
@@ -36,7 +40,6 @@
 
                         <%
                             ArrayList<String> ostaleFotografije = (ArrayList<String>) request.getAttribute("ostaleFotografije");
-                            Dogadjaj dogadjaj = (Dogadjaj) request.getAttribute("dogadjaj");
                             for (String imeFotografije : ostaleFotografije) {
 
                         %>
@@ -95,7 +98,7 @@
                                 || (Korisnik.TIP_REGISTROVANI_KORISNIK.equals(sesija.getAttribute("tip"))
                                 && LocalDateTime.now().isBefore(dogadjaj.getDatumIVreme().minusDays(2)))) { %>
                     <div class="container-fluid p-3 mt-3 border border-primary rounded">
-                        <form action='sacuvajRezervaciju'>
+                        <form action='sacuvajRezervaciju' method="post">
                             <h3 class="text-primary text-center">Rezervisi ulaznice:</h3>
                             <table class="table text-secondary">
                                 <thead class="text-primary">
@@ -109,7 +112,7 @@
                                         for (StrukturaUlaznica struktura : strukture) {%>
                                     <tr>
                                     <input type="hidden" name="struktura_id" value='<%= "" + struktura.getId()%>' >
-                                    <input type="hidden" name="dogadjaj_id" value="<%= "" + struktura.getIdDogadjaja()%>" >
+                                    <input type="hidden" name="dogadjaj_id" value='<%= "" + struktura.getIdDogadjaja()%>' >
                                     <td><input type="radio" name='kategorija' id='<%= "" + struktura.getKategorija()%>'
                                                value='<%= "" + struktura.getId()%>'></td>
                                     <td><%= struktura.getKategorija()%></td>

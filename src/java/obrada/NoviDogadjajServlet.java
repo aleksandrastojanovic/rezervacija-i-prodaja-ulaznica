@@ -46,6 +46,12 @@ public class NoviDogadjajServlet extends HttpServlet {
             BlagajnikBaza blagajnikBaza = new BlagajnikBaza();
             Blagajnik blagajnik = blagajnikBaza.find((Integer) request.getSession().getAttribute("korisnik_id"));
             request.setAttribute("blagajnik", blagajnik);
+            if (request.getAttribute("poruka") != null) {
+                request.setAttribute("poruka", request.getAttribute("poruka"));
+            }
+            if (request.getAttribute("porukaUspesno") != null) {
+                request.setAttribute("porukaUspesno", request.getAttribute("porukaUspesno"));
+            }
             rd.forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(NoviDogadjajServlet.class.getName()).log(Level.SEVERE, null, ex);

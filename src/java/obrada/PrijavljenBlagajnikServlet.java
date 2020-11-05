@@ -56,6 +56,12 @@ public class PrijavljenBlagajnikServlet extends HttpServlet {
                     }
                 }
                 request.setAttribute("dogadjaji", dogadjaji);
+                if (request.getAttribute("poruka") != null) {
+                    request.setAttribute("poruka", request.getAttribute("poruka"));
+                }
+                if (request.getAttribute("porukaUspesno") != null) {
+                    request.setAttribute("porukaUspesno", request.getAttribute("porukaUspesno"));
+                }
 
                 rd.forward(request, response);
             } else {

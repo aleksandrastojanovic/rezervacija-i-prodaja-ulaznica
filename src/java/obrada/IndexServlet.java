@@ -46,19 +46,29 @@ public class IndexServlet extends HttpServlet {
             } else {
                 trenutniBrojStrane = 1;
             }
-            int grupa = (trenutniBrojStrane - 1) * 9 + 1;
-            int ukupnoStrana = dogadjajBaza.all().size() / 9;
-            if (dogadjajBaza.all().size() % 9 != 0) {
-                ukupnoStrana = ukupnoStrana + 1;
+            int grupa = (trenutniBrojStrane - 1) * 9;
+            int ukupnoDogadjaja = dogadjajBaza.all().size();
+            if (ukupnoDogadjaja > 0) {
+                int ukupnoStrana = ukupnoDogadjaja / 9;
+                if (ukupnoDogadjaja % 9 != 0) {
+                    ukupnoStrana = ukupnoStrana + 1;
+                }
+                ArrayList<Dogadjaj> dogadjaji = new ArrayList<>();
+                if (ukupnoStrana >= trenutniBrojStrane) {
+                    dogadjaji = dogadjajBaza.allForPage(grupa);
+                } else {
+                    response.sendRedirect("error.jsp");
+                }
+                request.setAttribute("dogadjaji", dogadjaji);
+                request.setAttribute("ukupnoStrana", ukupnoStrana);
+
             }
-            ArrayList<Dogadjaj> dogadjaji = new ArrayList<>();
-            if (ukupnoStrana >= trenutniBrojStrane) {
-                dogadjaji = dogadjajBaza.allForPage(grupa);
-            } else {
-                response.sendRedirect("error.jsp");
+            if (request.getAttribute("poruka") != null) {
+                request.setAttribute("poruka", request.getAttribute("poruka"));
             }
-            request.setAttribute("dogadjaji", dogadjaji);
-            request.setAttribute("ukupnoStrana", ukupnoStrana);
+            if (request.getAttribute("porukaUspesno") != null) {
+                request.setAttribute("porukaUspesno", request.getAttribute("porukaUspesno"));
+            }
             rd.forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(IndexServlet.class.getName()).log(Level.SEVERE, null, ex);

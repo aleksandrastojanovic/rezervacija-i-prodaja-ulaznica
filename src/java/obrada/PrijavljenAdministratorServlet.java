@@ -43,6 +43,12 @@ public class PrijavljenAdministratorServlet extends HttpServlet {
 
                 ArrayList<Korisnik> korisnici = korisnikBaza.all();
                 request.setAttribute("korisnici", korisnici);
+                if (request.getAttribute("poruka") != null) {
+                    request.setAttribute("poruka", request.getAttribute("poruka"));
+                }
+                if (request.getAttribute("porukaUspesno") != null) {
+                    request.setAttribute("porukaUspesno", request.getAttribute("porukaUspesno"));
+                }
                 rd.forward(request, response);
 
             } else {

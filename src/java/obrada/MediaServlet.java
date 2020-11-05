@@ -2,7 +2,7 @@
         - proverava da li je korisnik blagajnik
         - prosledjuje dogadjaj_id kao parametar
         - prosledjuje na blagajnik_media.jsp 
-*/
+ */
 package obrada;
 
 import modeli.Media;
@@ -34,7 +34,7 @@ public class MediaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                
+
         response.setContentType("text/html;charset=UTF-8");
         try {
             if (!ProvereKorisnik.postojiPrijavljenKorisnikOdredjenogTipa(request, Korisnik.TIP_BLAGAJNIK)) {
@@ -47,6 +47,12 @@ public class MediaServlet extends HttpServlet {
 
             RequestDispatcher rd = request.getRequestDispatcher("blagajnik_media.jsp");
             request.setAttribute("dogadjaj_id", request.getParameter("dogadjaj_id"));
+            if (request.getAttribute("poruka") != null) {
+                request.setAttribute("poruka", request.getAttribute("poruka"));
+            }
+            if (request.getAttribute("porukaUspesno") != null) {
+                request.setAttribute("porukaUspesno", request.getAttribute("porukaUspesno"));
+            }
             rd.forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(Media.class.getName()).log(Level.SEVERE, null, ex);

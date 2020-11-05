@@ -52,6 +52,12 @@ public class IzmenaStruktureServlet extends HttpServlet {
                 StrukturaUlaznica struktura = strukturaUlaznicaBaza.find(Integer.parseInt(request.getParameter("struktura_id")));
 
                 request.setAttribute("struktura", struktura);
+                if (request.getAttribute("poruka") != null) {
+                    request.setAttribute("poruka", request.getAttribute("poruka"));
+                }
+                if (request.getAttribute("porukaUspesno") != null) {
+                    request.setAttribute("porukaUspesno", request.getAttribute("porukaUspesno"));
+                }
                 rd.forward(request, response);
             }
         } catch (Exception ex) {

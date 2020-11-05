@@ -85,6 +85,12 @@ public class PotvrdaRezervacijeServlet extends HttpServlet {
                 }
 
                 RequestDispatcher rd = request.getRequestDispatcher("potvrda_uplate.jsp");
+                if (request.getAttribute("poruka") != null) {
+                    request.setAttribute("poruka", request.getAttribute("poruka"));
+                }
+                if (request.getAttribute("porukaUspesno") != null) {
+                    request.setAttribute("porukaUspesno", request.getAttribute("porukaUspesno"));
+                }
                 request.setAttribute("rezervacija", rezervacija);
                 request.setAttribute("struktura", strukturaUlaznica);
                 request.setAttribute("dogadjaj", dogadjaj);

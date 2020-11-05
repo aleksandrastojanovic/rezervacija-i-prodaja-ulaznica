@@ -41,6 +41,12 @@ public class NoviKorisnikServlet extends HttpServlet {
                 return;
             }
             RequestDispatcher rd = request.getRequestDispatcher("admin_novi_korisnik.jsp");
+            if (request.getAttribute("poruka") != null) {
+                request.setAttribute("poruka", request.getAttribute("poruka"));
+            }
+            if (request.getAttribute("porukaUspesno") != null) {
+                request.setAttribute("porukaUspesno", request.getAttribute("porukaUspesno"));
+            }
             rd.forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(NoviKorisnikServlet.class.getName()).log(Level.SEVERE, null, ex);

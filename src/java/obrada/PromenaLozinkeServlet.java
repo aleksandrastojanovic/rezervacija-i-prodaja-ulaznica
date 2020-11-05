@@ -71,11 +71,11 @@ public class PromenaLozinkeServlet extends HttpServlet {
 
                         } else {
                             String poruka = "Pogresno uneta postojeca lozinka";
-                            RequestDispatcher rd1 = request.getRequestDispatcher("index.jsp");
+                            RequestDispatcher rd1 = request.getRequestDispatcher("index");
                             request.setAttribute("poruka", poruka);
                             rd1.forward(request, response);
                         }
-                        rd = request.getRequestDispatcher("index.jsp");
+                        rd = request.getRequestDispatcher("index");
                         porukaUspesno = "Uspesno promenjena lozinka.";
                         request.setAttribute("porukaUspesno", porukaUspesno);
                         rd.forward(request, response);
@@ -85,7 +85,7 @@ public class PromenaLozinkeServlet extends HttpServlet {
                         if (verifikujIIzmeniLozinku(blagajnik, lozinka, novaLozinka)) {
                             blagajnikBaza.save(blagajnik);
                         }
-                        rd = request.getRequestDispatcher("blagajnik_pocetna.jsp");
+                        rd = request.getRequestDispatcher("prijavljenBlagajnik");
                         porukaUspesno = "Uspesno promenjena lozinka.";
                         request.setAttribute("porukaUspesno", porukaUspesno);
                         rd.forward(request, response);
@@ -96,7 +96,7 @@ public class PromenaLozinkeServlet extends HttpServlet {
                             administratorBaza.save(administrator);
 
                         }
-                        rd = request.getRequestDispatcher("admin_pocetna.jsp");
+                        rd = request.getRequestDispatcher("prijavljenAdministrator");
                         porukaUspesno = "Uspesno promenjena lozinka.";
                         request.setAttribute("porukaUspesno", porukaUspesno);
                         rd.forward(request, response);
@@ -109,7 +109,7 @@ public class PromenaLozinkeServlet extends HttpServlet {
 
             } else {
                 String poruka = "Netacan unos/potvrda nove loznike.";
-                RequestDispatcher rd1 = request.getRequestDispatcher("index.jsp");
+                RequestDispatcher rd1 = request.getRequestDispatcher("index");
                 request.setAttribute("poruka", poruka);
                 rd1.forward(request, response);
             }

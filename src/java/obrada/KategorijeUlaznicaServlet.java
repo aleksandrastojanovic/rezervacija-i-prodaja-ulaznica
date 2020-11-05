@@ -55,6 +55,12 @@ public class KategorijeUlaznicaServlet extends HttpServlet {
                     ArrayList<StrukturaUlaznica> strukture = strukturaUlaznicaBaza.allForDogadjajId(dogadjajId);
                     request.setAttribute("strukture", strukture);
                     request.setAttribute("dogadjaj_id", dogadjajId);
+                    if (request.getAttribute("poruka") != null) {
+                        request.setAttribute("poruka", request.getAttribute("poruka"));
+                    }
+                    if (request.getAttribute("porukaUspesno") != null) {
+                        request.setAttribute("porukaUspesno", request.getAttribute("porukaUspesno"));
+                    }
                     rd.forward(request, response);
                 }
 

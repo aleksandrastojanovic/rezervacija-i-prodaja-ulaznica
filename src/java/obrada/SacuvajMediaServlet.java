@@ -6,7 +6,6 @@ package obrada;
 import modeli.Media;
 import bazaKlase.MediaBaza;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;

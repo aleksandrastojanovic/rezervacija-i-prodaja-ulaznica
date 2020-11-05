@@ -15,7 +15,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import klase.*;
 
 /**
  *
@@ -51,18 +50,23 @@ public class PretragaDogadjajaServlet extends HttpServlet {
 
             String naziv = request.getParameter("naziv").toLowerCase();
             naziv = naziv.trim();
-            LocalDateTime vremeOd = LocalDateTime.parse(request.getParameter("vreme_od"));
-            LocalDateTime vremeDo = LocalDateTime.parse(request.getParameter("vreme_do"));
-            String mesto = request.getParameter("mesto").toLowerCase();
-            mesto = mesto.trim();
+            String vremeOdParametar = request.getParameter("vreme_od");
+            String vremeDoParametar = request.getParameter("vreme_do");
+            LocalDateTime vremeOd = vremeOdParametar != null && !vremeOdParametar.isEmpty() ? LocalDateTime.parse(vremeOdParametar) : null;
+            LocalDateTime vremeDo = vremeDoParametar != null && !vremeDoParametar.isEmpty() ? LocalDateTime.parse(vremeDoParametar) : null;
+
+            String mesto = request.getParameter("mesto");
+            if (mesto != null) {
+                mesto = mesto.toLowerCase().trim();
+            }
 
             for (Dogadjaj dogadjaj : sviDogadjaji) {
                 prosaoSveFiltere = true;
-                if (prosaoSveFiltere && naziv != null) {
+                if (prosaoSveFiltere && naziv != null && !naziv.isEmpty()) {
                     prosaoSveFiltere = dogadjaj.getNaziv().toLowerCase().contains(naziv) || dogadjaj.getNaziv().toLowerCase().equals(naziv);
                 }
                 if (prosaoSveFiltere && vremeOd != null) {
-                    prosaoSveFiltere = vremeOd.isBefore(LocalDateTime.now())
+                    prosaoSveFiltere = vremeOd.isAfter(LocalDateTime.now())
                             && (dogadjaj.getDatumIVreme().isAfter(vremeOd)
                             || dogadjaj.getDatumIVreme().isEqual(vremeOd));
                 }
@@ -72,7 +76,7 @@ public class PretragaDogadjajaServlet extends HttpServlet {
                             && (dogadjaj.getDatumIVreme().isBefore(vremeDo)
                             || dogadjaj.getDatumIVreme().isEqual(vremeDo));
                 }
-                if (prosaoSveFiltere && mesto != null) {
+                if (prosaoSveFiltere && mesto != null && !mesto.isEmpty()) {
                     prosaoSveFiltere = dogadjaj.getNazivLokacije().toLowerCase().contains(mesto);
                 }
                 if (prosaoSveFiltere) {

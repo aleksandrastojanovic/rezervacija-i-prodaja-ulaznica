@@ -42,6 +42,12 @@ public class NovaStrukturaServlet extends HttpServlet {
             }
             RequestDispatcher rd = request.getRequestDispatcher("blagajnik_nova_struktura.jsp");
             request.setAttribute("dogadjaj_id", request.getParameter("dogadjaj_id"));
+            if (request.getAttribute("poruka") != null) {
+                request.setAttribute("poruka", request.getAttribute("poruka"));
+            }
+            if (request.getAttribute("porukaUspesno") != null) {
+                request.setAttribute("porukaUspesno", request.getAttribute("porukaUspesno"));
+            }
             rd.forward(request, response);
         } catch (Exception ex) {
             Logger.getLogger(NovaStrukturaServlet.class.getName()).log(Level.SEVERE, null, ex);

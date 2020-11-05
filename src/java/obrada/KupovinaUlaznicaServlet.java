@@ -67,12 +67,12 @@ public class KupovinaUlaznicaServlet extends HttpServlet {
                     rezervacija = rezervacijaBaza.save(rezervacija);
                     if (rezervacija.getId() > 0 && rezervacija.getStatus().equals(Rezervacija.STATUS_PLACENO)) {
                         String porukaUspesno = "Uspesno izvrsena prodaja.";
-                        RequestDispatcher rd = request.getRequestDispatcher("blagajnik_pocetna");
+                        RequestDispatcher rd = request.getRequestDispatcher("prijavljenBlagajnik");
                         request.setAttribute("porukaUspesno", porukaUspesno);
                         rd.forward(request, response);
                     } else {
                         String poruka = "Nije moguce izvrsiti placanje.";
-                        RequestDispatcher rd1 = request.getRequestDispatcher("blagajnik_pocetna.jsp");
+                        RequestDispatcher rd1 = request.getRequestDispatcher("prijavljenBlagajnik");
                         request.setAttribute("poruka", poruka);
                         rd1.forward(request, response);
                     }

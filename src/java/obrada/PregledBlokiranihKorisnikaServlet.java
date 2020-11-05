@@ -80,9 +80,9 @@ public class PregledBlokiranihKorisnikaServlet extends HttpServlet {
                     korisnikRezervacije.add(rezervacija);
                 }
                 int brojIsteklihRezervacija = 0;
-                
+
                 for (RegistrovaniKorisnik korisnik : sviKorisnici) {
-                    
+
                     if (Korisnik.TIP_REGISTROVANI_KORISNIK.equals(korisnik.getTip())) {
                         Integer korisnikId = korisnik.getId();
                         ArrayList<Rezervacija> korisnikRezervacije = korisniciRezervacije.get(korisnikId);
@@ -108,6 +108,12 @@ public class PregledBlokiranihKorisnikaServlet extends HttpServlet {
                 }
 
                 request.setAttribute("korisnici", korisnici);
+                if (request.getAttribute("poruka") != null) {
+                    request.setAttribute("poruka", request.getAttribute("poruka"));
+                }
+                if (request.getAttribute("porukaUspesno") != null) {
+                    request.setAttribute("porukaUspesno", request.getAttribute("porukaUspesno"));
+                }
                 rd.forward(request, response);
             }
         } catch (Exception ex) {

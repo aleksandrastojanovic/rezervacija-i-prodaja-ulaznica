@@ -92,7 +92,7 @@ public class SacuvajKorisnikaServlet extends HttpServlet {
                         korisnik = registrovaniKorisnikBaza.save(korisnik);
                         if (korisnik.getId() > 0) {
                             //poruka uspesno kreiran korisnik
-                            RequestDispatcher rd = request.getRequestDispatcher("admin_pocetna.jsp");
+                            RequestDispatcher rd = request.getRequestDispatcher("prijavljenAdministrator");
                             String porukaUspesno = "Uspesno sacuvan korisnik.";
                             request.setAttribute("porukaUspesno", porukaUspesno);
                             rd.forward(request, response);

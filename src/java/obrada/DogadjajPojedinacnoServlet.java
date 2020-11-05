@@ -73,6 +73,12 @@ public class DogadjajPojedinacnoServlet extends HttpServlet {
 
             request.setAttribute("strukture", strukture);
             request.setAttribute("dogadjaj", dogadjaj);
+            if (request.getAttribute("poruka") != null) {
+                request.setAttribute("poruka", request.getAttribute("poruka"));
+            }
+            if (request.getAttribute("porukaUspesno") != null) {
+                request.setAttribute("porukaUspesno", request.getAttribute("porukaUspesno"));
+            }
             request.setAttribute("ostaleFotografije", ostaleFotografije);
 
             rd.forward(request, response);

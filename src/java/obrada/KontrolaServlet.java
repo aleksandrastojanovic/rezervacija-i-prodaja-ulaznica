@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import klase.*;
 
 /**
  *
@@ -53,6 +52,7 @@ public class KontrolaServlet extends HttpServlet {
                 sesija.setAttribute("korisnik_id", -1);
                 sesija.setAttribute("tip", Korisnik.TIP_NEREGISTROVANI_KORISNIK);
             }
+            int korisnikId = (int) sesija.getAttribute("korisnik_id");
             LocalDateTime pre48h = LocalDateTime.now().minusDays(2);
             ArrayList<Rezervacija> sveRezervacije = rezervacijaBaza.all();
             HashMap<Integer, Integer> korisnikIstekleRezervacije = new HashMap<>();
@@ -75,11 +75,18 @@ public class KontrolaServlet extends HttpServlet {
                 if (brojISteklihRezervacija != null && brojISteklihRezervacija >= 3) {
                     registrovaniKorisnik.setTip(Korisnik.TIP_BLOKIRANI_KORISNIK);
                     registrovaniKorisnikBaza.save(registrovaniKorisnik);
-                    RequestDispatcher rd = request.getRequestDispatcher("blokirani_korisnik.jsp");
-                    String poruka = "Blokirani ste. Kontaktirajte aministratora.";
-                    request.setAttribute("poruka", poruka);
-                    rd.forward(request, response);
+
+                    if (registrovaniKorisnik.getId() == korisnikId) {
+                        RequestDispatcher rd = request.getRequestDispatcher("blokirani_korisnik.jsp");
+                        String poruka = "Blokirani ste. Kontaktirajte aministratora.";
+                        sesija.setAttribute("korisnik_id", -1);
+                        sesija.setAttribute("tip", Korisnik.TIP_NEREGISTROVANI_KORISNIK);
+                        request.setAttribute("poruka", poruka);
+                        rd.forward(request, response);
+                    }
+
                 }
+
             }
         } catch (Exception ex) {
             Logger.getLogger(KontrolaServlet.class.getName()).log(Level.SEVERE, null, ex);

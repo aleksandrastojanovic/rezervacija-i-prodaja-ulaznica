@@ -53,6 +53,12 @@ public class NovaIzmenaDogadjajaServlet extends HttpServlet {
             StrukturaUlaznicaBaza strukturaUlaznicaBaza = new StrukturaUlaznicaBaza();
             ArrayList<StrukturaUlaznica> strukture = strukturaUlaznicaBaza.allForDogadjajId(dogadjajId);
             request.setAttribute("strukture", strukture);
+            if (request.getAttribute("poruka") != null) {
+                request.setAttribute("poruka", request.getAttribute("poruka"));
+            }
+            if (request.getAttribute("porukaUspesno") != null) {
+                request.setAttribute("porukaUspesno", request.getAttribute("porukaUspesno"));
+            }
             rd.forward(request, response);
 
         } catch (Exception ex) {

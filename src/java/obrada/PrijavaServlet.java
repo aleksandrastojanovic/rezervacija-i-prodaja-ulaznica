@@ -58,14 +58,32 @@ public class PrijavaServlet extends HttpServlet {
                         case Korisnik.TIP_REGISTROVANI_KORISNIK:
                             sesija.setAttribute("korisnik_id", korisnikId);
                             putanja = "index";
+                            if (request.getAttribute("poruka") != null) {
+                                request.setAttribute("poruka", request.getAttribute("poruka"));
+                            }
+                            if (request.getAttribute("porukaUspesno") != null) {
+                                request.setAttribute("porukaUspesno", request.getAttribute("porukaUspesno"));
+                            }
                             break;
                         case Korisnik.TIP_BLAGAJNIK:
                             sesija.setAttribute("korisnik_id", korisnikId);
                             putanja = "prijavljenBlagajnik";
+                            if (request.getAttribute("poruka") != null) {
+                                request.setAttribute("poruka", request.getAttribute("poruka"));
+                            }
+                            if (request.getAttribute("porukaUspesno") != null) {
+                                request.setAttribute("porukaUspesno", request.getAttribute("porukaUspesno"));
+                            }
                             break;
                         case Korisnik.TIP_ADMINISTRATOR:
                             sesija.setAttribute("korisnik_id", korisnikId);
                             putanja = "prijavljenAdministrator";
+                            if (request.getAttribute("poruka") != null) {
+                                request.setAttribute("poruka", request.getAttribute("poruka"));
+                            }
+                            if (request.getAttribute("porukaUspesno") != null) {
+                                request.setAttribute("porukaUspesno", request.getAttribute("porukaUspesno"));
+                            }
                             break;
                         case Korisnik.TIP_BLOKIRANI_KORISNIK:
                             sesija.setAttribute("korisnik_id", -1);
@@ -76,6 +94,7 @@ public class PrijavaServlet extends HttpServlet {
                             break;
 
                     }
+
                     RequestDispatcher rd = request.getRequestDispatcher(putanja);
                     rd.forward(request, response);
                     return;
